@@ -1,14 +1,10 @@
 import json
-import pandas
-import matplotlib.pyplot as plt
 import numpy as np
 import re
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import RegexpTokenizer
-from sklearn.cluster import KMeans
-import sklearn.metrics.pairwise as smp
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 import pickle

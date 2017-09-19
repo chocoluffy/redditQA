@@ -1,5 +1,4 @@
 import pickle
-import praw
 from collections import defaultdict
 import sklearn.metrics.pairwise as smp
 import nltk
@@ -7,9 +6,6 @@ from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.tokenize import RegexpTokenizer
 import re
-from gensim.models.lsimodel import LsiModel
-from gensim import corpora, models, similarities
-from gensim.matutils import Sparse2Corpus
 from sklearn.externals import joblib
 
 stopset = set(stopwords.words("english"))
@@ -33,8 +29,6 @@ def clean_and_stem(doc):
 sub_components = pickle.load(open("models/sub_comps2.pkl", 'rb'))
 tfi = joblib.load("models/tfi.pkl")
 lsa = joblib.load("models/lsa.pkl")
-
-# r = praw.Reddit(user_agent="subreddit recommender by Nihilist_Fuck")
 
 
 front_page_subs = set(['announcements',
@@ -183,7 +177,7 @@ def playground():
             
         # print alternate_suggestions
         print cosine_res[0]
-        print euc_res[0]
+        # print euc_res[0]
         print 
 
 

@@ -119,7 +119,7 @@ for label, t_dist, cc in zip(subreddits, rc_tvec, commentCounters):
         continue
     else:
         counter += 1
-        if counter < 500: # [OPTION] decide to show # of subreddit.
+        if counter > 500: # [OPTION] decide to show # of subreddit.
             new_labels.append(label)
             new_rc_tvec.append(t_dist)
             new_comment_counter.append(cc)
@@ -157,7 +157,7 @@ def tsne_plot(labels, tokens, cc):
     for i in range(len(x)):
         sct = plt.scatter(x[i],y[i], color=colors[i], s=float(cc[i]), linewidths=2, edgecolor='w')
         sct.set_alpha(0.75)
-        if float(cc[i]) < 30: # [OPTION] decide whether to show high-frequent words annotation or low-frequent ones.
+        if float(cc[i]) > 30: # [OPTION] decide whether to show high-frequent words annotation or low-frequent ones.
             plt.annotate(labels[i],
                         xy=(x[i], y[i]),
                         xytext=(5, 2),

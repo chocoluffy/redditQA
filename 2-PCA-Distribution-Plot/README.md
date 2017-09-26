@@ -17,3 +17,7 @@ Examine local tribes:
 
 - Other small tribes (subreddits with less comments)
 ![small](https://github.com/chocoluffy/redditQA/blob/master/2-PCA-Distribution-Plot/results/smaller-tribes.png)
+
+## Further Explore
+
+- Given a random subreddit, can find its semantically relevant topics by searching through its neighbors.

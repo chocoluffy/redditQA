@@ -28,4 +28,6 @@ Given a random subreddit, can find its semantically relevant subreddits by searc
 
 -> and thus given each user will have a cluster vector, of length the number of clusters generated, we can form a matrix of user to cluster vector, and visualize that into 2-dimensinal bubble plots and examine how closely each user are to each other from the perspective of their contribution towards reddit community. If two users are mostly contribute to the same clusters, their cluster vector will be close and so does the points on plots.
 
--> 【business value】: recommend talkative friends to users! (by pairing users with utmost coverage with similar clusters) so that they can subscribe to each other's timeline or simply just spark more talks. 
+-> 【business value】: recommend talkative friends to users! (by pairing users with utmost coverage with similar clusters) so that they can subscribe to each other's timeline or simply just spark more talks, based on the assuption that they share more common interests. 
+
+But, to achieve the same goal, how about the collaborative filtering?

@@ -1,5 +1,7 @@
 ## Plots
 
+The following plots uses topic number N = 100.
+
 Rudimentary Visual:
 ![raw](https://github.com/chocoluffy/redditQA/blob/master/2-PCA-Distribution-Plot/results/raw.png)
 
@@ -19,6 +21,10 @@ Examine local tribes:
 
 - Other small tribes (subreddits with less comments)
 ![small](https://github.com/chocoluffy/redditQA/blob/master/2-PCA-Distribution-Plot/results/smaller-tribes.png)
+
+When we pick topic number N = 500:
+
+
 
 
 ## Further Explore

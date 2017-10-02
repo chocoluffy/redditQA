@@ -24,7 +24,8 @@ Examine local tribes:
 
 When we pick topic number N = 500:
 
-
+![500](https://github.com/chocoluffy/redditQA/blob/master/2-PCA-Distribution-Plot/results/full-500topics2.png)
+![500-2](https://github.com/chocoluffy/redditQA/blob/master/2-PCA-Distribution-Plot/results/full-500topics2.png)
 
 
 ## Further Explore

@@ -108,23 +108,23 @@ from gensim import corpora
 import os.path
 
 # If dictionary model exists, use it; Otherwise, save a new one.
-if not os.path.exists('models/3/new-rc-lda.dict'):
+if not os.path.exists('models/new-rc-lda.dict'):
     # Creating the term dictionary of our courpus, where every unique term is assigned an index. 
     dictionary = corpora.Dictionary(doc_clean)
     # Filter out words that occur less than 20 documents, or more than 50% of the documents.
     dictionary.filter_extremes(no_below=20, no_above=0.5)
-    dictionary.save('models/3/new-rc-lda.dict')
+    dictionary.save('models/new-rc-lda.dict')
 else:
-    dictionary = corpora.Dictionary.load('models/3/new-rc-lda.dict')
+    dictionary = corpora.Dictionary.load('models/new-rc-lda.dict')
 
 
-if not os.path.exists('models/3/new-doc-term.mm'):
+if not os.path.exists('models/new-doc-term.mm'):
     # Converting list of documents (corpus) into Document Term Matrix using dictionary prepared above. [Bag Of Word]
     doc_term_matrix = [dictionary.doc2bow(doc) for doc in doc_clean]
     # Save the matrix into Market Matrix format. 
-    corpora.MmCorpus.serialize('models/3/new-doc-term.mm', doc_term_matrix)
+    corpora.MmCorpus.serialize('models/new-doc-term.mm', doc_term_matrix)
 else:
-    doc_term_matrix = corpora.MmCorpus('models/3/new-doc-term.mm')
+    doc_term_matrix = corpora.MmCorpus('models/new-doc-term.mm')
 
 
 # pprint(doc_term_matrix)
@@ -133,14 +133,14 @@ import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 # Save LDA model
-if not os.path.exists('models/3/new-model.lda'):
+if not os.path.exists('models/new-model.lda'):
     # Creating the object for LDA model using gensim library
     Lda = gensim.models.ldamodel.LdaModel
     # Running and Trainign LDA model on the document term matrix.
     ldamodel = Lda(doc_term_matrix, num_topics=100, id2word = dictionary, passes=50)
-    ldamodel.save('models/3/new-model.lda')
+    ldamodel.save('models/new-model.lda')
 else:
-    ldamodel = gensim.models.ldamodel.LdaModel.load('models/3/new-model.lda')
+    ldamodel = gensim.models.ldamodel.LdaModel.load('models/new-model.lda')
 
 
 # Return all topics probability distribution for each document, instead of clipping value using threshold.

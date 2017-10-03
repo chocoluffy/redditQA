@@ -192,7 +192,14 @@ def find_dom_topic_vec(name):
     as one subreddit can cover several topics). 
     if name not appear in the subreddits list(all subreddit label from data), return -1.
     """
-    
+    if name not in subreddits:
+        print("subreddit not in list...")
+        return -1
+    else:
+        subreddits_index = subreddits.index(name)
+        topic_vec = rc_tvec[subreddits_index]
+        dom_topic_index, prob = max(enumerate(topic_vec), key=operator.itemgetter(1))
+        return dom_topic_index
 
 
 def load_author_from_mongo():

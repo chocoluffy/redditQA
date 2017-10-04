@@ -1,3 +1,6 @@
+### New visualization
+![full](https://github.com/chocoluffy/redditQA/blob/master/3-Bipartite-Graph/results/full.png)
+
 ### After applying TF-IDF:
 
 2017-10-03 09:54:48,328 : INFO : topic #49 (0.010): 0.052*key + 0.029*karma + 0.027*rule + 0.025*bot + 0.024*text + 0.022*flair + 0.021*please + 0.019*check + 0.018*clan + 0.016*vote

@@ -58,6 +58,7 @@ def load_from_mongo():
         pickle.dump(sub_data, open("subreddit_comments.pkl", 'wb'))
     else:
         reddit_comments = pickle.load(open("subreddit_comments.pkl", 'rb'))
+        print("local comments data loaded...")
         for label, obj in reddit_comments.items():
             subreddits.append(label)
             data.append(obj["docset"])
@@ -81,34 +82,31 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.models import Phrases
 import string
-stop = set(stopwords.words('english'))
-exclude = set(string.punctuation) 
-lemma = WordNetLemmatizer()
-
-# Remove stopwords, punctuation and normalize them.
-def clean(doc):
-    stop_free = " ".join([i for i in doc.lower().split() if i not in stop and len(i) > 1])
-    punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
-    normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split())
-    return normalized
-
-doc_clean = [clean(doc).split() for doc in doc_complete] 
-
-# Add bigrams that appear 20 times or more.
-bigram = Phrases(doc_clean, min_count=20)
-for idx in range(len(doc_clean)):
-    for token in bigram[doc_clean[idx]]: 
-        if '_' in token:
-            doc_clean[idx].append(token)
-
-# pprint(doc_clean)
-
-import gensim
 from gensim import corpora
 import os.path
 
 # If dictionary model exists, use it; Otherwise, save a new one.
 if not os.path.exists('models/new-rc-lda.dict'):
+    stop = set(stopwords.words('english'))
+    exclude = set(string.punctuation) 
+    lemma = WordNetLemmatizer()
+
+    # Remove stopwords, punctuation and normalize them.
+    def clean(doc):
+        stop_free = " ".join([i for i in doc.lower().split() if i not in stop and len(i) > 1])
+        punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
+        normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split())
+        return normalized
+
+    doc_clean = [clean(doc).split() for doc in doc_complete] 
+
+    # Add bigrams that appear 20 times or more.
+    bigram = Phrases(doc_clean, min_count=20)
+    for idx in range(len(doc_clean)):
+        for token in bigram[doc_clean[idx]]: 
+            if '_' in token:
+                doc_clean[idx].append(token)
+
     # Creating the term dictionary of our courpus, where every unique term is assigned an index. 
     dictionary = corpora.Dictionary(doc_clean)
     # Filter out words that occur less than 20 documents, or more than 50% of the documents.
@@ -116,6 +114,7 @@ if not os.path.exists('models/new-rc-lda.dict'):
     dictionary.save('models/new-rc-lda.dict')
 else:
     dictionary = corpora.Dictionary.load('models/new-rc-lda.dict')
+    print("preprocessed ictionary loaded...")
 
 
 if not os.path.exists('models/new-doc-term.mm'):
@@ -125,6 +124,7 @@ if not os.path.exists('models/new-doc-term.mm'):
     corpora.MmCorpus.serialize('models/new-doc-term.mm', doc_term_matrix)
 else:
     doc_term_matrix = corpora.MmCorpus('models/new-doc-term.mm')
+    print("document to term matrix loaded...")
 
 
 # pprint(doc_term_matrix)
@@ -141,6 +141,7 @@ if not os.path.exists('models/new-model.lda'):
     ldamodel.save('models/new-model.lda')
 else:
     ldamodel = gensim.models.ldamodel.LdaModel.load('models/new-model.lda')
+    print("lda model loaded...")
 
 
 # Return all topics probability distribution for each document, instead of clipping value using threshold.
@@ -226,19 +227,22 @@ def load_author_from_mongo():
             print "Processing #%d author"%(counter)
             reddit_ups_data = defaultdict(int)
             for reddit in document['contributions']:
-                reddit_ups_data[reddit['subreddit']] += reddit['ups']
+                reddit_ups_data[reddit['subreddit']] += 1 # use reddit["ups"] or simply 1?
             reddit_dom_topic_vec = defaultdict(dict)
             for name in reddit_ups_data.iterkeys():
                 reddit_dom_topic_vec[name] = find_dom_topic_vec(name)
             
             data[document['_id']]['contributions'] = reddit_ups_data
             data[document['_id']]['topicvecs'] = reddit_dom_topic_vec
+            print(data)
 
 
         pickle.dump(data, open("author_topics.pkl", 'wb'))
     else:
         author_topics = pickle.load(open("author_topics.pkl", 'rb'))
 
+
+load_author_from_mongo()
 
 # print_general_subreddit_topic()
 

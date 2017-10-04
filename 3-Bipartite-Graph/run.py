@@ -218,7 +218,8 @@ def load_author_from_mongo():
             {'$addFields': { 'subredditnum': { '$size': "$subredditset" } } },
             { "$project": { 
                 "subredditset": 0
-            }}
+            }},
+            {'$match': {'subredditnum': {'$gt': 5}} }
         ]
 
         data = defaultdict(dict)

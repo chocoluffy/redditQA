@@ -1,3 +1,7 @@
+### Stats
+Apply algorithm on larger dataset to make bipartite graph more conclusive with 17536 distinct subreddits and 32134
+ "reddit-loyal" authors(contribute to at least 5 different subreddits) on 100 topics.
+
 ### New visualization
 ![full](https://github.com/chocoluffy/redditQA/blob/master/3-Bipartite-Graph/results/full.png)
 

@@ -17,6 +17,8 @@ User: raohthekenoh
  'contributions': defaultdict(<type 'int'>, {u'confession': 2, u'videos': 4, u'todayilearned': 1, u'SuicideWatch': 11, u'SquaredCircle': 20, u'nfl': 5, u'atheism': 3, u'movies': 48, u'AskReddit': 2, u'WTF': 4, u'politics': 3, u'comicbooks': 1, u'fantasyfootball': 2})
 }
 
+And weight cutoff means if the author contributes to that reddit less than T = 4 within a month(meaning less than weekly), we ignore those subreddit. 
+
 ### After applying TF-IDF:
 
 Topic #0: 0.011*would + 0.011*really + 0.010*one + 0.009*think + 0.006*much + 0.006*even + 0.006*time + 0.006*see + 0.006*make + 0.006*also

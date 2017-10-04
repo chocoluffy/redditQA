@@ -11,12 +11,14 @@ A typical **raw result** from console:
 
 > How to interpret the data? "topicvecs" shows the subreddit name such author involved and its corresponding one dominant topic id. And "contributions" shows the frequency one author contribute to that subreddit.
 
-User: Deadlifted 
+- User: Deadlifted 
+
 {'topicvecs': defaultdict(<type 'dict'>, {u'circlebroke2': 59, u'cars': 99, u'nfl': 21, u'CFB': 21, u'pics': 93, u'movies': 0, u'SubredditDrama': 59}), 
  'contributions': defaultdict(<type 'int'>, {u'nfl': 10, u'cars': 7, u'circlebroke2': 1, u'CFB': 1, u'pics': 1, u'movies': 1, u'SubredditDrama': 1})
 }
 
-User: raohthekenoh 
+- User: raohthekenoh 
+
 {'topicvecs': defaultdict(<type 'dict'>, {u'nfl': 21, u'videos': 93, u'todayilearned': 59, u'SuicideWatch': 56, u'SquaredCircle': 21, u'confession': 56, u'atheism': 56, u'movies': 0, u'AskReddit': 93, u'WTF': 59, u'comicbooks': 0, u'politics': 96, u'fantasyfootball': 21}), 
  'contributions': defaultdict(<type 'int'>, {u'confession': 2, u'videos': 4, u'todayilearned': 1, u'SuicideWatch': 11, u'SquaredCircle': 20, u'nfl': 5, u'atheism': 3, u'movies': 48, u'AskReddit': 2, u'WTF': 4, u'politics': 3, u'comicbooks': 1, u'fantasyfootball': 2})
 }
@@ -25,11 +27,16 @@ And weight cutoff means if the author contributes to that reddit less than T = 4
 
 After apply **Hellinger distance for similarity measure**:
 
-User: nira007pwnz 
-{'topicvecs': defaultdict(<type 'dict'>, {u'funny': 93, u'frugalstreetwear': 22, u'Honda': 22, u'malefashionadvice': 22, u'Jokes': 59, u'AskReddit': 93, u'leagueoflegends': 98, u'mercedes': 22}), 'contributions': defaultdict(<type 'int'>, {u'funny': 2, u'frugalstreetwear': 2, u'Honda': 5, u'malefashionadvice': 1, u'Jokes': 3, u'AskReddit': 2, u'leagueoflegends': 1, u'mercedes': 5})}Score: 1.0
+- User: nira007pwnz 
 
-User: Striker6g 
+{'topicvecs': defaultdict(<type 'dict'>, {u'funny': 93, u'frugalstreetwear': 22, u'Honda': 22, u'malefashionadvice': 22, u'Jokes': 59, u'AskReddit': 93, u'leagueoflegends': 98, u'mercedes': 22}), 'contributions': defaultdict(<type 'int'>, {u'funny': 2, u'frugalstreetwear': 2, u'Honda': 5, u'malefashionadvice': 1, u'Jokes': 3, u'AskReddit': 2, u'leagueoflegends': 1, u'mercedes': 5})}
+
+Score: 1.0
+
+- User: Striker6g
+
 {'topicvecs': defaultdict(<type 'dict'>, {u'buildapc': 26, u'hardwareswap': 14, u'todayilearned': 59, u'ZettaiRyouiki': 43, u'pics': 93, u'AskReddit': 93, u'pcmasterrace': 59, u'Calligraphy': 22, u'darksouls': 0}), 'contributions': defaultdict(<type 'int'>, {u'buildapc': 1, u'hardwareswap': 3, u'todayilearned': 1, u'ZettaiRyouiki': 3, u'pics': 6, u'AskReddit': 4, u'pcmasterrace': 10, u'Calligraphy': 12, u'darksouls': 2})} 
+
 Score: 0.459743943521
 
 It makes sense!

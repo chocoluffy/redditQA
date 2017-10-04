@@ -256,6 +256,7 @@ Below are calculating pairwise topic similarity.
 
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
+import itertools
 
 def hellinger(X):
     return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
@@ -264,8 +265,25 @@ X = ldamodel.state.get_lambda()
 X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
 h = hellinger(X)
 
+# book = dict(zip(subreddits, range(len(subreddits)))) # a dictionary map subreddit name to its 
+
 for author, obj in author_topics.items():
-    print author, obj
+    """
+    First filter by weight cutoff T = 4, remove subreddit contributions less than T.
+    """
+    freq_reddit = []
+    for name in obj['contributions'].iterkeys():
+        if obj['contributions'][name] >= 4:
+            freq_reddit.append(name)
+    score = 0
+    comb = list(itertools.permutations(freq_reddit, 2))
+    if len(comb) > 0:
+        for (name1, name2) in comb:
+            topic_id1 = obj['topicvecs'][name1]
+            topic_id2 = obj['topicvecs'][name2]
+            score += (1 - h[topic_id1, topic_id2]) # 1 - Hellinger Distance = simularity
+        score = score / len(comb)
+        print author, obj, score
 
 
 # print_general_subreddit_topic()

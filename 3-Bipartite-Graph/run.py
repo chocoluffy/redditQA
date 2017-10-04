@@ -82,6 +82,7 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from gensim.models import Phrases
 import string
+import gensim
 from gensim import corpora
 import os.path
 
@@ -211,9 +212,9 @@ def load_author_from_mongo():
         pipe = [
             {'$group': {
                 '_id': '$author',
-                'contributions': { '$push':  { 'subreddit': "$subreddit", 'ups': "$ups" } }},
-                'subredditset': {'$addToSet': "$subreddit"},
-            },
+                'contributions': { '$push':  { 'subreddit': "$subreddit", 'ups': "$ups" } },
+                'subredditset': {'$addToSet': "$subreddit"}
+            }},
             {'$addFields': { 'subredditnum': { '$size': "$subredditset" } } },
             { "$project": { 
                 "subredditset": 0
@@ -234,7 +235,7 @@ def load_author_from_mongo():
             
             data[document['_id']]['contributions'] = reddit_ups_data
             data[document['_id']]['topicvecs'] = reddit_dom_topic_vec
-            print(data)
+            # print(data)
 
 
         pickle.dump(data, open("author_topics.pkl", 'wb'))

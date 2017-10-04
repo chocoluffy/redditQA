@@ -1,9 +1,9 @@
-### New visualization after refined preprocessing
+## New visualization after refined preprocessing
 ![full](https://github.com/chocoluffy/redditQA/blob/master/3-Bipartite-Graph/results/full.png)
 
 See my data preprocessing steps at [here](https://github.com/chocoluffy/redditQA/issues/1).
 
-### Stats
+## Stats
 Apply algorithm on larger dataset to make bipartite graph more conclusive with 17536 distinct subreddits and 32134
  "reddit-loyal" authors(contribute to at least 5 different subreddits) on 100 topics.
 
@@ -41,7 +41,7 @@ After apply **Hellinger distance for similarity measure**:
 
 It makes sense!
 
-### After applying TF-IDF:
+## After applying TF-IDF:
 
 Topic #0: 0.011*would + 0.011*really + 0.010*one + 0.009*think + 0.006*much + 0.006*even + 0.006*time + 0.006*see + 0.006*make + 0.006*also
 

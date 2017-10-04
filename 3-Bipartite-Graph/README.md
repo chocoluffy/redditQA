@@ -31,13 +31,13 @@ After apply **Hellinger distance for similarity measure**:
 
 {'topicvecs': defaultdict(<type 'dict'>, {u'funny': 93, u'frugalstreetwear': 22, u'Honda': 22, u'malefashionadvice': 22, u'Jokes': 59, u'AskReddit': 93, u'leagueoflegends': 98, u'mercedes': 22}), 'contributions': defaultdict(<type 'int'>, {u'funny': 2, u'frugalstreetwear': 2, u'Honda': 5, u'malefashionadvice': 1, u'Jokes': 3, u'AskReddit': 2, u'leagueoflegends': 1, u'mercedes': 5})}
 
-Score: 1.0
+**Score: 1.0**
 
 - User: Striker6g
 
 {'topicvecs': defaultdict(<type 'dict'>, {u'buildapc': 26, u'hardwareswap': 14, u'todayilearned': 59, u'ZettaiRyouiki': 43, u'pics': 93, u'AskReddit': 93, u'pcmasterrace': 59, u'Calligraphy': 22, u'darksouls': 0}), 'contributions': defaultdict(<type 'int'>, {u'buildapc': 1, u'hardwareswap': 3, u'todayilearned': 1, u'ZettaiRyouiki': 3, u'pics': 6, u'AskReddit': 4, u'pcmasterrace': 10, u'Calligraphy': 12, u'darksouls': 2})} 
 
-Score: 0.459743943521
+**Score: 0.459743943521**
 
 It makes sense!
 

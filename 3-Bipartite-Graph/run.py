@@ -246,6 +246,21 @@ def load_author_from_mongo():
 
 load_author_from_mongo()
 
+
+"""
+Below are calculating pairwise topic similarity.
+"""
+
+import numpy as np
+from scipy.spatial.distance import pdist, squareform
+
+def hellinger(X):
+    return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
+
+X = ldamodel.state.get_lambda()
+X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
+h = hellinger(X)
+
 # print_general_subreddit_topic()
 
 

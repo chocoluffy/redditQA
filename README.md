@@ -14,4 +14,4 @@ Build document-term matrix from BigQuery data, then run LDA to find topics distr
 
 Construct a bipartite graph between authors and topics, and propagate back and forth the labels to identify generalist/specialist among reddit authors for differnt community.
 
-[bipartite](https://github.com/chocoluffy/redditQA/tree/master/3-Bipartite-Graph)
+[Bipartite Graph](https://github.com/chocoluffy/redditQA/tree/master/3-Bipartite-Graph)

@@ -240,11 +240,14 @@ def load_author_from_mongo():
 
 
         pickle.dump(data, open("author_topics.pkl", 'wb'))
+        return data
     else:
-        author_topics = pickle.load(open("author_topics.pkl", 'rb'))
+        data = pickle.load(open("author_topics.pkl", 'rb'))
+        print("author topics model loaded...")
+        return data
 
 
-load_author_from_mongo()
+author_topics = load_author_from_mongo()
 
 
 """
@@ -260,6 +263,10 @@ def hellinger(X):
 X = ldamodel.state.get_lambda()
 X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
 h = hellinger(X)
+
+for author, obj in author_topics.items():
+    print author, obj
+
 
 # print_general_subreddit_topic()
 

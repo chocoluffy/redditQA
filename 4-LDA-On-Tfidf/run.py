@@ -152,9 +152,9 @@ else:
 
 def print_general_subreddit_topic():
     """
-    Randomly print out 20 topics for human inspection.
+    Print all 100 topics for human inspection.
     """
-    ldamodel.print_topics(20)
+    ldamodel.print_topics(100)
 
 print_general_subreddit_topic()
 

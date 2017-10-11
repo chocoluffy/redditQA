@@ -4,47 +4,47 @@
 See my data preprocessing steps at [here](https://github.com/chocoluffy/redditQA/issues/1).
 
 ## Stats
+
 Aggregate all subreddits yields result of length 17536, sort by the comments count involved, and slice the top 10% for analysis. Meaning, 1753 top subreddits, with each top 10000 comments concatenated as document. 
 
-Apply algorithm on larger dataset to make bipartite graph more conclusive with 17536 distinct subreddits and 32134
- "reddit-loyal" authors(contribute to at least 5 different subreddits) on 100 topics.
+## Result Analysis
 
-A typical **raw result** from console:
+After applying tfidf weighted matrix, the result seems strange, as highly centered.
 
-> How to interpret the data? "topicvecs" shows the subreddit name such author involved and its corresponding one dominant topic id. And "contributions" shows the frequency one author contribute to that subreddit.
+For subreddit:  food
+its 100-dimension topic distribution vector: [ 
+  0.00059416  0.09496453  0.00059416  0.00059416  0.00059416  0.17863321
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.09455455
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.0579896
+  0.00059416  0.01233819  0.00059416  0.00059416  0.00255502  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.26822576
+  0.0406464   0.00059416  0.00059416  0.00059416  0.00059416  0.00236835
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.01625865  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.17858542  0.00059416  0.00059416
+  0.00059416  0.00059416  0.00059416  0.00059416]
+the dominant topic is:  59  with prob:  0.268225759386 
+The topic words distribution vector: [(u'book', 0.0021412641639557777), (u'school', 0.0020023633433475284), (u'shes', 0.001964448962033231), (u'food', 0.0018984495498444885), (u'story', 0.0018858799679918571), (u'kid', 0.0018701277593627115), (u'happy_new', 0.0018595942859653538), (u'win', 0.0018548040808453916), (u'child', 0.0018533745081384557), (u'her', 0.0018529151533049953), (u'cat', 0.001774539496115292), (u'girl', 0.0017717986893578236), (u'class', 0.0016612548061929798), (u'app', 0.0016258010899753536), (u'new_year', 0.0016080510069601895), (u'night', 0.0016063324521158747), (u'photo', 0.0015854904707682934), (u'car', 0.0015782120783439356), (u'state', 0.0015754608155859771), (u'store', 0.0015631149515416682)]
 
-- User: Deadlifted 
+### User Score Example
 
-{'topicvecs': defaultdict(<type 'dict'>, {u'circlebroke2': 59, u'cars': 99, u'nfl': 21, u'CFB': 21, u'pics': 93, u'movies': 0, u'SubredditDrama': 59}), 
- 'contributions': defaultdict(<type 'int'>, {u'nfl': 10, u'cars': 7, u'circlebroke2': 1, u'CFB': 1, u'pics': 1, u'movies': 1, u'SubredditDrama': 1})
-}
+User name: necromundus 
+{'topicvecs': defaultdict(<type 'dict'>, {u'funny': 59, u'chemicalreactiongifs': -1, u'gameofthrones': 59, u'pathofexile': 93, u'gifs': 59, u'aww': 59, u'science': 59, u'horror': 5, u'Metal': 59, u'AskReddit': 59, u'pics': 59, u'movies': 93, u'AdviceAnimals': 59, u'futurama': 93, u'food': 59, u'ImaginaryMonsters': -1, u'Unexpected': 59, u'gaming': 59, u'Dachshund': -1, u'todayilearned': 59}), 'contributions': defaultdict(<type 'int'>, {u'funny': 19, u'gameofthrones': 1, u'pathofexile': 4, u'gifs': 2, u'aww': 1, u'science': 1, u'horror': 3, u'Metal': 1, u'AdviceAnimals': 7, u'pics': 5, u'futurama': 2, u'movies': 10, u'AskReddit': 15, u'Unexpected': 2, u'food': 2, u'ImaginaryMonsters': 2, u'todayilearned': 2, u'gaming': 1, u'Dachshund': 2, u'chemicalreactiongifs': 1})} 0.505679660161
 
-- User: raohthekenoh 
+User name: agentnola 
+{'topicvecs': defaultdict(<type 'dict'>, {u'CivPapacy': -1, u'Civcraft': 59, u'civ': 93, u'eu4': 93, u'pcmasterrace': 93, u'Senntisten': -1}), 'contributions': defaultdict(<type 'int'>, {u'CivPapacy': 17, u'Civcraft': 13, u'civ': 2, u'eu4': 2, u'pcmasterrace': 1, u'Senntisten': 4})} 0.539027035881
+LOHare {'topicvecs': defaultdict(<type 'dict'>, {u'canada': 59, u'funny': 59, u'todayilearned': 59, u'pics': 59, u'CanadianForces': -1, u'AskReddit': 59}), 'contributions': defaultdict(<type 'int'>, {u'canada': 1, u'funny': 79, u'todayilearned': 1, u'pics': 2, u'CanadianForces': 3, u'AskReddit': 7})} 1.0
 
-{'topicvecs': defaultdict(<type 'dict'>, {u'nfl': 21, u'videos': 93, u'todayilearned': 59, u'SuicideWatch': 56, u'SquaredCircle': 21, u'confession': 56, u'atheism': 56, u'movies': 0, u'AskReddit': 93, u'WTF': 59, u'comicbooks': 0, u'politics': 96, u'fantasyfootball': 21}), 
- 'contributions': defaultdict(<type 'int'>, {u'confession': 2, u'videos': 4, u'todayilearned': 1, u'SuicideWatch': 11, u'SquaredCircle': 20, u'nfl': 5, u'atheism': 3, u'movies': 48, u'AskReddit': 2, u'WTF': 4, u'politics': 3, u'comicbooks': 1, u'fantasyfootball': 2})
-}
-
-And weight cutoff means if the author contributes to that reddit less than T = 4 within a month(meaning less than weekly), we ignore those subreddit. 
-
-After apply **Hellinger distance for similarity measure**:
-
-- User: nira007pwnz 
-
-{'topicvecs': defaultdict(<type 'dict'>, {u'funny': 93, u'frugalstreetwear': 22, u'Honda': 22, u'malefashionadvice': 22, u'Jokes': 59, u'AskReddit': 93, u'leagueoflegends': 98, u'mercedes': 22}), 'contributions': defaultdict(<type 'int'>, {u'funny': 2, u'frugalstreetwear': 2, u'Honda': 5, u'malefashionadvice': 1, u'Jokes': 3, u'AskReddit': 2, u'leagueoflegends': 1, u'mercedes': 5})}
-
-**Score: 1.0**
-
-- User: Striker6g
-
-{'topicvecs': defaultdict(<type 'dict'>, {u'buildapc': 26, u'hardwareswap': 14, u'todayilearned': 59, u'ZettaiRyouiki': 43, u'pics': 93, u'AskReddit': 93, u'pcmasterrace': 59, u'Calligraphy': 22, u'darksouls': 0}), 'contributions': defaultdict(<type 'int'>, {u'buildapc': 1, u'hardwareswap': 3, u'todayilearned': 1, u'ZettaiRyouiki': 3, u'pics': 6, u'AskReddit': 4, u'pcmasterrace': 10, u'Calligraphy': 12, u'darksouls': 2})} 
-
-**Score: 0.459743943521**
-
-It makes sense!
+Almost centered at topic 59 and 93.
 
 ## After applying TF-IDF weighted matrix:
-
 
 topic #0 (0.010): 0.008*chess + 0.000*victoria + 0.000*rug + 0.000*median + 0.000*tended + 0.000*stocking + 0.000*student_loan + 0.000*dessert + 0.000*loan + 0.000*kit
 

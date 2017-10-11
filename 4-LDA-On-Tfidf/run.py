@@ -186,40 +186,43 @@ def print_specific_subreddit_topic():
     dominant_counter = 0
     for label, topic_dist_vec in zip(subreddits, rc_tvec):
         index, value = max(enumerate(topic_dist_vec), key=operator.itemgetter(1))
-        if label in ["apple", "anime", "sports", "nba", "4chan", "PS4", "technology", "Music"]:
-            print "For subreddit: ", label, " , the dominant topic is: ", index, " with prob: ", value, ldamodel.show_topic(index, topn=20)
+        if label in ["cars", "guns", "DIY", "DotA2", "toronto", "cats", "food", "nba"]:
+            print "For subreddit: ", label
+            print "its topic distribution vector: ", topic_dist_vec
+            print "the dominant topic is: ", index, " with prob: ", value, ldamodel.show_topic(index, topn=20)
         if value > 0.5:
             dominant_counter += 1
     print "From ", len(subreddits), " all subreddit, ", dominant_counter, " of all owns a dominant topics"
 
+# print_specific_subreddit_topic()
 
-def print_general_subreddit_topic():
-    """
-    Randomly print out 20 topics for human inspection.
-    """
-    ldamodel.print_topics(20)
+# def print_general_subreddit_topic():
+#     """
+#     Randomly print out 20 topics for human inspection.
+#     """
+#     ldamodel.print_topics(20)
 
 
 
-def find_dom_topic_vec(name):
-    """
-    Assume a subreddit can be represented by its most dominant topic vector. (currently ignore less dominant topics, 
-    as one subreddit can cover several topics). 
-    if name not appear in the subreddits list(all subreddit label from data), return -1.
-    """
-    if name not in subreddits:
-        print("subreddit not in list...")
-        return -1
-    else:
-        subreddits_index = subreddits.index(name)
-        topic_vec = rc_tvec[subreddits_index]
-        dom_topic_index, prob = max(enumerate(topic_vec), key=operator.itemgetter(1))
-        return dom_topic_index
+# def find_dom_topic_vec(name):
+#     """
+#     Assume a subreddit can be represented by its most dominant topic vector. (currently ignore less dominant topics, 
+#     as one subreddit can cover several topics). 
+#     if name not appear in the subreddits list(all subreddit label from data), return -1.
+#     """
+#     if name not in subreddits:
+#         print("subreddit not in list...")
+#         return -1
+#     else:
+#         subreddits_index = subreddits.index(name)
+#         topic_vec = rc_tvec[subreddits_index]
+#         dom_topic_index, prob = max(enumerate(topic_vec), key=operator.itemgetter(1))
+#         return dom_topic_index
 
 
 def load_author_from_mongo():
     # use pymongo to load large chunk of data from mongo.
-    if not os.path.exists('author_topics.pkl'):
+    if not os.path.exists('./models/author_topics.pkl'):
         # Use pymongo to achieve same effect as below codes. 
 
         pipe = [
@@ -252,51 +255,51 @@ def load_author_from_mongo():
             # print(data)
 
 
-        pickle.dump(data, open("author_topics.pkl", 'wb'))
+        pickle.dump(data, open("./models/author_topics.pkl", 'wb'))
         return data
     else:
-        data = pickle.load(open("author_topics.pkl", 'rb'))
+        data = pickle.load(open("./models/author_topics.pkl", 'rb'))
         print("author topics model loaded...")
         return data
 
 
-# author_topics = load_author_from_mongo()
+author_topics = load_author_from_mongo()
 
 
 """
 Below are calculating pairwise topic similarity.
 """
 
-# import numpy as np
-# from scipy.spatial.distance import pdist, squareform
-# import itertools
+import numpy as np
+from scipy.spatial.distance import pdist, squareform
+import itertools
 
-# def hellinger(X):
-#     return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
+def hellinger(X):
+    return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
 
-# X = ldamodel.state.get_lambda()
-# X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
-# h = hellinger(X)
+X = ldamodel.state.get_lambda()
+X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
+h = hellinger(X)
 
-# # book = dict(zip(subreddits, range(len(subreddits)))) # a dictionary map subreddit name to its 
+# book = dict(zip(subreddits, range(len(subreddits)))) # a dictionary map subreddit name to its 
 
-# for author, obj in author_topics.items():
-#     """
-#     First filter by weight cutoff T = 4, remove subreddit contributions less than T.
-#     """
-#     freq_reddit = []
-#     for name in obj['contributions'].iterkeys():
-#         if obj['contributions'][name] >= 4:
-#             freq_reddit.append(name)
-#     score = 0
-#     comb = list(itertools.permutations(freq_reddit, 2))
-#     if len(comb) > 0:
-#         for (name1, name2) in comb:
-#             topic_id1 = obj['topicvecs'][name1]
-#             topic_id2 = obj['topicvecs'][name2]
-#             score += (1 - h[topic_id1, topic_id2]) # 1 - Hellinger Distance = simularity
-#         score = score / len(comb)
-#         print author, obj, score
+for author, obj in author_topics.items():
+    """
+    First filter by weight cutoff T = 4, remove subreddit contributions less than T.
+    """
+    freq_reddit = []
+    for name in obj['contributions'].iterkeys():
+        if obj['contributions'][name] >= 4:
+            freq_reddit.append(name)
+    score = 0
+    comb = list(itertools.permutations(freq_reddit, 2))
+    if len(comb) > 0:
+        for (name1, name2) in comb:
+            topic_id1 = obj['topicvecs'][name1]
+            topic_id2 = obj['topicvecs'][name2]
+            score += (1 - h[topic_id1, topic_id2]) # 1 - Hellinger Distance = simularity
+        score = score / len(comb)
+        print author, obj, score
 
 
 # print_general_subreddit_topic()

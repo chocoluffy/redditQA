@@ -129,23 +129,29 @@ else:
     corpus = corpora.MmCorpus('./models/new-doc-term.mm')
     print("document to term matrix loaded...")
 
-# tfidf = gensim.models.TfidfModel(corpus, normalize=True)
-# corpus_tfidf = tfidf[corpus]
+tfidf = gensim.models.TfidfModel(corpus, normalize=True)
+corpus_tfidf = tfidf[corpus]
 
-# pprint(doc_term_matrix)
+corpus_tfidf = map(lambda x: map(lambda y: (y[0], round(y[1] * 100, 2)), x), corpus_tfidf)
+
+# pprint(dictionary[237])
+# print("tfidf weights of the first document")
+# print("BOW of the first document")
+# pprint(map(lambda x: (dictionary[x[0]], x[1]), corpus_tfidf[0]))
+# pprint(len(corpus[0]))
 
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 # Save LDA model
-if not os.path.exists('./models/pure.lda'):
+if not os.path.exists('./models/tfidf.lda'):
     # Creating the object for LDA model using gensim library
     Lda = gensim.models.ldamodel.LdaModel
     # Running and Trainign LDA model on the document term matrix.
-    ldamodel = Lda(corpus, num_topics=100, id2word = dictionary, passes=50)
-    ldamodel.save('./models/pure.lda')
+    ldamodel = Lda(corpus_tfidf, num_topics=100, id2word = dictionary, passes=50)
+    ldamodel.save('./models/tfidf.lda')
 else:
-    ldamodel = gensim.models.ldamodel.LdaModel.load('models/pure.lda')
+    ldamodel = gensim.models.ldamodel.LdaModel.load('models/tfidf.lda')
     print("lda model loaded...")
 
 

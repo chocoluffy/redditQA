@@ -47,6 +47,7 @@ Almost centered at topic 59 and 93.
 ## After applying TF-IDF weights and de-normalization:
 
 ![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare.png)
+![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare2.png)
 
 topic #0 (0.010): 0.020*pokemon + 0.010*shiny + 0.010*mega + 0.006*x2 + 0.004*episode + 0.004*iv + 0.004*jerry + 0.004*hp + 0.003*trainer + 0.003*orb
 

@@ -1,7 +1,7 @@
 ## New visualization after refined preprocessing
-![full](https://github.com/chocoluffy/redditQA/blob/master/3-Bipartite-Graph/results/full.png)
+![full](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/tfidf-full.png)
 
-See my data preprocessing steps at [here](https://github.com/chocoluffy/redditQA/issues/1).
+See my data preprocessing steps at [here](https://github.com/chocoluffy/redditQA/issues/1). After week 3's basic preprocessing, this version use TF-IDF weights applied on BOW frequency matrix!
 
 ## Stats
 

@@ -1,3 +1,28 @@
+## Progress
+
+Fixing issue listed here [10.11 meeting](https://github.com/chocoluffy/redditQA/issues/3).
+
+### TF-IDF weights
+
+![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare.png)
+![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare2.png)
+
+Try to mimic the magnitude of BOW matrix, but with TF-IDF weights.
+
+### comments counts
+
+Before: 2G(two days) data, top 10% subreddits, i.e., 1753 subreddits. (with each 10000 comments desired)
+> Problems: the reality is that, the smallest subreddit inside that top 10%, has only ~200 comments.
+
+Then, I try to increase the dataset.
+After: 4G(four days) data, top 8% subreddits, i.e., 1819 subreddits.
+> Situation: `(694366, 345)`, the largest subreddit and smallest subreddit's comments count.
+
+In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 500 comments concatenated as documents.
+
+
+
+
 ## New visualization after refined preprocessing
 ![full](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/tfidf-full.png)
 
@@ -46,8 +71,7 @@ Almost centered at topic 59 and 93.
 
 ## After applying TF-IDF weights and de-normalization:
 
-![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare.png)
-![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare2.png)
+
 
 topic #0 (0.010): 0.020*pokemon + 0.010*shiny + 0.010*mega + 0.006*x2 + 0.004*episode + 0.004*iv + 0.004*jerry + 0.004*hp + 0.003*trainer + 0.003*orb
 

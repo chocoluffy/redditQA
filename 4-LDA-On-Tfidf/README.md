@@ -18,7 +18,7 @@ Then, I try to increase the dataset.
 After: 4G(four days) data, top 8% subreddits, i.e., 1819 subreddits.
 > Situation: `(694366, 345)`, the largest subreddit and smallest subreddit's comments count.
 
-In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 500 comments concatenated as documents.
+In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 comments concatenated as documents.
 
 
 
@@ -72,203 +72,202 @@ Almost centered at topic 59 and 93.
 ## After applying TF-IDF weights and de-normalization:
 
 
+topic #0 (0.010): 0.014*giveaway + 0.012*steam + 0.011*thanks_giveaway + 0.010*grump + 0.007*csgo + 0.006*jon + 0.006*tf2 + 0.004*game_grump + 0.004*dont_starve + 0.004*steam_key
 
-topic #0 (0.010): 0.020*pokemon + 0.010*shiny + 0.010*mega + 0.006*x2 + 0.004*episode + 0.004*iv + 0.004*jerry + 0.004*hp + 0.003*trainer + 0.003*orb
+topic #1 (0.010): 0.012*mag + 0.010*paypal + 0.010*ebay + 0.010*shipping + 0.008*ammo + 0.008*shipped + 0.007*holster + 0.007*buyer + 0.006*tesla + 0.006*rifle
 
-topic #1 (0.010): 0.011*recipe + 0.008*meat + 0.008*cheese + 0.007*sauce + 0.007*steak + 0.007*pan + 0.007*pepper + 0.007*bread + 0.006*chicken + 0.006*egg
+topic #2 (0.010): 0.113*manga + 0.090*anime + 0.046*arc + 0.041*naruto + 0.037*chapter + 0.015*gon + 0.013*hunter + 0.010*dub + 0.009*potion + 0.008*heather
 
-topic #2 (0.010): 0.009*muslim + 0.007*war + 0.006*islam + 0.006*israel + 0.005*nation + 0.005*arab + 0.005*russia + 0.005*empire + 0.005*ayy + 0.004*army
+topic #3 (0.010): 0.014*nhl + 0.013*puck + 0.012*hockey + 0.011*goalie + 0.006*playoff + 0.006*oiler + 0.005*pp + 0.005*jersey + 0.005*hawk + 0.004*scoring
 
-topic #3 (0.010): 0.013*cpu + 0.009*amd + 0.009*ram + 0.008*pc + 0.008*intel + 0.008*motherboard + 0.008*gpu + 0.006*nvidia + 0.006*hdd + 0.005*ssd
+topic #4 (0.010): 0.009*flour + 0.006*baking + 0.006*dough + 0.004*espresso + 0.004*recipe + 0.003*bake + 0.003*bread + 0.003*mixer + 0.003*starbucks + 0.003*yeast
 
-topic #4 (0.010): 0.005*mod + 0.005*spawn + 0.005*block + 0.005*zombie + 0.004*ship + 0.004*minecraft + 0.004*server + 0.003*mining + 0.003*portal + 0.003*dwarf
+topic #5 (0.010): 0.036*titan + 0.018*downton + 0.017*asylum + 0.014*germany + 0.014*german + 0.013*maggie + 0.011*aldi + 0.010*mary + 0.010*vault + 0.009*abbey
 
-topic #5 (0.010): 0.009*gym + 0.008*weight + 0.008*squat + 0.007*workout + 0.006*muscle + 0.005*lift + 0.005*lifting + 0.005*bench + 0.004*training + 0.004*yoga
+topic #6 (0.010): 0.106*cigar + 0.081*smoke + 0.076*smoking + 0.058*smoker + 0.054*nicotine + 0.052*tobacco + 0.040*smoked + 0.033*flavor + 0.033*cigarette + 0.027*cat_cat
 
-topic #6 (0.010): 0.007*rug + 0.007*tent + 0.004*forest + 0.003*dildo + 0.003*erase + 0.003*aka + 0.003*pet + 0.003*sand + 0.003*towel + 0.003*bong
+topic #7 (0.010): 0.013*morrowind + 0.013*tf2 + 0.013*medic + 0.011*tank + 0.009*scout + 0.008*sc2 + 0.008*overwatch + 0.007*arty + 0.007*kanye + 0.007*tier
 
-topic #7 (0.010): 0.007*jay + 0.005*channel + 0.005*video + 0.004*starbucks + 0.003*coffee + 0.003*ampnbsp + 0.003*figure + 0.003*co2 + 0.003*neckbeard + 0.003*record
+topic #8 (0.010): 0.016*lens + 0.007*photography + 0.007*iso + 0.007*shutter + 0.006*dslr + 0.006*gopro + 0.006*aperture + 0.005*film + 0.005*tripod + 0.005*exposure
 
-topic #8 (0.010): 0.008*cube + 0.006*episode + 0.004*snake + 0.004*marvel + 0.004*blog + 0.004*javascript + 0.004*tumblr + 0.004*star_war + 0.003*r + 0.003*python
+topic #9 (0.010): 0.008*nba + 0.006*lebron + 0.006*kobe + 0.005*playoff + 0.005*basketball + 0.004*fsu + 0.004*coach + 0.004*melo + 0.004*cavs + 0.004*knicks
 
-topic #9 (0.010): 0.026*bitcoin + 0.013*beer + 0.010*coin + 0.007*bottle + 0.006*tea + 0.006*scam + 0.006*seller + 0.005*listing + 0.005*buyer + 0.004*price
+topic #10 (0.010): 0.011*calorie + 0.011*squat + 0.010*gym + 0.009*workout + 0.008*muscle + 0.006*lifting + 0.006*vape + 0.006*lift + 0.005*deadlift + 0.005*protein
 
-topic #10 (0.010): 0.008*voltage + 0.007*tank + 0.007*coil + 0.007*battery + 0.007*wire + 0.006*speaker + 0.005*juice + 0.005*circuit + 0.004*output + 0.004*cable
+topic #11 (0.010): 0.012*vg + 0.009*coin + 0.009*blu_ray + 0.008*blu + 0.007*ea + 0.007*madden + 0.007*stargate + 0.007*bo + 0.006*mvp + 0.006*victoria
 
-topic #11 (0.010): 0.007*vr + 0.004*email + 0.003*admins + 0.003*employee + 0.003*product + 0.003*company + 0.003*gamestop + 0.003*store + 0.002*oculus + 0.002*customer
+topic #12 (0.010): 0.025*pvp + 0.023*gamergate + 0.023*guild + 0.022*server + 0.015*tb + 0.013*pve + 0.012*gg + 0.010*eso + 0.009*glyph + 0.008*kotaku
 
-topic #12 (0.010): 0.010*team + 0.008*nba + 0.007*season + 0.005*player + 0.005*basketball + 0.005*smith + 0.005*foul + 0.004*curry + 0.004*coach + 0.004*raptor
+topic #13 (0.010): 0.021*sexy + 0.014*cock + 0.011*cum + 0.009*gorgeous + 0.008*tit + 0.007*cute + 0.007*pussy + 0.006*panty + 0.006*nipple + 0.005*kik
 
-topic #13 (0.010): 0.004*code + 0.004*language + 0.004*engineering + 0.004*c + 0.004*programming + 0.004*project + 0.004*data + 0.003*engineer + 0.003*math + 0.003*programmer
+topic #14 (0.010): 0.020*chess + 0.016*rating + 0.014*finn + 0.013*warlock + 0.012*psn + 0.012*iq + 0.012*kpop + 0.008*sm + 0.008*jake + 0.008*idol
 
-topic #14 (0.010): 0.026*cat + 0.006*rat + 0.004*hair + 0.003*towel + 0.003*pizza + 0.003*glitch + 0.003*cooper + 0.003*wr + 0.003*duck + 0.003*dog
+topic #15 (0.010): 0.023*vpn + 0.017*torrent + 0.015*vr + 0.014*netflix + 0.014*tracker + 0.008*tor + 0.007*vpns + 0.006*oculus + 0.006*dns + 0.006*isp
 
-topic #15 (0.010): 0.006*woman + 0.005*men + 0.004*feminist + 0.003*feminism + 0.003*society + 0.003*culture + 0.003*argument + 0.003*racist + 0.002*racism + 0.002*government
+topic #16 (0.010): 0.023*meditation + 0.020*plant + 0.014*jones + 0.012*soil + 0.011*buddhism + 0.011*zen + 0.009*buddhist + 0.008*flower + 0.008*seed + 0.008*buddha
 
-topic #16 (0.010): 0.007*police + 0.006*cop + 0.005*law + 0.005*officer + 0.004*lawyer + 0.004*crime + 0.003*arrest + 0.003*court + 0.002*legal + 0.002*victim
+topic #17 (0.010): 0.005*pregnancy + 0.005*pregnant + 0.005*diaper + 0.004*husband + 0.003*curl + 0.003*shampoo + 0.003*breastfeeding + 0.003*cyst + 0.002*daughter + 0.002*conditioner
 
-topic #17 (0.010): 0.021*comcast + 0.020*sprint + 0.007*bird + 0.007*shirt + 0.005*coverage + 0.005*cable + 0.005*bow + 0.005*pole + 0.005*atampt + 0.004*cage
+topic #18 (0.010): 0.004*smiled + 0.004*ja + 0.003*barry + 0.003*bono + 0.003*thank_mr + 0.003*meme + 0.003*trashy + 0.003*gtpost + 0.003*gtpost_title + 0.003*linked_meme
 
-topic #18 (0.010): 0.019*car + 0.008*engine + 0.008*wheel + 0.008*tire + 0.005*rear + 0.005*truck + 0.004*vehicle + 0.003*mile + 0.003*honda + 0.003*drive
+topic #19 (0.010): 0.010*disney + 0.007*floyd + 0.006*gaston + 0.006*jax + 0.005*runescape + 0.005*cast_member + 0.004*solomon + 0.004*duncan + 0.003*disneyland + 0.002*cleric
 
-topic #19 (0.010): 0.013*xx + 0.007*hunter + 0.006*doctor + 0.005*xxx + 0.005*tribe + 0.004*lord + 0.004*x + 0.004*dvd + 0.004*pp + 0.004*melee
+topic #20 (0.010): 0.004*kit + 0.003*motor + 0.003*wire + 0.003*truck + 0.003*voltage + 0.003*battery + 0.003*jeep + 0.002*mustang + 0.002*axle + 0.002*bolt
 
-topic #20 (0.010): 0.005*toilet + 0.004*egg + 0.004*av + 0.004*sydney + 0.004*sr + 0.004*dun + 0.004*skate + 0.003*jake + 0.002*water + 0.002*glitch
+topic #21 (0.010): 0.025*album + 0.015*band + 0.014*guitar + 0.009*chord + 0.008*beatles + 0.008*lyric + 0.007*vocal + 0.007*drum + 0.007*punk + 0.007*kanye
 
-topic #21 (0.010): 0.024*sexy + 0.013*cock + 0.012*hot + 0.010*tit + 0.008*cute + 0.008*gorgeous + 0.008*as + 0.008*deleted_deleted + 0.007*pic + 0.007*beautiful
+topic #22 (0.010): 0.011*antenna + 0.011*nib + 0.010*outpost + 0.007*ink + 0.007*dongle + 0.007*pen + 0.007*pagan + 0.006*far_cry + 0.005*fc4 + 0.004*dice
 
-topic #22 (0.010): 0.013*torrent + 0.012*http + 0.011*vpn + 0.007*sam + 0.007*youtube + 0.006*channel + 0.006*copyright + 0.005*anthony + 0.004*video + 0.004*isp
+topic #23 (0.010): 0.012*ps4 + 0.012*gta + 0.008*psn + 0.008*rockstar + 0.008*xbox + 0.008*crew + 0.007*korean + 0.007*ps3 + 0.006*mission + 0.005*xbox_one
 
-topic #23 (0.010): 0.015*dog + 0.007*vet + 0.005*cat + 0.005*landlord + 0.004*trail + 0.004*puppy + 0.004*shelter + 0.003*breed + 0.003*pet + 0.003*animal
+topic #24 (0.010): 0.028*heathen + 0.015*deity + 0.015*religion + 0.012*coil + 0.011*pagan + 0.009*eric + 0.008*ritual + 0.008*loki + 0.008*norse + 0.008*christian
 
-topic #24 (0.010): 0.016*liberal + 0.014*libertarian + 0.013*conservative + 0.013*republican + 0.011*democrat + 0.005*election + 0.005*government + 0.005*political + 0.005*party + 0.004*marriage
+topic #25 (0.010): 0.011*civ + 0.010*ai + 0.009*roy + 0.008*bask + 0.008*survivor + 0.007*dorian + 0.006*trade_route + 0.005*unit + 0.005*tile + 0.005*lord
 
-topic #25 (0.010): 0.005*jeremy + 0.004*murray + 0.004*shoe + 0.004*sol + 0.004*2k + 0.004*ea + 0.004*film + 0.003*helm + 0.003*psn + 0.003*movie
+topic #26 (0.010): 0.009*hookah + 0.009*morty + 0.008*rug + 0.008*rick + 0.007*tracy + 0.007*see_sidebar + 0.007*creature + 0.006*ted + 0.006*jasmine + 0.006*anal
 
-topic #26 (0.010): 0.011*guild + 0.008*pvp + 0.006*fc + 0.004*player + 0.004*dp + 0.004*server + 0.004*dungeon + 0.004*mod + 0.003*class + 0.003*raid
+topic #27 (0.010): 0.003*downtown + 0.003*park + 0.002*parking + 0.002*neighborhood + 0.002*rent + 0.002*bus + 0.002*traffic + 0.002*restaurant + 0.002*st + 0.001*hotel
 
-topic #27 (0.010): 0.009*trade + 0.009*ex + 0.008*howard + 0.008*88 + 0.007*dog + 0.007*card + 0.007*pack + 0.005*8 + 0.005*gp + 0.004*superb
+topic #28 (0.010): 0.005*boob + 0.005*tit + 0.004*chloe + 0.003*thailand + 0.003*annie + 0.002*bpd + 0.002*molly + 0.002*sal + 0.002*thai + 0.002*nude
 
-topic #28 (0.010): 0.017*tb + 0.015*gg + 0.013*duck + 0.008*shark + 0.007*og + 0.005*perry + 0.005*old_school + 0.005*hawk + 0.004*charity + 0.004*team
+topic #29 (0.010): 0.017*remix + 0.010*dj + 0.007*festival + 0.006*dodger + 0.006*trance + 0.006*soundcloud + 0.005*mets + 0.005*edm + 0.005*skrillex + 0.005*baseball
 
-topic #29 (0.010): 0.005*relationship + 0.003*sex + 0.003*woman + 0.002*her + 0.002*feeling + 0.002*partner + 0.002*talk + 0.002*anxiety + 0.002*girl + 0.002*parent
+topic #30 (0.010): 0.006*louisville + 0.006*yang + 0.006*pm_sent + 0.006*height + 0.005*barry + 0.005*tall + 0.005*taller + 0.005*mx + 0.004*prisoner + 0.004*keyboard
 
-topic #30 (0.010): 0.007*city + 0.006*downtown + 0.004*uber + 0.004*park + 0.003*taxi + 0.003*street + 0.003*driver + 0.003*cab + 0.003*bus + 0.003*neighborhood
+topic #31 (0.010): 0.013*cpu + 0.008*gpu + 0.008*ram + 0.007*ssd + 0.007*intel + 0.006*motherboard + 0.006*monitor + 0.006*pc + 0.006*amd + 0.005*usb
 
-topic #31 (0.010): 0.014*language + 0.011*german + 0.009*english + 0.007*germany + 0.006*japanese + 0.006*american + 0.006*korean + 0.006*chinese + 0.005*japan + 0.005*spanish
+topic #32 (0.010): 0.032*uber + 0.016*checklist + 0.016*taxi + 0.016*surge + 0.014*patient + 0.012*recent_post + 0.012*posting_again + 0.012*guideline + 0.012*comply + 0.011*must_wait
 
-topic #32 (0.010): 0.007*anchor + 0.007*axis + 0.005*dock + 0.005*hog + 0.005*screw + 0.004*missile + 0.004*drone + 0.004*motor + 0.004*carrier + 0.003*fiber
+topic #33 (0.010): 0.063*que + 0.042*de + 0.031*en + 0.017*un + 0.017*por + 0.016*para + 0.015*la + 0.015*si + 0.015*una + 0.014*se
 
-topic #33 (0.010): 0.009*jean + 0.006*wear + 0.005*shoe + 0.005*pair + 0.005*wearing + 0.005*pant + 0.004*fit + 0.004*leather + 0.004*clothes + 0.003*vinyl
+topic #34 (0.010): 0.014*cest + 0.013*je + 0.009*et + 0.008*dans + 0.007*pa + 0.006*sur + 0.006*poem + 0.006*toll + 0.005*pour + 0.005*est
 
-topic #34 (0.010): 0.003*character + 0.003*ai + 0.003*quest + 0.003*weapon + 0.003*player + 0.003*combat + 0.002*dlc + 0.002*gameplay + 0.002*ship + 0.002*played
+topic #35 (0.010): 0.038*please_contact + 0.038*submission + 0.036*performed_automatically + 0.016*submission_removed + 0.015*question_concern + 0.012*moderator + 0.011*submitted + 0.010*please_review + 0.010*please_message + 0.009*performed
 
-topic #35 (0.010): 0.009*tracker + 0.003*nigga + 0.003*girl + 0.003*tree + 0.002*ugly + 0.002*route + 0.002*sprite + 0.002*torrent + 0.002*imgur + 0.002*limb
+topic #36 (0.010): 0.004*server + 0.004*weapon + 0.003*gameplay + 0.003*quest + 0.003*dlc + 0.003*enemy + 0.003*map + 0.002*multiplayer + 0.002*armor + 0.002*spawn
 
-topic #36 (0.010): 0.023*alien + 0.023*sims + 0.011*oliver + 0.009*hair + 0.006*ceo + 0.006*norway + 0.005*ra + 0.004*canadian + 0.003*arrow + 0.003*harper
+topic #37 (0.010): 0.023*electrician + 0.021*crate + 0.014*michigan + 0.012*electrical + 0.011*circuit + 0.010*outlet + 0.009*minnesota + 0.009*wire + 0.008*solar + 0.008*breaker
 
-topic #37 (0.010): 0.014*lego + 0.011*ps3 + 0.010*ps4 + 0.008*sony + 0.007*code + 0.007*xbox + 0.006*psn + 0.006*360 + 0.005*console + 0.005*destiny
+topic #38 (0.010): 0.006*bow + 0.006*tps + 0.005*moba + 0.005*slag + 0.004*arrow + 0.004*mp + 0.004*archery + 0.004*robot + 0.004*borderland + 0.003*tote
 
-topic #38 (0.010): 0.008*girl + 0.007*condom + 0.007*sex + 0.006*woman + 0.004*dick + 0.004*her + 0.003*gay + 0.003*sexual + 0.003*men + 0.003*shes
+topic #39 (0.010): 0.005*russia + 0.005*aircraft + 0.004*nation + 0.003*army + 0.003*troop + 0.003*russian + 0.003*empire + 0.003*military + 0.003*france + 0.003*german
 
-topic #39 (0.010): 0.006*cod + 0.005*outfit + 0.004*ui + 0.003*grip + 0.003*aw + 0.003*nc + 0.003*faggot + 0.003*prompt + 0.003*server + 0.003*pilot
+topic #40 (0.010): 0.009*lucid + 0.008*girth + 0.006*erotica + 0.005*dentist + 0.004*shepard + 0.004*poker + 0.004*dreaming + 0.003*lucid_dreaming + 0.003*paranormal + 0.003*condom
 
-topic #40 (0.010): 0.013*player + 0.012*team + 0.009*season + 0.008*club + 0.008*league + 0.007*chelsea + 0.007*kane + 0.006*liverpool + 0.006*goal + 0.005*football
+topic #41 (0.010): 0.017*tank + 0.010*fish + 0.008*ammonia + 0.007*shrimp + 0.007*gallon + 0.006*algae + 0.006*plant + 0.006*fin + 0.006*charleston + 0.006*marching_band
 
-topic #41 (0.010): 0.016*pipe + 0.016*kindle + 0.013*soil + 0.010*amazon + 0.009*radiation + 0.006*bottle + 0.006*plant + 0.006*tobacco + 0.006*coffee + 0.005*creepy
+topic #42 (0.010): 0.004*wood + 0.003*fabric + 0.003*pipe + 0.003*blade + 0.003*sewing + 0.002*quilt + 0.002*tile + 0.002*knife + 0.002*jar + 0.002*copper
 
-topic #42 (0.010): 0.007*drug + 0.004*heroin + 0.004*weed + 0.004*dose + 0.003*alcohol + 0.003*doctor + 0.003*patient + 0.003*medical + 0.003*trip + 0.003*med
+topic #43 (0.010): 0.012*og + 0.009*snake + 0.008*ezra + 0.008*optic + 0.007*rat + 0.006*acorn + 0.006*gecko + 0.005*reptile + 0.004*destiny + 0.004*bracket
 
-topic #43 (0.010): 0.012*coin + 0.008*card + 0.007*runner + 0.006*pack + 0.005*vita + 0.005*fate + 0.005*5k + 0.004*sting + 0.004*mint + 0.004*milestone
+topic #44 (0.010): 0.017*cena + 0.016*rollins + 0.016*wwe + 0.013*bryan + 0.012*jay + 0.011*sting + 0.011*trey + 0.009*wrestling + 0.008*osu + 0.008*removal
 
-topic #44 (0.010): 0.007*trans + 0.006*gay + 0.004*gender + 0.003*bisexual + 0.003*transgender + 0.003*sexuality + 0.003*sex + 0.003*lgbt + 0.002*woman + 0.002*religious
+topic #45 (0.010): 0.019*bike + 0.016*tire + 0.012*brake + 0.012*wheel + 0.009*engine + 0.007*rear + 0.006*bmw + 0.006*vehicle + 0.006*turbo + 0.006*vw
 
-topic #45 (0.010): 0.005*log + 0.004*episode + 0.004*cube + 0.004*boob + 0.003*shes + 0.003*romantic + 0.003*body + 0.003*screen + 0.003*her + 0.003*relationship
+topic #46 (0.010): 0.004*sex + 0.002*dating + 0.002*gender + 0.002*trans + 0.002*gay + 0.002*sexual + 0.002*male + 0.002*partner + 0.002*boyfriend + 0.002*feminist
 
-topic #46 (0.010): 0.015*book + 0.006*writing + 0.005*character + 0.005*novel + 0.005*author + 0.005*reader + 0.005*series + 0.005*reading + 0.004*writer + 0.004*story
+topic #47 (0.010): 0.016*dart + 0.006*hiker + 0.006*hike + 0.006*1112 + 0.005*cuban + 0.005*nelson + 0.005*survival + 0.005*fax + 0.005*blaster + 0.004*map
 
-topic #47 (0.010): 0.013*jersey + 0.006*colt + 0.006*packer + 0.005*team + 0.005*season + 0.004*eagle + 0.004*dentist + 0.004*nfl + 0.004*giant + 0.004*denver
+topic #48 (0.010): 0.012*wii + 0.011*mario + 0.011*nintendo + 0.008*3d + 0.008*zelda + 0.007*pokemon + 0.007*snes + 0.006*fire_emblem + 0.006*console + 0.006*smash
 
-topic #48 (0.010): 0.007*couldve + 0.007*ted + 0.007*donut + 0.005*robin + 0.004*commie + 0.003*host + 0.003*diablo + 0.003*fat + 0.003*hosting + 0.003*15_minute
+topic #49 (0.010): 0.048*bitcoin + 0.030*uchangetip + 0.024*btc + 0.022*coin + 0.013*changetip + 0.012*bitcoins + 0.010*doge + 0.008*rbitcoin + 0.006*scam + 0.006*currency
 
-topic #49 (0.010): 0.009*app + 0.007*apps + 0.007*device + 0.007*phone + 0.007*android + 0.006*file + 0.005*nexus + 0.004*battery + 0.004*linux + 0.004*screen
+topic #50 (0.010): 0.012*dota + 0.010*ult + 0.009*lane + 0.008*adc + 0.007*hero + 0.006*jungle + 0.006*mmr + 0.005*minion + 0.005*champion + 0.004*enemy
 
-topic #50 (0.010): 0.016*she + 0.010*ooc + 0.004*smile + 0.004*nod + 0.004*grin + 0.003*kiss + 0.002*walk + 0.002*door + 0.002*her + 0.002*hug
+topic #51 (0.010): 0.012*yosemite + 0.011*apple + 0.010*mac + 0.009*mrw + 0.009*sip + 0.009*macbook + 0.008*itunes + 0.007*chromebook + 0.007*omar + 0.006*mbp
 
-topic #51 (0.010): 0.012*kit + 0.007*paint + 0.007*ship + 0.006*razor + 0.005*shaving + 0.005*shave + 0.005*chapter + 0.005*blade + 0.005*model + 0.005*pls
+topic #52 (0.010): 0.017*skyrim + 0.014*je + 0.010*het + 0.008*terry + 0.008*joel + 0.008*fps + 0.008*armenian + 0.007*ik + 0.006*ig + 0.006*texture
 
-topic #52 (0.010): 0.017*ooc + 0.012*headphone + 0.009*meme + 0.009*oc + 0.007*ic + 0.006*boot + 0.006*greek + 0.006*chapter + 0.005*happy_birthday + 0.005*leather
+topic #53 (0.010): 0.006*furries + 0.005*furry + 0.004*buffy + 0.004*o7 + 0.004*fleet + 0.004*pl + 0.004*fandom + 0.004*ヽ༼ຈل͜ຈ༽ﾉ + 0.004*karma + 0.004*cosplay
 
-topic #53 (0.010): 0.025*pepsi + 0.009*freshman_year + 0.009*high_school + 0.008*trans + 0.008*costume + 0.008*blender + 0.008*freshman + 0.006*arm + 0.005*hair + 0.005*school
+topic #54 (0.010): 0.023*bjj + 0.019*cube + 0.018*mma + 0.013*fighter + 0.013*wordpress + 0.013*martial_art + 0.012*martial + 0.012*sparring + 0.011*ufc + 0.010*pen_pal
 
-topic #54 (0.010): 0.026*gun + 0.008*firearm + 0.006*purse + 0.006*safety + 0.005*weapon + 0.004*concealed + 0.003*carry + 0.003*gang + 0.003*homeless + 0.003*dawn
+topic #55 (0.010): 0.005*episode + 0.003*film + 0.002*det + 0.002*podcast + 0.002*trailer + 0.001*dan + 0.001*scott + 0.001*director + 0.001*comedy + 0.001*audience
 
-topic #55 (0.010): 0.009*mario + 0.008*nintendo + 0.008*3d + 0.007*zelda + 0.007*wii + 0.004*console + 0.004*smash + 0.004*disc + 0.004*gamestop + 0.003*controller
+topic #56 (0.010): 0.008*meat + 0.007*sauce + 0.007*recipe + 0.006*cook + 0.006*cheese + 0.006*chicken + 0.006*garlic + 0.006*veggie + 0.006*pepper + 0.006*steak
 
-topic #56 (0.010): 0.011*hair + 0.010*makeup + 0.009*lip + 0.008*brow + 0.007*chord + 0.006*polish + 0.006*palette + 0.006*eyebrow + 0.006*skin + 0.006*color
+topic #57 (0.010): 0.004*loan + 0.004*tax + 0.003*debt + 0.003*semester + 0.003*income + 0.003*gpa + 0.003*employer + 0.002*fund + 0.002*engineering + 0.002*payment
 
-topic #57 (0.010): 0.009*boxing + 0.006*silver + 0.006*dip + 0.005*fight + 0.005*map + 0.005*slayer + 0.004*archer + 0.004*fighter + 0.004*developer + 0.004*shield
+topic #58 (0.010): 0.007*lego + 0.005*disc + 0.004*bike + 0.004*rematch + 0.003*bra + 0.003*protector + 0.003*nascar + 0.003*rider + 0.003*strap + 0.003*string
 
-topic #58 (0.010): 0.012*hockey + 0.011*nhl + 0.008*puck + 0.007*team + 0.006*hawk + 0.006*ref + 0.005*goalie + 0.005*skate + 0.005*cap + 0.005*ice
+topic #59 (0.010): 0.039*pokemon + 0.027*shiny + 0.017*ign + 0.011*giveaway + 0.011*ev + 0.011*deposited + 0.010*iv + 0.009*eevee + 0.009*breeding + 0.008*gts
 
-topic #59 (0.010): 0.032*deck + 0.015*card + 0.010*mana + 0.006*creature + 0.006*token + 0.004*opponent + 0.004*minion + 0.004*dragon + 0.003*spell + 0.003*meta
+topic #60 (0.010): 0.023*wallpaper + 0.017*jaime + 0.007*icon + 0.006*homer + 0.006*jon + 0.006*ned + 0.005*candle + 0.005*launcher + 0.005*lannister + 0.004*simpson
 
-topic #60 (0.010): 0.023*original + 0.013*snake + 0.013*swim + 0.012*swimming + 0.012*sip + 0.011*civ + 0.010*rust + 0.009*mp + 0.008*thread + 0.007*verse
+topic #61 (0.010): 0.026*makeup + 0.022*lipstick + 0.017*brow + 0.016*palette + 0.015*eyeshadow + 0.014*lip + 0.014*polish + 0.013*brush + 0.013*eyeliner + 0.011*mascara
 
-topic #61 (0.010): 0.006*tax + 0.005*income + 0.004*loan + 0.004*fund + 0.004*company + 0.004*debt + 0.004*market + 0.003*business + 0.003*bank + 0.003*pay
+topic #62 (0.010): 0.027*spiderman + 0.025*marvel + 0.015*avenger + 0.012*thor + 0.011*skate + 0.011*spidey + 0.010*iron_man + 0.010*xmen + 0.010*ug + 0.010*wolverine
 
-topic #62 (0.010): 0.017*action_performed + 0.017*i_botrautomoderatorcommentsq11puwhatisautomoderator + 0.017*automatically_please + 0.017*contact_moderator + 0.017*botrautomoderatorcommentsq11puwhatisautomoderator + 0.015*moderator + 0.014*question_concern + 0.013*automatically + 0.013*performed + 0.008*tag
+topic #63 (0.010): 0.013*minecraft + 0.008*headliner + 0.008*colonist + 0.007*coachella + 0.007*gamestop + 0.006*shipped + 0.006*obsidian + 0.005*og + 0.005*pvp + 0.005*nether
 
-topic #63 (0.010): 0.008*smash + 0.007*character + 0.006*usa + 0.006*melee + 0.006*combo + 0.005*tournament + 0.004*opponent + 0.004*battle + 0.004*falcon + 0.004*starcraft
+topic #64 (0.010): 0.019*ign + 0.015*faction + 0.012*pvp + 0.010*skype + 0.008*dm + 0.008*stitch + 0.007*alien_blue + 0.007*vouch + 0.006*server + 0.006*cst
 
-topic #64 (0.010): 0.035*stream + 0.015*twitch + 0.011*miami + 0.010*trailer + 0.008*streamer + 0.008*viewer + 0.007*streaming + 0.007*bird + 0.005*skype + 0.005*ddos
+topic #65 (0.010): 0.020*sauron + 0.019*knife + 0.018*gandalf + 0.017*tolkien + 0.015*elf + 0.014*frodo + 0.014*hobbit + 0.009*bilbo + 0.008*dwarf + 0.008*lotr
 
-topic #65 (0.010): 0.006*1998 + 0.006*sam + 0.005*lt + 0.003*comma + 0.003*lee + 0.003*repost + 0.003*jelly + 0.003*50 + 0.003*hunter + 0.003*host
+topic #66 (0.010): 0.002*cop + 0.002*police + 0.002*officer + 0.001*pizza + 0.001*driver + 0.001*lawyer + 0.001*customer + 0.001*arrest + 0.001*court + 0.001*toilet
 
-topic #66 (0.010): 0.049*kanye + 0.019*jon + 0.012*song + 0.009*betting + 0.008*keyboard + 0.008*taylor + 0.008*bet + 0.008*concert + 0.006*fam + 0.005*ye
+topic #67 (0.010): 0.017*twitch + 0.016*tinder + 0.009*streamer + 0.006*instagram + 0.006*photography + 0.005*photographer + 0.005*ig + 0.004*molotov + 0.004*moe + 0.004*swipe
 
-topic #67 (0.010): 0.006*customer + 0.005*manager + 0.004*architect + 0.004*london + 0.004*bos + 0.003*unit + 0.003*receipt + 0.003*blah + 0.003*store + 0.003*card
+topic #68 (0.010): 0.009*chelsea + 0.009*liverpool + 0.009*striker + 0.008*league + 0.007*ml + 0.006*gerrard + 0.006*arsenal + 0.006*messi + 0.006*kane + 0.005*perth
 
-topic #68 (0.010): 0.008*spiderman + 0.007*bryan + 0.006*punk + 0.005*season + 0.005*reign + 0.005*flight + 0.005*vancouver + 0.004*bike + 0.004*tesla + 0.004*victoria
+topic #69 (0.010): 0.005*linux + 0.004*file + 0.003*server + 0.003*developer + 0.003*software + 0.003*python + 0.003*java + 0.002*browser + 0.002*install + 0.002*php
 
-topic #69 (0.010): 0.007*bryan + 0.007*cat + 0.007*daniel + 0.006*charlie + 0.006*kevin + 0.005*adam + 0.005*feedback + 0.005*item + 0.005*podcast + 0.004*gang
+topic #70 (0.010): 0.027*vet + 0.015*puppy + 0.014*pet + 0.014*breeder + 0.013*breed + 0.013*yarn + 0.012*rabbit + 0.011*litter + 0.011*shelter + 0.011*pup
 
-topic #70 (0.010): 0.010*baby + 0.005*daughter + 0.004*diaper + 0.004*child + 0.004*pregnant + 0.003*husband + 0.003*ole + 0.003*pregnancy + 0.003*mod + 0.003*son
+topic #71 (0.010): 0.009*meme + 0.007*dank + 0.007*ayy + 0.005*ayy_lmao + 0.004*rekt + 0.004*lmao + 0.003*m8 + 0.003*gavin + 0.003*dank_meme + 0.003*duplicate
 
-topic #71 (0.010): 0.015*film + 0.010*movie + 0.007*aircraft + 0.004*ring + 0.003*avenger + 0.003*ray + 0.003*criterion + 0.003*elf + 0.003*pharmacy + 0.003*pilot
+topic #72 (0.010): 0.067*firearm + 0.057*rifle + 0.040*ak + 0.018*pistol + 0.016*gem + 0.016*mag + 0.016*ar + 0.015*barrel + 0.014*ar15 + 0.013*muzzle
 
-topic #72 (0.010): 0.015*smoking + 0.013*smoke + 0.009*smoker + 0.005*quit + 0.005*cigarette + 0.003*sober + 0.003*quit_smoking + 0.003*smoked + 0.003*poop + 0.003*jeff
+topic #73 (0.010): 0.006*orbit + 0.006*physic + 0.005*solar + 0.005*science + 0.005*math + 0.004*reactor + 0.004*equation + 0.004*universe + 0.004*nuclear + 0.004*planet
 
-topic #73 (0.010): 0.010*perk + 0.009*batman + 0.008*sb + 0.008*dart + 0.006*cooper + 0.005*stitch + 0.004*bath + 0.004*knit + 0.003*laura + 0.003*survey
+topic #74 (0.010): 0.023*beard + 0.019*printer + 0.019*vendor + 0.017*inventory + 0.016*seller + 0.015*amazon + 0.012*shipment + 0.012*listing + 0.009*undercut + 0.008*printing
 
-topic #74 (0.010): 0.016*church + 0.012*religion + 0.011*christian + 0.009*bible + 0.008*belief + 0.007*catholic + 0.006*atheist + 0.006*christianity + 0.005*sin + 0.005*prayer
+topic #75 (0.010): 0.040*deck + 0.020*mana + 0.010*elsa + 0.009*creature + 0.007*druid + 0.006*aggro + 0.006*minion + 0.006*opponent + 0.006*anna + 0.005*gatherer
 
-topic #75 (0.010): 0.026*amp009 + 0.009*amp009_amp009 + 0.008*will_also + 0.008*oror + 0.008*parent_commenter + 0.008*can_toggle + 0.008*delete_on + 0.008*of_1 + 0.008*comment_score + 0.007*or_le
+topic #76 (0.010): 0.025*archer + 0.025*mormon + 0.017*tc + 0.010*church + 0.007*lana + 0.007*temple + 0.006*gif + 0.006*chivalry + 0.006*kc + 0.005*steelers
 
-topic #76 (0.010): 0.009*terry + 0.006*trek + 0.006*ball + 0.005*ha + 0.005*pizza + 0.004*card + 0.004*star_trek + 0.004*puzzle + 0.004*pokemon + 0.004*dream
+topic #77 (0.010): 0.057*botrautomoderatorcommentsq11puwhatisautomoderator + 0.056*action_performed + 0.055*contact_moderator + 0.055*automatically_please + 0.054*i_botrautomoderatorcommentsq11puwhatisautomoderator + 0.040*moderator + 0.034*performed + 0.032*question_concern + 0.021*submission + 0.020*submission_automatically
 
-topic #77 (0.010): 0.006*san + 0.006*lane + 0.005*park + 0.004*traffic + 0.004*car + 0.004*diego + 0.003*san_diego + 0.003*city + 0.003*sf + 0.003*riding
+topic #78 (0.010): 0.001*dragon + 0.001*sword + 0.001*chapter + 0.001*spell + 0.001*universe + 0.001*dwarf + 0.001*wizard + 0.001*weapon + 0.001*planet + 0.001*demon
 
-topic #78 (0.010): 0.008*player + 0.007*hero + 0.007*damage + 0.007*team + 0.006*enemy + 0.005*map + 0.004*dota + 0.004*sniper + 0.004*tier + 0.003*competitive
+topic #79 (0.010): 0.012*ps3 + 0.011*vita + 0.008*ps4 + 0.006*hentai + 0.005*psn + 0.005*persona + 0.005*sony + 0.004*final_fantasy + 0.004*bleach + 0.004*playstation
 
-topic #79 (0.010): 0.009*team + 0.008*draft + 0.008*season + 0.008*nfl + 0.007*qb + 0.007*playoff + 0.007*coach + 0.005*offense + 0.005*player + 0.005*league
+topic #80 (0.010): 0.017*ship + 0.015*vader + 0.012*jedi + 0.010*star_war + 0.009*vape + 0.009*luke + 0.009*x2 + 0.007*pax + 0.007*anakin + 0.007*darth
 
-topic #80 (0.010): 0.029*anime + 0.018*rick + 0.013*manga + 0.012*͡° + 0.011*sp + 0.008*͜ʖ + 0.006*͡°_͜ʖ + 0.006*scene + 0.005*episode + 0.005*duplicate
+topic #81 (0.010): 0.009*sauce + 0.008*porn + 0.007*morgan + 0.006*cum + 0.006*griffith + 0.005*sp + 0.005*ua + 0.005*gif + 0.005*rune + 0.003*alexis
 
-topic #81 (0.010): 0.007*ward + 0.007*smile + 0.005*ooc + 0.005*ap + 0.004*artist + 0.004*roman + 0.003*art + 0.003*grin + 0.003*laugh + 0.003*nod
+topic #82 (0.010): 0.348*ampnbsp + 0.130*debug + 0.036*blog + 0.033*tumblr + 0.030*root + 0.003*bondage + 0.003*gif + 0.002*dom + 0.002*clamp + 0.001*gag
 
-topic #82 (0.010): 0.011*bike + 0.008*ign + 0.008*chess + 0.007*potato + 0.006*relay + 0.006*sin + 0.006*lane + 0.004*nz + 0.004*accident + 0.004*node
+topic #83 (0.010): 0.007*dean + 0.005*carlin + 0.004*rogan + 0.004*aston + 0.004*nico + 0.004*george_carlin + 0.003*lucifer + 0.003*gild + 0.003*sam + 0.003*burr
 
-topic #83 (0.010): 0.014*planet + 0.011*earth + 0.010*philosophy + 0.009*galaxy + 0.007*moon + 0.007*alien + 0.006*universe + 0.005*cylinder + 0.005*light + 0.005*philosopher
+topic #84 (0.010): 0.054*ooc + 0.039*she + 0.014*nod + 0.014*smile + 0.010*grin + 0.009*magnus + 0.008*kiss + 0.007*chuckle + 0.007*clover + 0.006*shrug
 
-topic #84 (0.010): 0.027*song + 0.020*album + 0.015*music + 0.014*band + 0.008*drum + 0.008*guitar + 0.007*remix + 0.007*track + 0.006*bass + 0.005*lyric
+topic #85 (0.010): 0.011*xxxx + 0.010*harper + 0.010*bart + 0.009*xxx + 0.008*xx + 0.007*rochester + 0.006*alberta + 0.005*mp + 0.005*lane + 0.005*texas
 
-topic #85 (0.010): 0.026*giveaway + 0.012*bra + 0.011*ditto + 0.009*villager + 0.009*sent + 0.008*happy_new + 0.006*curl + 0.006*brawl + 0.006*fox + 0.006*d
+topic #86 (0.010): 0.015*qb + 0.011*nfl + 0.009*playoff + 0.008*draft + 0.008*coach + 0.006*cowboy + 0.005*steelers + 0.005*mariota + 0.005*raven + 0.005*wr
 
-topic #86 (0.010): 0.068*de + 0.058*que + 0.040*en + 0.024*la + 0.020*se + 0.017*da + 0.016*si + 0.016*un + 0.016*du + 0.014*der
+topic #87 (0.010): 0.023*vn + 0.012*rin + 0.010*raiden + 0.009*lilly + 0.007*shoujo + 0.007*saber + 0.007*shiv + 0.007*heist + 0.007*route + 0.006*skype
 
-topic #87 (0.010): 0.009*55 + 0.007*ski + 0.007*disney + 0.006*montana + 0.005*nuclear + 0.005*santa + 0.005*skiing + 0.004*gift + 0.004*resort + 0.004*beach
+topic #88 (0.010): 0.007*kanye + 0.005*nigga + 0.004*rapper + 0.004*neckbeard + 0.004*eminem + 0.003*fedora + 0.003*rap + 0.003*pony + 0.003*meme + 0.003*mlady
 
-topic #88 (0.010): 0.004*karma + 0.003*commie + 0.003*poland + 0.003*hi + 0.002*nz + 0.002*portland + 0.002*upvote + 0.002*putin + 0.002*girl + 0.002*euro
+topic #89 (0.010): 0.018*beer + 0.013*bottle + 0.012*wine + 0.010*brewery + 0.010*bourbon + 0.009*tea + 0.008*stout + 0.007*cocktail + 0.007*ale + 0.007*whisky
 
-topic #89 (0.010): 0.010*superman + 0.006*disney + 0.005*anna + 0.004*danny + 0.004*dc + 0.003*thumbnail + 0.003*oak + 0.003*frozen + 0.003*movie + 0.003*hot_dog
+topic #90 (0.010): 0.031*fc + 0.028*gate_open + 0.019*villager + 0.015*added_you + 0.013*added_added + 0.013*gate + 0.013*pls + 0.012*stfu + 0.010*55 + 0.009*thank_feedback
 
-topic #90 (0.010): 0.036*cigar + 0.005*cuban + 0.003*wrapper + 0.003*economics + 0.003*bitcoin + 0.003*libertarian + 0.003*smoke + 0.003*billy + 0.002*rational + 0.002*bitch
+topic #91 (0.010): 0.011*nigger + 0.011*tattoo + 0.008*piercing + 0.006*swimming + 0.006*piercings + 0.006*ng + 0.006*swim + 0.005*swimmer + 0.005*pierced + 0.005*queen
 
-topic #91 (0.010): 0.010*spell + 0.007*wizard + 0.007*dm + 0.007*roll + 0.006*ac + 0.006*magic + 0.006*player + 0.005*attack + 0.005*damage + 0.005*npc
+topic #92 (0.010): 0.020*router + 0.014*stream + 0.013*plex + 0.010*chromecast + 0.009*modem + 0.009*xbmc + 0.007*ap + 0.007*cable + 0.007*wireless + 0.007*roku
 
-topic #92 (0.010): 0.008*archer + 0.006*gt_gt + 0.004*deer + 0.004*endless + 0.004*bird + 0.004*safety + 0.003*wildlife + 0.003*dinosaur + 0.003*nick + 0.003*river
+topic #93 (0.010): 0.003*government + 0.002*muslim + 0.002*religion + 0.002*political + 0.002*society + 0.002*christian + 0.002*islam + 0.001*liberal + 0.001*rape + 0.001*libertarian
 
-topic #93 (0.010): 0.028*bike + 0.006*awakening + 0.005*riding + 0.005*climbing + 0.005*cycling + 0.004*ride + 0.004*emblem + 0.004*race + 0.003*rider + 0.003*happy_birthday
+topic #94 (0.010): 0.007*batman + 0.007*novel + 0.006*superman + 0.004*comic + 0.004*fiction + 0.004*trilogy + 0.004*author + 0.003*doctor + 0.003*writer + 0.003*scifi
 
-topic #94 (0.010): 0.014*rifle + 0.013*gun + 0.010*ammo + 0.009*barrel + 0.008*knife + 0.008*pistol + 0.007*round + 0.007*mag + 0.006*magazine + 0.006*firearm
+topic #95 (0.010): 0.010*korra + 0.009*drawing + 0.009*melee + 0.007*sketch + 0.006*smash + 0.005*pencil + 0.005*artist + 0.004*falcon + 0.004*omega + 0.004*sheik
 
-topic #95 (0.010): 0.007*morgan + 0.005*scott + 0.003*seam + 0.003*pat + 0.003*lesbian + 0.003*wish + 0.003*bottled + 0.003*dodge + 0.003*giveaway + 0.003*software
+topic #96 (0.010): 0.008*apps + 0.008*android + 0.008*battery + 0.007*app + 0.007*nexus + 0.006*moto + 0.005*device + 0.005*lollipop + 0.005*rom + 0.005*iphone
 
-topic #96 (0.010): 0.020*camera + 0.017*photo + 0.015*lens + 0.011*photography + 0.009*exposure + 0.009*shot + 0.009*zen + 0.008*photographer + 0.007*iso + 0.007*image
+topic #97 (0.010): 0.013*shoe + 0.012*jean + 0.010*jacket + 0.010*denim + 0.009*leather + 0.009*shirt + 0.008*boot + 0.007*sneaker + 0.007*dress + 0.007*tee
 
-topic #97 (0.010): 0.016*steam + 0.013*trade + 0.010*key + 0.009*gift + 0.009*paypal + 0.008*tf2 + 0.008*confirmed + 0.007*item + 0.007*bundle + 0.007*beard
+topic #98 (0.010): 0.011*kappa + 0.009*unaltered_suggestionhttpwwwredditcommessagecomposetotweetposterampsubjectsuggestion + 0.009*suggestionhttpwwwredditcommessagecomposetotweetposterampsubjectsuggestion + 0.009*faqhttpnpredditcomrtweetpostercomments13relk + 0.009*faqhttpnpredditcomrtweetpostercomments13relk_codehttpsgithubcombuttsciclestweetposter + 0.009*issueshttpsgithubcombuttsciclestweetposterissues + 0.009*codehttpsgithubcombuttsciclestweetposter + 0.009*leave_link + 0.009*unaltered + 0.008*fishing
 
-topic #98 (0.010): 0.010*calorie + 0.010*fat + 0.008*food + 0.008*protein + 0.007*eat + 0.007*diet + 0.007*carbs + 0.006*eating + 0.005*weight + 0.005*meal
-
-topic #99 (0.010): 0.003*truck + 0.002*belt + 0.002*apple + 0.002*qualification + 0.002*glove + 0.002*trailer + 0.002*fold + 0.002*poker + 0.002*survey + 0.002*fatigue
+topic #99 (0.010): 0.002*drug + 0.002*weed + 0.002*symptom + 0.002*dose + 0.002*doctor + 0.002*lsd + 0.002*gram + 0.002*anxiety + 0.002*mdma + 0.001*medication

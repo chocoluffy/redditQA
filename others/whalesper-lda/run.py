@@ -127,7 +127,7 @@ def clean(doc):
     # print("Full Mode: " + "/ ".join(token_lst))
     return " ".join(token_lst)
 
-doc_clean = [clean(doc["body"]).split() for doc in rawdata]
+# doc_clean = [clean(doc["body"]).split() for doc in rawdata]
 
 if not os.path.exists('models/tokens.dict'):
     # Creating the term dictionary of our courpus, where every unique term is assigned an index. 
@@ -148,32 +148,34 @@ else:
     doc_term_matrix = corpora.MmCorpus('models/doc-term.mm')
     print("document to term matrix loaded...")
 
-
-import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-
-# Save LDA model
-if not os.path.exists('models/model.lda'):
-    # Creating the object for LDA model using gensim library
-    Lda = gensim.models.ldamodel.LdaModel
-    # Running and Trainign LDA model on the document term matrix.
-    ldamodel = Lda(doc_term_matrix, num_topics=10, id2word = dictionary, passes=50)
-    ldamodel.save('models/model.lda')
-else:
-    ldamodel = gensim.models.ldamodel.LdaModel.load('models/model.lda')
-    print("lda model loaded...")
+pprint(map(lambda x: (dictionary[x[0]], x[1]), doc_term_matrix[0]))
 
 
-def print_general_subreddit_topic():
-    """
-    Randomly print out 20 topics for human inspection.
-    """
-    ldamodel.print_topics(20)
+# import logging
+# logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-print_general_subreddit_topic()
+# # Save LDA model
+# if not os.path.exists('models/model.lda'):
+#     # Creating the object for LDA model using gensim library
+#     Lda = gensim.models.ldamodel.LdaModel
+#     # Running and Trainign LDA model on the document term matrix.
+#     ldamodel = Lda(doc_term_matrix, num_topics=10, id2word = dictionary, passes=50)
+#     ldamodel.save('models/model.lda')
+# else:
+#     ldamodel = gensim.models.ldamodel.LdaModel.load('models/model.lda')
+#     print("lda model loaded...")
 
 
-# clean(rawdata[0]["body"])
+# def print_general_subreddit_topic():
+#     """
+#     Randomly print out 20 topics for human inspection.
+#     """
+#     ldamodel.print_topics(20)
 
-# save_data()
-# update_mongo_mercury()
+# print_general_subreddit_topic()
+
+
+# # clean(rawdata[0]["body"])
+
+# # save_data()
+# # update_mongo_mercury()

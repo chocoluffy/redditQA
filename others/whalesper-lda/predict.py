@@ -40,7 +40,8 @@ blackword_lst = [
     "小编",
     "微博",
     "转发理由",
-    "编"
+    "编",
+    "年"
 ]
 
 for bad_word in blackword_lst:
@@ -109,39 +110,17 @@ def get_topic_from_query(question):
     print ' '.join(question_topic)
     print "==="
 
+## Evaluation matrix. 
+# - original data contains tags.
+# - ...
 
-test_titles = [
+
+## How to improve model!
+
+test_titles = [ 
 {
-    "title_short" : " 想吃美食,懒得出门? 这家外卖速度比你男友快,服务好过你太太!更多多伦多吃喝玩乐的消息，可关注:weibo.com/lifeinca，或是微信:lifeintoronto，ins: "
-},
-{
-    "title_short" : "转发理由：一家年 收 入 抵一个海底捞！ 国内超火第1佳大鸡排空袭多伦多。超厚超大的秘制鸡排，有芝士爆浆、藤椒、孜然等口味。还有关八会长最爱的爆浆鸡排。喜欢吃M记的麦辣鸡翅的朋友，绝对不能错过这个脆辣对翅。香辣可口，鲜嫩多汁。多伦多吃喝玩乐的秒拍视频#torontodiary# #多伦多哪里吃# #多伦多美食推荐# ​​​"
-},
-{
-    "title_short" : " 十月双“喜喜”即将到来：黑帮经典 与 热血喜剧 相遇 大鹏和娜扎来了？！更多多伦多吃喝玩乐的消息，可关注:weibo.com/lifeinca，或是微信:lifeintoronto，ins: "
-},
-{
-    "title_short" : "没有看到三文鱼洄游的Morningside Park三文鱼醉氧日，天气太好了 结果鱼先走了，尽管如此，这样的自然环境也足以让人陶醉了#带着微博去旅行#加拿大·多伦多 @多伦多吃喝玩乐 加拿大·多伦多 ​​​转发理由：周末好去处之一~Morningside Park"
-},
-{
-    "title_short" : "【长假long weekend推荐】在long point eco-advantures 租个胶囊屋享受（图二外）露天洗澡房的乐趣白天玩个zip line 再来个hiking在winery品个酒 在酒庄里面逛逛看看葡萄周六晚上去sandbar on the beach吃饭去跟当地歌手上台一展歌喉吧或者选择在营地篝火旁谈天说地看流星????走之前还可以去tu ​​​...转发理由：周末好去处~在lo"
-},
-{
-    "title_short" : " 找试题、笔记、书本答案 在加拿大读书的你们应该有的学霸修炼秘籍更多多伦多吃喝玩乐的消息，可关注:weibo.com/lifeinca，或是微信:lifeintoronto，ins: "
-},
-{
-    "title_short" : " 十月份多伦多的十大免费活动更多多伦多吃喝玩乐的消息，可关注:weibo.com/lifeinca，或是微信:lifeintoronto，ins: "
-},
-{
-    "title_short" : " 【觅迷】多伦多一周活动快报点击蓝字关注我们又不知道玩啥了吧！又在纠结去哪耍？想看帅哥和美女？必然要看觅迷周报的啊！2017 - 10 月 -周报 "
-},
-{
-    "title_short" : " 不差钱！UBC亲身诠释啥叫真土豪！造价3900万的游泳馆长这样！说到加拿大哪些学校最土豪，最不差钱，那UBC要算数一数二的。最近UBC的Point Grey campus造价3900万"
-},
-{
-    "title_short" : " 揭秘！在加拿大养一个孩子需要多少钱？学生已经开学了，家长又开始围着上学的孩子转圈了。忙着接送孩子，给孩子准备午餐，督促孩子学习，安排娱乐活动……仔细想想，在"
+    "title_short": "我看了一季高达，然后。"
 }
-
 ]
 
 for obj in test_titles:

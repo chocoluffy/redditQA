@@ -20,17 +20,12 @@ After: 4G(four days) data, top 8% subreddits, i.e., 1819 subreddits.
 
 In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 comments concatenated as documents.
 
+## Hyper-parameters
 
+- top 5% most acitve user.
+- `topic_cut_off = 0.08`. Only investigate topics with probability higher than 0.08(0.1 gives less dominant topics).
+- `corpus_tfidf = map(lambda x: map(lambda y: (y[0], round(y[1] * 200, 1)), x), corpus_tfidf)`. De-normalize TF-IDF weights to have approximate scale as BOW values.
 
-
-## New visualization after refined preprocessing
-![full](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/tfidf-full.png)
-
-See my data preprocessing steps at [here](https://github.com/chocoluffy/redditQA/issues/1). After week 3's basic preprocessing, this version use TF-IDF weights applied on BOW frequency matrix!
-
-## Stats
-
-Aggregate all subreddits yields result of length 17536, sort by the comments count involved, and slice the top 10% for analysis. Meaning, 1753 top subreddits, with each top 10000 comments concatenated as document. 
 
 ## Result Analysis
 

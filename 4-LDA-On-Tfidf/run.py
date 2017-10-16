@@ -3,7 +3,8 @@ Some tips:
 - Make sure use a relatively balanced dataset, each subreddit with 10000 comments. Check the last one's comment count.
 - Before training on TF-IDF, need to de-normalize it into normal integer!
 """
-
+from __future__ import division
+import operator
 import json
 from pprint import pprint
 from pymongo import MongoClient
@@ -199,7 +200,6 @@ for doc_term_vec in corpus_tfidf:
 
 # pprint(rc_tvec)
 # Print the topic-words distribution for some specific topics.
-import operator
 def print_specific_subreddit_topic():    
     dominant_counter = 0
     for label, topic_dist_vec in zip(subreddits, rc_tvec):
@@ -228,23 +228,23 @@ def find_dom_topic_vec(name):
     """
     if name not in subreddits:
         print("subreddit not in list...")
-        return -1
+        return []
     else:
         subreddits_index = subreddits.index(name)
         topic_vec = rc_tvec[subreddits_index]
         # dom_topic_index, prob = max(enumerate(topic_vec), key=operator.itemgetter(1))
-        filtered_topics = []
-        for index, value in enumerate(topic_vec):
-            if value > 0.1: # use 0.1 as topic cutoff
-                filtered_topics.append((index, value))
-        return filtered_topics
+        # filtered_topics = []
+        # for index, value in enumerate(topic_vec):
+        #     # if value > 0.1: # use 0.1 as topic cutoff
+        #     filtered_topics.append((index, value))
+        # return filtered_topics
+        return topic_vec
 
 
 def load_author_from_mongo():
     # use pymongo to load large chunk of data from mongo.
     if not os.path.exists('./models/author_topics.pkl'):
-        # Use pymongo to achieve same effect as below codes. 
-
+        # Use pymongo to achieve same effect as below codes.
         pipe = [
             {'$group': {
                 '_id': '$author',
@@ -256,26 +256,36 @@ def load_author_from_mongo():
             { "$project": { 
                 "subredditset": 0
             }},
-            {'$match': {'subredditnum': {'$gt': 5}} },
+            {'$match': {
+                '$and': [ 
+                    {'subredditnum': {'$gt': 5}},
+                    {'commentsCount': {'$lt': 1000}}
+                ]}
+            },
             {"$sort": {"commentsCount": -1}}
         ]
+
+        cursor = db.docs_l4.aggregate(pipeline = pipe, allowDiskUse = True)
+        total_count = len(list(cursor)) 
 
         data = defaultdict(dict)
         counter = 0
         for document in db.docs_l4.aggregate(pipeline = pipe, allowDiskUse = True):
             counter += 1
-            print "Processing #%d author"%(counter)
-            reddit_ups_data = defaultdict(int)
-            for reddit in document['contributions']:
-                reddit_ups_data[reddit['subreddit']] += 1 # use reddit["ups"] or simply 1?
-            reddit_dom_topic_vec = defaultdict(dict)
-            for name in reddit_ups_data.iterkeys():
-                if not find_dom_topic_vec(name) == -1: # only store the existing subreddit.
-                    reddit_dom_topic_vec[name] = find_dom_topic_vec(name)
-            
-            data[document['_id']]['contributions'] = reddit_ups_data
-            data[document['_id']]['topicvecs'] = reddit_dom_topic_vec
-            # print(data)
+            # Pick the top 5% most acitve user by commentsCount, ignore the first 10, probably bots!
+            if counter > 10 and counter < total_count * 0.05:
+                print "Processing #%d author"%(counter)
+                reddit_ups_data = defaultdict(int)
+                for reddit in document['contributions']:
+                    reddit_ups_data[reddit['subreddit']] += 1 # use reddit["ups"] or simply 1?
+                reddit_dom_topic_vec = defaultdict(dict)
+                for name in reddit_ups_data.iterkeys(): # subreddit's name
+                    if len(find_dom_topic_vec(name)) > 0: # only store the existing subreddit.
+                        reddit_dom_topic_vec[name] = find_dom_topic_vec(name)
+                
+                data[document['_id']]['contributions'] = reddit_ups_data
+                data[document['_id']]['topicvecs'] = reddit_dom_topic_vec
+                # print(data)
 
 
         pickle.dump(data, open("./models/author_topics.pkl", 'wb'))
@@ -289,44 +299,89 @@ def load_author_from_mongo():
 author_topics = load_author_from_mongo()
 
 
-# # """
-# # Below are calculating pairwise topic similarity.
-# # """
+"""
+Below are calculating pairwise topic similarity.
+"""
 
-# # import numpy as np
-# # from scipy.spatial.distance import pdist, squareform
-# # import itertools
+import numpy as np
+from scipy.spatial.distance import pdist, squareform
+import itertools
 
-# # def hellinger(X):
-# #     return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
+def hellinger(X):
+    return squareform(pdist(np.sqrt(X)))/np.sqrt(2)
 
-# # X = ldamodel.state.get_lambda()
-# # X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
-# # h = hellinger(X)
+X = ldamodel.state.get_lambda()
+X = X / X.sum(axis=1)[:, np.newaxis] # normalize vector
+h = hellinger(X)
 
-# # # book = dict(zip(subreddits, range(len(subreddits)))) # a dictionary map subreddit name to its 
+# book = dict(zip(subreddits, range(len(subreddits)))) # a dictionary map subreddit name to its 
 
-# # for author, obj in author_topics.items():
-# #     """
-# #     First filter by weight cutoff T = 4, remove subreddit contributions less than T.
-# #     """
-# #     freq_reddit = []
-# #     for name in obj['contributions'].iterkeys():
-# #         if obj['contributions'][name] >= 4:
-# #             freq_reddit.append(name)
-# #     score = 0
-# #     comb = list(itertools.permutations(freq_reddit, 2))
-# #     weight_sum = 0
-# #     if len(comb) > 0:
-# #         for (name1, name2) in comb:
-# #             topic_id1 = obj['topicvecs'][name1]
-# #             topic_id2 = obj['topicvecs'][name2]
-# #             weight = math.sqrt(obj['contributions'][name1] * obj['contributions'][name2])
-# #             score += weight * (1 - h[topic_id1, topic_id2]) # 1 - Hellinger Distance = simularity
-# #             weight_sum += weight
-# #         score = score / weight_sum
-# #         print author, obj, score
+inspect_authors_stats = []
+for author, obj in author_topics.items():
+    """
+    First filter by weight cutoff T = 4, remove subreddit contributions less than T.
+    obj {
+        'topicvecs': {
+            'nba': [],  //100 length, topic probability distribution vector.
+            ...
+        },
+        'contributions': {
+            'nba': 200,
+            ...
+        }
+    }
+    """
+    topic_dist_vec = []
+    weights = []
+    for name in obj['topicvecs'].iterkeys():
+        topic_dist_vec.append(obj['topicvecs'][name])
+        weights.append(obj['contributions'][name])
+    aver_topic_dist = np.dot(np.asarray(weights), np.asarray(topic_dist_vec)) / sum(weights)
+    topic_cut_off = 0.08 # only investigate topic with prob higher than 0.08
+    res = []
+    for index, value in enumerate(aver_topic_dist):
+        if value > topic_cut_off:
+            res.append((index, value))
+    # print("User author {0}, dominant topics {1}".format(author, res))
 
+    score = 0
+    comb = list(itertools.combinations(map(lambda x: x[0], res), 2)) # return topic index permutation.
+    if len(comb) > 0:
+        for topic_id1, topic_id2 in comb:
+            score += (1 - h[topic_id1, topic_id2]) # 1 - Hellinger Distance = simularity
+        score = score / len(comb)
+        # print(comb)
+        if score > 0.25: # human inspection those specialist!
+            print("User author {0}, dominant topics num {1}, score: {2}".format(author, len(res), score))
+            inspect_authors_stats.append((author, res, score))
+
+
+def print_authors_comments(lst):
+    pipe = [
+        {'$group': {
+            '_id': '$author',
+            'contributions': { '$push':  { 'subreddit': "$subreddit", 'ups': "$ups" } },
+            'subredditset': {'$addToSet': "$subreddit"}
+        }},
+        {'$addFields': { 'subredditnum': { '$size': "$subredditset" } } },
+        {'$addFields': { 'commentsCount': { '$size': "$contributions" } } },
+        { "$project": { 
+            "subredditset": 0
+        }},
+        {'$match': {
+            '$and': [ 
+                {'subredditnum': {'$gt': 5}},
+                {'commentsCount': {'$lt': 1000}}
+            ]}
+        },
+        {"$sort": {"commentsCount": -1}}
+    ]
+
+    for document in db.docs_l4.aggregate(pipeline = pipe, allowDiskUse = True):
+        if document['_id'] in lst:
+            pprint(document)
+
+print_authors_comments(inspect_authors_stats)
 
 # # # print_general_subreddit_topic()
 

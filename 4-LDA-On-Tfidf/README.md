@@ -106,7 +106,9 @@ His top voted 10 comments: [
 ![plot](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/plot.png)
 
 x: each subreddit average generalist/specialist scores.
+
 y: avg contribution (within 4 days)
+
 radius: how many authors involved.
 
 ## After applying TF-IDF weights and de-normalization:

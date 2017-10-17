@@ -29,40 +29,77 @@ In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 com
 
 ## Result Analysis
 
-After applying tfidf weighted matrix, the result seems strange, as highly centered.
+In our 4G(~four days) data:
 
-For subreddit:  food
-its 100-dimension topic distribution vector: [ 
-  0.00059416  0.09496453  0.00059416  0.00059416  0.00059416  0.17863321
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.09455455
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.0579896
-  0.00059416  0.01233819  0.00059416  0.00059416  0.00255502  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.26822576
-  0.0406464   0.00059416  0.00059416  0.00059416  0.00059416  0.00236835
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.01625865  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.17858542  0.00059416  0.00059416
-  0.00059416  0.00059416  0.00059416  0.00059416]
-the dominant topic is:  59  with prob:  0.268225759386 
-The topic words distribution vector: [(u'book', 0.0021412641639557777), (u'school', 0.0020023633433475284), (u'shes', 0.001964448962033231), (u'food', 0.0018984495498444885), (u'story', 0.0018858799679918571), (u'kid', 0.0018701277593627115), (u'happy_new', 0.0018595942859653538), (u'win', 0.0018548040808453916), (u'child', 0.0018533745081384557), (u'her', 0.0018529151533049953), (u'cat', 0.001774539496115292), (u'girl', 0.0017717986893578236), (u'class', 0.0016612548061929798), (u'app', 0.0016258010899753536), (u'new_year', 0.0016080510069601895), (u'night', 0.0016063324521158747), (u'photo', 0.0015854904707682934), (u'car', 0.0015782120783439356), (u'state', 0.0015754608155859771), (u'store', 0.0015631149515416682)]
+### Case 1: deweymm
 
-### User Score Example
+Distinct subreddit number : 32,
+Comments count: 99
 
-User name: necromundus 
-{'topicvecs': defaultdict(<type 'dict'>, {u'funny': 59, u'chemicalreactiongifs': -1, u'gameofthrones': 59, u'pathofexile': 93, u'gifs': 59, u'aww': 59, u'science': 59, u'horror': 5, u'Metal': 59, u'AskReddit': 59, u'pics': 59, u'movies': 93, u'AdviceAnimals': 59, u'futurama': 93, u'food': 59, u'ImaginaryMonsters': -1, u'Unexpected': 59, u'gaming': 59, u'Dachshund': -1, u'todayilearned': 59}), 'contributions': defaultdict(<type 'int'>, {u'funny': 19, u'gameofthrones': 1, u'pathofexile': 4, u'gifs': 2, u'aww': 1, u'science': 1, u'horror': 3, u'Metal': 1, u'AdviceAnimals': 7, u'pics': 5, u'futurama': 2, u'movies': 10, u'AskReddit': 15, u'Unexpected': 2, u'food': 2, u'ImaginaryMonsters': 2, u'todayilearned': 2, u'gaming': 1, u'Dachshund': 2, u'chemicalreactiongifs': 1})} 0.505679660161
+### Our prediction
 
-User name: agentnola 
-{'topicvecs': defaultdict(<type 'dict'>, {u'CivPapacy': -1, u'Civcraft': 59, u'civ': 93, u'eu4': 93, u'pcmasterrace': 93, u'Senntisten': -1}), 'contributions': defaultdict(<type 'int'>, {u'CivPapacy': 17, u'Civcraft': 13, u'civ': 2, u'eu4': 2, u'pcmasterrace': 1, u'Senntisten': 4})} 0.539027035881
-LOHare {'topicvecs': defaultdict(<type 'dict'>, {u'canada': 59, u'funny': 59, u'todayilearned': 59, u'pics': 59, u'CanadianForces': -1, u'AskReddit': 59}), 'contributions': defaultdict(<type 'int'>, {u'canada': 1, u'funny': 79, u'todayilearned': 1, u'pics': 2, u'CanadianForces': 3, u'AskReddit': 7})} 1.0
+4 dominant topics, with generalist/specialist score: 0.261935180797, (relative high, meaning he's relatively a specialist)
+[(66, 0.13144566362518412), (93, 0.10145583869818586), (96, 0.15925248910595119), (99, 0.085331145698520142)]
 
-Almost centered at topic 59 and 93.
+topic #66 (0.010): 0.002*cop + 0.002*police + 0.002*officer + 0.001*pizza + 0.001*driver + 0.001*lawyer + 0.001*customer + 0.001*arrest + 0.001*court + 0.001*toilet
+
+topic #93 (0.010): 0.003*government + 0.002*muslim + 0.002*religion + 0.002*political + 0.002*society + 0.002*christian + 0.002*islam + 0.001*liberal + 0.001*rape + 0.001*libertarian
+
+topic #96 (0.010): 0.008*apps + 0.008*android + 0.008*battery + 0.007*app + 0.007*nexus + 0.006*moto + 0.005*device + 0.005*lollipop + 0.005*rom + 0.005*iphone
+
+topic #99 (0.010): 0.002*drug + 0.002*weed + 0.002*symptom + 0.002*dose + 0.002*doctor + 0.002*lsd + 0.002*gram + 0.002*anxiety + 0.002*mdma + 0.001*medication
+
+### Ground Truth
+
+His top voted 10 comments: [
+    "an unstable cry baby", 
+    "Apologies - sounds like you have it all figured out. \n\nHappy New Year", 
+    "me too - AKA where DC works out is a mile down the road from where I live - was disgusted and decided to shun my neighbor", 
+    "and you heartbroken :(", 
+    "You changed my mind - all the markings of a winner", 
+    "\"amazing\"? Do you live in a cave?", 
+    "First and foremost, I pay the company that you work for - not you clearly. Second, you get paid well to do the job and should be grateful for having the opportunity to do it. Just about anyone can be trained to do it so a good attitude goes a long way.  \n\nSo you are no hero for doing your job oblivious douchebag. Paying a tow driver for a service does not give scum the right to rob and fliece the public. That is what this thread is about. \n\n\nYour post is cringe-worthy and there is nothing \"friendly\" about it. I am actually embarrassed for you. Wake the fuck up.", 
+    "way too naturally beautiful and young for that much make up. Also poorly done - see a pro.", 
+    "Yeah other than the fact he is a fraud about his fighting credentials, has been discussed and is the laughing stock of the community including Joe Rogan, Dana White, Rhonda Rousey, Ariel Helwani , etc. etc. in the last 48 hours, he is just plain bad for the sport. We can just pretend this is not happening.\n\nLook Fanboy, I didn't mean to hurt your feelings - perhaps we can get that Steven Seagal - Under Siege poster hanging over your bed autographed for you at some point. But in the meantime, head over to the SG fanboy site and stop your sniveling.", 
+    "Sure enough - thank you - goes to show beautiful women come from everywhere", 
+]
+
+
+### Case 2: TheRealPeteWheeler
+
+Distinct subreddit number : 15,
+Comments count: 102
+
+### Our prediction
+
+3 dominant topics, with generalist/specialist score: 0.350207616138, (more specialist than Case 1).
+[(46, 0.46703078917570201), (66, 0.12712723743667273), (93, 0.086705506845797406)]
+
+topic #46 (0.010): 0.004*sex + 0.002*dating + 0.002*gender + 0.002*trans + 0.002*gay + 0.002*sexual + 0.002*male + 0.002*partner + 0.002*boyfriend + 0.002*feminist
+
+topic #66 (0.010): 0.002*cop + 0.002*police + 0.002*officer + 0.001*pizza + 0.001*driver + 0.001*lawyer + 0.001*customer + 0.001*arrest + 0.001*court + 0.001*toilet
+
+topic #93 (0.010): 0.003*government + 0.002*muslim + 0.002*religion + 0.002*political + 0.002*society + 0.002*christian + 0.002*islam + 0.001*liberal + 0.001*rape + 0.001*libertarian
+
+### Ground Truth
+
+His top voted 5 subreddit: [
+    AskReddit, InternetIsBeautiful, nfl, CHIBears, standupshots
+]
+
+His top voted 10 comments: [
+        "Helterskelter48", 
+        "chronicwaffles", 
+        "xMIGG", 
+        "As a Michigan fan, I'M SO CONFLICTED", 
+        "A little. Actually, no, wait. No, not at all. ", 
+        "http://i.imgur.com/UDQpWw6.png\n\nYou're not posting again on a throwaway, are you? ;)", 
+        "As long as I can find a black t-shirt in that size, it comes in that size. ", 
+        "Just a little hobby of mine. I'm actually a preschool teacher by day. ", 
+        "http://www.reddit.com/r/thelastofus/comments/2r0g9e/official_tlou_tshirt_giveaway_thread/", 
+        "If it's around that area, I would be okay with paying for shipping. ", 
+        "Ugh. I hated that shit in middle/high school. Also the whole high school girl attitude \"haha ew sports i don't want to get sweaty\". No. You're not cute. ", 
+]
 
 ## After applying TF-IDF weights and de-normalization:
 

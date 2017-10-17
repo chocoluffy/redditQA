@@ -352,7 +352,7 @@ for author, obj in author_topics.items():
         score = score / len(comb)
         # print(comb)
         if score > 0.25: # human inspection those specialist!
-            print("User author {0}, dominant topics num {1}, score: {2}".format(author, len(res), score))
+            print("User author {0}, dominant topics num {1}, score: {2}, {3}".format(author, len(res), score, res))
             inspect_authors_stats.append((author, res, score))
 
 
@@ -378,10 +378,10 @@ def print_authors_comments(lst):
     ]
 
     for document in db.docs_l4.aggregate(pipeline = pipe, allowDiskUse = True):
-        if document['_id'] in lst:
+        if document['_id'] in map(lambda x: x[0], lst):
             pprint(document)
 
-print_authors_comments(inspect_authors_stats)
+# print_authors_comments(inspect_authors_stats)
 
 # # # print_general_subreddit_topic()
 

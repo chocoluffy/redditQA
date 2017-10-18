@@ -24,7 +24,7 @@ In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 com
 
 KL-divergence is not symmetric, because it’s not a distance function.
 
-
+![hellinger](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/hellinger.png)
 
 ### Hyper-parameters
 

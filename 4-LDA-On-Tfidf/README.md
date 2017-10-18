@@ -20,7 +20,13 @@ After: 4G(four days) data, top 8% subreddits, i.e., 1819 subreddits.
 
 In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 comments concatenated as documents.
 
-## Hyper-parameters
+### Comparing probability distribution 
+
+KL-divergence is not symmetric, because it’s not a distance function.
+
+
+
+### Hyper-parameters
 
 - top 5% most acitve user.
 - `topic_cut_off = 0.08`. Only investigate topics with probability higher than 0.08(0.1 gives less dominant topics).
@@ -101,7 +107,7 @@ His top voted 10 comments: [
         "Ugh. I hated that shit in middle/high school. Also the whole high school girl attitude \"haha ew sports i don't want to get sweaty\". No. You're not cute. ", 
 ]
 
-## Distribution plot
+### Distribution plot
 
 ![plot](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/plot.png)
 
@@ -110,6 +116,40 @@ x: each subreddit average generalist/specialist scores.
 y: avg contribution (within 4 days)
 
 radius: how many authors involved.
+
+
+## Next steps
+
+Here are some rudimentary thoughts given LDA topic modelling work we've done so far.
+
+
+### topic2vec
+
+Try create embedding representation for each LDA topics, so that we can calculate similarity between topics and words; topics and topics better.
+
+KL-divergence; cross-entropy: how two distribution close to each other; not semantical meaning!
+
+but word2vec can solve that, thus we need topic2vec
+
+> Given we obtain the feature vector, we can also do more rigid classification such as SVM or CNN. 
+
+- [Google Groups](https://groups.google.com/d/msg/gensim/BVu5-pD6910/7G_UM9vBJAAJ)
+- [1506.08422v1 Topic2Vec: Learning Distributed Representations of Topics](https://arxiv.org/abs/1506.08422v1)]
+
+
+### collaborative filtering
+
+recommendation based on mutual interests. Say, recommend new subreddits, and new trending comments belong to that subreddit to user, given which subreddit he contribute to most and how the most active user under that subreddit look at.
+
+
+### pagerank
+
+find the most important node in a directed-linked graph.
+
+> In my mind, it looks like you pour infinite water from above the graph, and see when it reach equilibrium, which node contains more water.
+
+
+
 
 ## After applying TF-IDF weights and de-normalization:
 

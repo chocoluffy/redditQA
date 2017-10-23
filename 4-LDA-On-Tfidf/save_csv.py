@@ -38,18 +38,39 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
 
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+from collections import defaultdict
 
 """
 Examine the distribution of dominant topics.
 """
 ldamodel = gensim.models.ldamodel.LdaModel.load('models/tfidf.lda')
-topic_lst = []
+topic_freq = [0] * 100
 for name, obj in author_stats.iteritems():
-    topic_lst.extend(map(lambda x: x[0], obj['dom_topics']))
-num_bins = 100
-n, bins, patches = plt.hist(topic_lst, num_bins, facecolor='blue', alpha=0.5)
+    for topic_tup in obj['dom_topics']:
+        topic_freq[topic_tup[0]] += 1
 
-plt.xticks(range(100))
-plt.xticks(rotation=45)
+freq_series = pd.Series.from_array(topic_freq)   # in my original code I create a series and run on that, so for consistency I create a series from the list.
+
+x_labels = range(100)
+
+# now to plot the figure...
+plt.figure(figsize=(12, 8))
+ax = freq_series.plot(kind='bar')
+ax.set_title("Dominant Topics Distribution")
+ax.set_xlabel("Topic ID")
+ax.set_ylabel("Frequency")
+ax.set_xticklabels(x_labels)
+
+rects = ax.patches
+
+
+labels = ["{0}".format(' + '.join(map(lambda x: x[0], ldamodel.show_topic(i, topn=3)))) for i in xrange(len(rects))]
+
+for i, (rect, label) in enumerate(zip(rects, labels)):
+    height = rect.get_height()
+    if topic_freq[i] > 200:
+        ax.text(rect.get_x() + rect.get_width()/2, height + 5, label, ha='center', va='bottom')
+
+plt.savefig("results/topic_dist.png")
 plt.show()
-

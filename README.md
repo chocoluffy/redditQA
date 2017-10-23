@@ -21,3 +21,9 @@ Construct a bipartite graph between authors and topics, and propagate back and f
 Fine tune the model from week3, with TF-IDF weights applied on BOW matrix but keep in same magnitude. 
 
 [Improved LDA](https://github.com/chocoluffy/redditQA/tree/master/4-LDA-On-Tfidf)
+
+## 5-Model-Inspection
+
+Examine the validity of models obtained from week4, and refine models by tuning hyper-parameters.
+
+[Model Inspection](https://github.com/chocoluffy/redditQA/tree/master/5-Model-Inspection)

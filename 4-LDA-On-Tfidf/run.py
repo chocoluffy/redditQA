@@ -353,7 +353,7 @@ for author, obj in author_topics.items():
         # print(comb)
         # if score > 0.25: # human inspection those specialist!
         # if author == "deweymm":
-        print("User author {0}, dominant topics num {1}, score: {2}, {3}".format(author, len(res), score, res))
+        # print("User author {0}, dominant topics num {1}, score: {2}, {3}".format(author, len(res), score, res))
         inspect_authors_stats.append((author, res, score))
 
 
@@ -396,27 +396,15 @@ def collect_authors_info(author_dict):
             contributions = defaultdict(int)
             for comment_info in document['contributions']:
                 contributions[comment_info['subreddit']] += comment_info['ups']
-            author_stats['contributions'] = contributions
-            author_stats['comments'] = document['comments']
-            author_stats['subreddit_num'] = document['subredditnum']
+            author_stats[author_name]['contributions'] = contributions
+            author_stats[author_name]['comments'] = document['comments']
+            author_stats[author_name]['subreddit_num'] = document['subredditnum']
 
 
 
 collect_authors_info(author_stats)
 pickle.dump(author_stats, open("./models/each_author_topic_comments.pkl", 'wb'))
 print("saved stats for each user...")
-
-# import csv
-
-# """
-# each user(row) has fields ["name", "dom_topics", "score", "contributions", "comments", "subreddit_num"]
-# """
-# with open('results/user-topic-comment.csv', 'wb') as f:  # Just use 'w' mode in 3.x
-#     w = csv.DictWriter(f, author_stats.keys())
-#     w.writeheader()
-#     w.writerow(author_stats)
-
-
 
 
 

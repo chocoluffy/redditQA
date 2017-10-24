@@ -23,11 +23,11 @@ Each row represents a user, with columns: ["name", "dom_topics", "dom_topic_str"
 - dom_topic_str: A string presentation of "dom_topics" field, by displaying the top 4 words of that topic.
 - score: The generalist/specialist score calculated by pairwise similarity with Hellinger distance. Between 0 and 1, and more closer to 1 means more likely being specialist.
 - mapped_score: The re-scaling value of "score" field, map from [0,1] to [1, 100].
-- contributions: A sorted array of the number of comments the author contributes to each distinct subreddit, decreasingly.
+- contributions: A sorted array of the total number of comment ups the author receive at each distinct subreddit, decreasingly.
 - comments: The top voted 20 comments the author makes.
 - subreddit_num: The number of distinct subreddit the author involves.
 
-Sort by "mapped_score" can check the most extreme generalist and specialist's details.
+Sort by "mapped_score" in Excel can check the most extreme generalist and specialist's details.
 
 
 ### Hyper-parameters

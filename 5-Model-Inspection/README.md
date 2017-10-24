@@ -1,15 +1,18 @@
 ## Progress
 
-Fixing issue listed here [10.11 meeting](https://github.com/chocoluffy/redditQA/issues/3).
+Fixing issue listed here [10.18 meeting](https://github.com/chocoluffy/redditQA/issues/4).
 
-### TF-IDF weights
+### Check Topics
 
-![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare.png)
-![compare](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/compare2.png)
+TF-IDF model with de-normalization from week 4. 
+![tfidf](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist.png)
 
-Try to mimic the magnitude of BOW matrix, but with TF-IDF weights.
+Normal BOW model from week 3.
+![normal](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist_normal.png)
 
-### comments counts
+TF-IDF version gives more polarized results than normal BOW version, meaning its ability to classify subreddit into topics is limited, given the assumption that author's interests are balanced. 
+
+### Pick Extreme Authors
 
 Before: 2G(two days) data, top 10% subreddits, i.e., 1753 subreddits. (with each 10000 comments desired)
 > Problems: the reality is that, the smallest subreddit inside that top 10%, has only ~200 comments.

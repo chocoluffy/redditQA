@@ -7,7 +7,7 @@ Fixing issue listed here [10.18 meeting](https://github.com/chocoluffy/redditQA/
 TF-IDF model with de-normalization from week 4. 
 ![tfidf](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist.png)
 
-Normal BOW model from week 3.
+Normal BOW model.
 ![normal](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist_normal.png)
 
 TF-IDF version gives more polarized results than normal BOW version, meaning its ability to classify subreddit into topics is limited, given the assumption that author's interests are balanced. 
@@ -39,7 +39,7 @@ Sort by "mapped_score" in Excel can check the most extreme generalist and specia
 
 
 
-## Original Model
+## Original BOW Model
 
 
 topic #0 (0.010): 0.009*doctor + 0.006*drug + 0.006*anxiety + 0.004*drinking + 0.004*depression + 0.004*meditation + 0.004*symptom + 0.003*healthy + 0.003*study + 0.003*med

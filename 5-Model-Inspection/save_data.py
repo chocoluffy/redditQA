@@ -2,6 +2,7 @@ import csv
 import pickle
 from operator import itemgetter
 import gensim
+from gensim import corpora
 from collections import defaultdict
 from scipy.interpolate import interp1d
 
@@ -62,12 +63,103 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
 # write_dict_data_to_csv_file('models/denorm_200_topic_100/each_author_topic_comment.csv', author_stats)
 
 
-def subreddit_to_authors_distribution():
+# Construct dictionary for each reddit.
+
+corpus = corpora.MmCorpus('./models/corpus.mm')
+print("document to term matrix loaded...")
+ldamodel = gensim.models.ldamodel.LdaModel.load('models/no_tfidf_topic_100/tfidf.lda')
+print("lda model loaded...")
+
+# Return all topics probability distribution for each document, instead of clipping value using threshold.
+def get_doc_topics(lda, bow):
+    gamma, _ = lda.inference([bow])
+    topic_dist = gamma[0] / sum(gamma[0])
+    # return [(topic_id, topic_value) for topic_id, topic_value in enumerate(topic_dist)]
+    return topic_dist # return direct value
+
+subreddits = []
+data = []
+commentCounters = []
+reddit_comments = pickle.load(open("./models/4G_top008subreddit_top1kcomments.pkl", 'rb'))
+print("local comments data loaded...")
+
+for label, obj in reddit_comments.items():
+    subreddits.append(label)
+    data.append(obj["docset"])
+    commentCounters.append(obj["length"])
+    
+def construct_reddit():
+    # Covert the comments from data into a topic vector, for now given 100 topics, each vector will be 
+    # of length 100, indicating the probability from each topic.
+    reddit_2_topic = defaultdict(dict)
+    for index, doc_term_vec in enumerate(corpus):
+        topic_dist = get_doc_topics(ldamodel, doc_term_vec)
+        reddit_2_topic[subreddits[index]]['topic_dist'] = topic_dist
+        reddit_2_topic[subreddits[index]]['doc'] = data[index]
+        # topic_dist = ldamodel[doc_term_vec] # Bad, only shows top several topics; it clips the topic value under threshold.
+
+    # populate from author_stats.
+    reddit = defaultdict(lambda:defaultdict(list))
+    for author_name, obj in author_stats.iteritems():
+        for reddit_name, ups in obj['contributions'].iteritems():
+            reddit[reddit_name]['involvements'].append((author_name, ups))
+            reddit[reddit_name]['scores'].append(obj['mapped_score'])
+            reddit[reddit_name]['name'] = reddit_name
+    
+    # populate from reddit_2_topic
+    for reddit_name in reddit.iterkeys():
+        if reddit_name in reddit_2_topic:
+            topic_vec = reddit_2_topic[reddit_name]['topic_dist']
+            filtered_topics = []
+            for index, value in enumerate(topic_vec):
+                if value > 0.1: # use 0.1 as topic cutoff
+                    filtered_topics.append((index, value))
+            topic_str = map(lambda x: (topic2str[x[0]], x[1]), filtered_topics)
+            reddit[reddit_name]['dom_topic_str'] = topic_str
+            reddit[reddit_name]['dom_topic'] = filtered_topics
+            reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
+    return reddit
+
+
+
+def subreddit_to_authors_distribution(reddit):
     """
     Given author_stats, make backward counter, generate csv file for each subreddit.
     """
+    
+    # print reddit
+    csv_file_path = 'models/no_tfidf_topic_100/each_subreddit_author_distribution.csv'
+    csv_file = open(csv_file_path, 'wb')
+    writer = csv.writer(csv_file, dialect='excel')
+    
+    headers = ['name', 'involvements', 'scores', 'dom_topic', 'dom_topic_str']
+    writer.writerow(headers)
 
+    for key, value in reddit.items():
+        # print key, value
+        line = []
+        for field in headers:
+            if field == 'involvements':
+                res = sorted(value['involvements'], key=lambda tup: tup[1], reverse=True)
+                line.append(res) 
+            elif field == 'scores':
+                res = sum(value['scores']) / len(value['scores'])
+                line.append(res)
+            elif field == 'comments':
+                if value['comments']:
+                    res =  unicode(value['comments'], "utf-8", errors="ignore")
+                    line.append(res)
+                else: 
+                    line.append(value['comments'])
+            else:
+                line.append(value[field])
+        writer.writerow(line)
+        
+    csv_file.close()
 
+reddit = construct_reddit()
+# print reddit
+subreddit_to_authors_distribution(reddit)
 
 
 def plot_dom_topic_distribution():    

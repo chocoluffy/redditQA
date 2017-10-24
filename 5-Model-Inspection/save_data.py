@@ -5,8 +5,8 @@ import gensim
 from collections import defaultdict
 from scipy.interpolate import interp1d
 
-author_stats = pickle.load(open("./models/no_tfidf_topic_100/each_author_topic_comments.pkl", 'rb'))
-ldamodel = gensim.models.ldamodel.LdaModel.load('models/no_tfidf_topic_100/tfidf.lda')
+author_stats = pickle.load(open("./models/denorm_200_topic_100/each_author_topic_comments.pkl", 'rb'))
+ldamodel = gensim.models.ldamodel.LdaModel.load('models/denorm_200_topic_100/tfidf.lda')
 
 """
 each user(row) has fields ["name", "dom_topics", "dom_topic_str", "score", "mapped_score", "contributions", "comments", "subreddit_num"]
@@ -54,7 +54,7 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
         
     csv_file.close()
 
-write_dict_data_to_csv_file('models/no_tfidf_topic_100/each_author_topic_comment.csv', author_stats)
+write_dict_data_to_csv_file('models/denorm_200_topic_100/each_author_topic_comment.csv', author_stats)
 
 
 import numpy as np
@@ -92,5 +92,5 @@ for i, (rect, label) in enumerate(zip(rects, labels)):
     if topic_freq[i] > 200:
         ax.text(rect.get_x() + rect.get_width()/2, height + 5, label, ha='center', va='bottom')
 
-plt.savefig("models/no_tfidf_topic_100/topic_dist.png")
+plt.savefig("models/denorm_200_topic_100/topic_dist.png")
 plt.show()

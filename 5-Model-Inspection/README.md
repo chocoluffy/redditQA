@@ -14,101 +14,27 @@ TF-IDF version gives more polarized results than normal BOW version, meaning its
 
 ### Pick Extreme Authors
 
-Before: 2G(two days) data, top 10% subreddits, i.e., 1753 subreddits. (with each 10000 comments desired)
-> Problems: the reality is that, the smallest subreddit inside that top 10%, has only ~200 comments.
+Download [csv file](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/updated_each_author_topic_comment.csv).
 
-Then, I try to increase the dataset.
-After: 4G(four days) data, top 8% subreddits, i.e., 1819 subreddits.
-> Situation: `(694366, 345)`, the largest subreddit and smallest subreddit's comments count.
+Each row represents a user, with columns: ["name", "dom_topics", "dom_topic_str", "score", "mapped_score", "contributions", "comments", "subreddit_num"]
 
-In order for a balanced dataset for TF-IDF and LDA. Pick each top voted 1000 comments concatenated as documents.
+- name: Author name;
+- dom_topics: A array of tuples, each tuple contains the dominant topic ID and its probability. (it is obtained by weighted averaging all subreddits' topic distributions that author involve and do a cutoff using 8%)
+- dom_topic_str: A string presentation of "dom_topics" field, by displaying the top 4 words of that topic.
+- score: The generalist/specialist score calculated by pairwise similarity with Hellinger distance. Between 0 and 1, and more closer to 1 means more likely being specialist.
+- mapped_score: The re-scaling value of "score" field, map from [0,1] to [1, 100].
+- contributions: A sorted array of the number of comments the author contributes to each distinct subreddit, decreasingly.
+- comments: The top voted 20 comments the author makes.
+- subreddit_num: The number of distinct subreddit the author involves.
 
-### Comparing probability distribution 
+Sort by "mapped_score" can check the most extreme generalist and specialist's details.
 
-KL-divergence is not symmetric, because it’s not a distance function.
-
-![hellinger](https://github.com/chocoluffy/redditQA/blob/master/4-LDA-On-Tfidf/results/hellinger.png)
 
 ### Hyper-parameters
 
 - top 5% most acitve user.
 - `topic_cut_off = 0.08`. Only investigate topics with probability higher than 0.08(0.1 gives less dominant topics).
 - `corpus_tfidf = map(lambda x: map(lambda y: (y[0], round(y[1] * 200, 1)), x), corpus_tfidf)`. De-normalize TF-IDF weights to have approximate scale as BOW values.
-
-
-## Result Analysis
-
-In our 4G(~four days) data:
-
-### Case 1: deweymm
-
-Distinct subreddit number : 32,
-Comments count: 99
-
-### Our prediction
-
-4 dominant topics, with generalist/specialist score: 0.261935180797, (relative high, meaning he's relatively a specialist)
-[(66, 0.13144566362518412), (93, 0.10145583869818586), (96, 0.15925248910595119), (99, 0.085331145698520142)]
-
-topic #66 (0.010): 0.002*cop + 0.002*police + 0.002*officer + 0.001*pizza + 0.001*driver + 0.001*lawyer + 0.001*customer + 0.001*arrest + 0.001*court + 0.001*toilet
-
-topic #93 (0.010): 0.003*government + 0.002*muslim + 0.002*religion + 0.002*political + 0.002*society + 0.002*christian + 0.002*islam + 0.001*liberal + 0.001*rape + 0.001*libertarian
-
-topic #96 (0.010): 0.008*apps + 0.008*android + 0.008*battery + 0.007*app + 0.007*nexus + 0.006*moto + 0.005*device + 0.005*lollipop + 0.005*rom + 0.005*iphone
-
-topic #99 (0.010): 0.002*drug + 0.002*weed + 0.002*symptom + 0.002*dose + 0.002*doctor + 0.002*lsd + 0.002*gram + 0.002*anxiety + 0.002*mdma + 0.001*medication
-
-### Ground Truth
-
-His top voted 10 comments: [
-    "an unstable cry baby", 
-    "Apologies - sounds like you have it all figured out. \n\nHappy New Year", 
-    "me too - AKA where DC works out is a mile down the road from where I live - was disgusted and decided to shun my neighbor", 
-    "and you heartbroken :(", 
-    "You changed my mind - all the markings of a winner", 
-    "\"amazing\"? Do you live in a cave?", 
-    "First and foremost, I pay the company that you work for - not you clearly. Second, you get paid well to do the job and should be grateful for having the opportunity to do it. Just about anyone can be trained to do it so a good attitude goes a long way.  \n\nSo you are no hero for doing your job oblivious douchebag. Paying a tow driver for a service does not give scum the right to rob and fliece the public. That is what this thread is about. \n\n\nYour post is cringe-worthy and there is nothing \"friendly\" about it. I am actually embarrassed for you. Wake the fuck up.", 
-    "way too naturally beautiful and young for that much make up. Also poorly done - see a pro.", 
-    "Yeah other than the fact he is a fraud about his fighting credentials, has been discussed and is the laughing stock of the community including Joe Rogan, Dana White, Rhonda Rousey, Ariel Helwani , etc. etc. in the last 48 hours, he is just plain bad for the sport. We can just pretend this is not happening.\n\nLook Fanboy, I didn't mean to hurt your feelings - perhaps we can get that Steven Seagal - Under Siege poster hanging over your bed autographed for you at some point. But in the meantime, head over to the SG fanboy site and stop your sniveling.", 
-    "Sure enough - thank you - goes to show beautiful women come from everywhere", 
-]
-
-
-### Case 2: TheRealPeteWheeler
-
-Distinct subreddit number : 15,
-Comments count: 102
-
-### Our prediction
-
-3 dominant topics, with generalist/specialist score: 0.350207616138, (more specialist than Case 1).
-[(46, 0.46703078917570201), (66, 0.12712723743667273), (93, 0.086705506845797406)]
-
-topic #46 (0.010): 0.004*sex + 0.002*dating + 0.002*gender + 0.002*trans + 0.002*gay + 0.002*sexual + 0.002*male + 0.002*partner + 0.002*boyfriend + 0.002*feminist
-
-topic #66 (0.010): 0.002*cop + 0.002*police + 0.002*officer + 0.001*pizza + 0.001*driver + 0.001*lawyer + 0.001*customer + 0.001*arrest + 0.001*court + 0.001*toilet
-
-topic #93 (0.010): 0.003*government + 0.002*muslim + 0.002*religion + 0.002*political + 0.002*society + 0.002*christian + 0.002*islam + 0.001*liberal + 0.001*rape + 0.001*libertarian
-
-### Ground Truth
-
-His top voted 5 subreddit: [
-    AskReddit, InternetIsBeautiful, nfl, CHIBears, standupshots
-]
-
-His top voted 10 comments: [
-        "Helterskelter48", 
-        "chronicwaffles", 
-        "xMIGG", 
-        "As a Michigan fan, I'M SO CONFLICTED", 
-        "A little. Actually, no, wait. No, not at all. ", 
-        "http://i.imgur.com/UDQpWw6.png\n\nYou're not posting again on a throwaway, are you? ;)", 
-        "As long as I can find a black t-shirt in that size, it comes in that size. ", 
-        "Just a little hobby of mine. I'm actually a preschool teacher by day. ", 
-        "http://www.reddit.com/r/thelastofus/comments/2r0g9e/official_tlou_tshirt_giveaway_thread/", 
-        "If it's around that area, I would be okay with paying for shipping. ", 
-        "Ugh. I hated that shit in middle/high school. Also the whole high school girl attitude \"haha ew sports i don't want to get sweaty\". No. You're not cute. ", 
-]
 
 
 

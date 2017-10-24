@@ -11,6 +11,7 @@ from pymongo import MongoClient
 import pickle
 from collections import defaultdict
 import os.path
+import re
 
 
 subreddits = []
@@ -75,18 +76,6 @@ def load_from_mongo():
 
 load_from_mongo()
 
-# print(commentCounters[0], commentCounters[-1])
-# print(max(commentCounters), min(commentCounters))
-
-
-# compile documents
-
-# doc1 = "Sugar is bad to consume. My sister likes to have sugar, but not my father."
-# doc2 = "My father spends a lot of time driving my sister around to dance practice."
-# doc3 = "Doctors suggest that driving may cause increased stress and blood pressure."
-# doc4 = "Sometimes I feel pressure to perform well at school, but my father never seems to drive my sister to do better."
-# doc5 = "Health experts say that Sugar is not good for your lifestyle."
-
 # compile documents
 doc_complete = data
 
@@ -104,9 +93,11 @@ if not os.path.exists('./models/dictionary.dict'):
     exclude = set(string.punctuation) 
     lemma = WordNetLemmatizer()
 
-    # Remove stopwords, punctuation and normalize them.
+    # Remove stopwords, punctuation, links, numbers, long words(>20), and normalize them.
     def clean(doc):
-        stop_free = " ".join([i for i in doc.lower().split() if i not in stop and len(i) > 1])
+        link_free = re.sub(r"http\S+", "", doc)
+        number_free = re.sub(r'\d+', "", link_free)
+        stop_free = " ".join([i for i in number_free.lower().split() if i not in stop and len(i) > 1])
         punc_free = ''.join(ch for ch in stop_free if ch not in exclude)
         normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split())
         return normalized
@@ -140,30 +131,43 @@ else:
     print("document to term matrix loaded...")
 
 # Use TF-IDF model
-tfidf = gensim.models.TfidfModel(corpus, normalize=True)
-corpus_tfidf = tfidf[corpus]
+# if not os.path.exists('./models/no_tfidf_topic_100/corpus-tfidf.mm'):
+#     # Converting list of documents (corpus) into Document Term Matrix using dictionary prepared above. [Bag Of Word]
+#     tfidf = gensim.models.TfidfModel(corpus, normalize=True)
+#     corpus_tfidf = tfidf[corpus]
+#     print("de-normaliza tf-idf corpus...")
+#     corpus_tfidf = map(lambda x: map(lambda y: (y[0], round(y[1] * 200, 1)), x), corpus_tfidf)
+#     # Save the matrix into Market Matrix format. 
+#     corpora.MmCorpus.serialize('./models/no_tfidf_topic_100/corpus-tfidf.mm', corpus_tfidf)
+# else:
+#     corpus_tfidf = corpora.MmCorpus('./models/no_tfidf_topic_100/corpus-tfidf.mm')
+#     print("tfidf version of document to term matrix loaded...")
 
-print("de-normaliza tf-idf corpus...")
-corpus_tfidf = map(lambda x: map(lambda y: (y[0], round(y[1] * 200, 1)), x), corpus_tfidf)
 
-# pprint(dictionary[237])
-print("tfidf weights of the first document after de-normalization")
-# print("BOW of the first document")
-# pprint(map(lambda x: (dictionary[x[0]], x[1]), corpus[0]))
+# def print_corpus_word_weight(tfidf = True):
+#     if tfidf:
+#         print("tfidf weights of the first document after de-normalization")
+#         pprint(map(lambda x: (dictionary[x[0]], x[1]), corpus_tfidf[0]))
+#     else:
+#         print("BOW of the first document")
+#         pprint(map(lambda x: (dictionary[x[0]], x[1]), corpus[0]))
+
+
+# print_corpus_word_weight(tfidf = False)
 # pprint(len(corpus[0]))
 
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 # Save LDA model
-if not os.path.exists('./models/tfidf.lda'):
+if not os.path.exists('./models/no_tfidf_topic_100/tfidf.lda'):
     # Creating the object for LDA model using gensim library
     Lda = gensim.models.ldamodel.LdaModel
     # Running and Trainign LDA model on the document term matrix.
-    ldamodel = Lda(corpus_tfidf, num_topics=100, id2word = dictionary, passes=50)
-    ldamodel.save('./models/tfidf.lda')
+    ldamodel = Lda(corpus, num_topics=100, id2word = dictionary, passes=50)
+    ldamodel.save('./models/no_tfidf_topic_100/tfidf.lda')
 else:
-    ldamodel = gensim.models.ldamodel.LdaModel.load('models/tfidf.lda')
+    ldamodel = gensim.models.ldamodel.LdaModel.load('models/no_tfidf_topic_100/tfidf.lda')
     print("lda model loaded...")
 
 
@@ -188,7 +192,7 @@ def get_doc_topics(lda, bow):
 # Covert the comments from data into a topic vector, for now given 100 topics, each vector will be 
 # of length 100, indicating the probability from each topic.
 rc_tvec = []
-for doc_term_vec in corpus_tfidf:
+for doc_term_vec in corpus:
     topic_dist = get_doc_topics(ldamodel, doc_term_vec)
     rc_tvec.append(topic_dist)
     # topic_dist = ldamodel[doc_term_vec] # Bad, only shows top several topics; it clips the topic value under threshold.
@@ -243,7 +247,7 @@ def find_dom_topic_vec(name):
 
 def load_author_from_mongo():
     # use pymongo to load large chunk of data from mongo.
-    if not os.path.exists('./models/author_topics.pkl'):
+    if not os.path.exists('./models/no_tfidf_topic_100/author_topics.pkl'):
         # Use pymongo to achieve same effect as below codes.
         pipe = [
             {'$group': {
@@ -288,10 +292,10 @@ def load_author_from_mongo():
                 # print(data)
 
 
-        pickle.dump(data, open("./models/author_topics.pkl", 'wb'))
+        pickle.dump(data, open("./models/no_tfidf_topic_100/author_topics.pkl", 'wb'))
         return data
     else:
-        data = pickle.load(open("./models/author_topics.pkl", 'rb'))
+        data = pickle.load(open("./models/no_tfidf_topic_100/author_topics.pkl", 'rb'))
         print("author topics model loaded...")
         return data
 
@@ -403,7 +407,7 @@ def collect_authors_info(author_dict):
 
 
 collect_authors_info(author_stats)
-pickle.dump(author_stats, open("./models/each_author_topic_comments.pkl", 'wb'))
+pickle.dump(author_stats, open("./models/no_tfidf_topic_100/each_author_topic_comments.pkl", 'wb'))
 print("saved stats for each user...")
 
 

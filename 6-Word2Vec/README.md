@@ -32,9 +32,9 @@ It gives the number of overlapped unique commenters between each two subreddits,
 
 - r/politics - r/Feminism
 
-(*'result by LSI: '*, [(u'politics', 0.6429922), (u'progressive', 0.59399098), (u'askaconservative', 0.48073345), (u'ShitPoliticsSays', 0.47253069), (u'PoliticalDiscussion', 0.45274672), (u'forwardsfromgrandma', 0.41883612), (u'Conservative', 0.41036281), (u'Libertarian', 0.38884613), (u'nyc', 0.38836086), (u'ShitRConservativeSays', 0.36959952)])
+(**'result by LSI: '**, [(u'politics', 0.6429922), (u'progressive', 0.59399098), (u'askaconservative', 0.48073345), (u'ShitPoliticsSays', 0.47253069), (u'PoliticalDiscussion', 0.45274672), (u'forwardsfromgrandma', 0.41883612), (u'Conservative', 0.41036281), (u'Libertarian', 0.38884613), (u'nyc', 0.38836086), (u'ShitRConservativeSays', 0.36959952)])
 
-(*'result by finding overlap commenters: '*, [('Republican', 0.37096062), ('Conservative', 0.3645336), ('The_Donald', 0.36203671), ('predictit', 0.36044911), ('republicans', 0.35726255), ('BernieSandersSucks', 0.35204911), ('BrookeMarks', 0.3510778), ('IDontLikeRPolitics', 0.34955251), ('nfl', 0.34289247), ('QuarkCoin', 0.3424975)])
+(**'result by finding overlap commenters: '**, [('Republican', 0.37096062), ('Conservative', 0.3645336), ('The_Donald', 0.36203671), ('predictit', 0.36044911), ('republicans', 0.35726255), ('BernieSandersSucks', 0.35204911), ('BrookeMarks', 0.3510778), ('IDontLikeRPolitics', 0.34955251), ('nfl', 0.34289247), ('QuarkCoin', 0.3424975)])
 
 Try more on ipython, run `%load lsi.py`, then `test(subreddit1, subreddit2, if_add_ops)`.
 

@@ -18,6 +18,14 @@ Data preprocessing, TF-IDF transformation(better than not), LSI training(with to
 
 ![explanation](https://ww1.sinaimg.cn/large/006tKfTcgy1fl45czem1vj313y0h244h.jpg)
 
+Basically, it uses 2133 subreddits as primary basis, which results in a vector of length 2133, with each digit the number of shared commenters between these two subreddits. 
+
+The raw data, as suggested from Google [BigQuery](https://github.com/lmcinnes/subreddit_mapping/blob/master/BigQuery_queries.sql)
+
+It gives the number of overlapped unique commenters between each two subreddits, finally 56187 subreddits in total.
+
+-> By grouping, pivoting data into matrix, normalization, and dimension reduction. 
+
 
 
 

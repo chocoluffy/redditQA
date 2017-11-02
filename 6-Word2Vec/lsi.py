@@ -20,9 +20,11 @@ CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LSI_PATH = os.path.join(VERSION_PATH, 'model.lsi')
 LSI_INDEX = os.path.join(VERSION_PATH, 'lsi.index')
+MAP_VECTORS_FROM_OVERLAP = os.path.join(VERSION_PATH, 'subreddit_vector.pkl')
+OVERLAP_INDEX = os.path.join(VERSION_PATH, 'overlap.index')
 TF_IDF = True
 NUM_TOPICS = 200
-
+NUM_FEATURES_OVERLAP = 500
 
 
 subreddits = []
@@ -220,23 +222,69 @@ def find_most_similar_combined_subreddit_lsi(name1, name2, add = True):
         res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
         print res
     else:
-        print("At least one of the subreddit not found...")
+        print("at least one of the subreddit not found...")
 
-query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
-
+# query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
 # for q in query:
 #     find_most_similar_subreddit_lsi(q)
 # print(corpus_tfidf[0])
-find_most_similar_combined_subreddit_lsi('apple', 'Seattle', add = True)
+# find_most_similar_combined_subreddit_lsi('apple', 'Seattle', add = True)
 # print subreddits
 
-def print_general_subreddit_topic():
-    """
-    Print all 100 topics for human inspection.
-    """
-    lsimodel.print_topics(100)
+# each item in a form of (name, vec)
+map_vectors = pickle.load(open(MAP_VECTORS_FROM_OVERLAP, 'rb'))
+vectors_lst = map(lambda x: x[1], map_vectors)
 
-# print_general_subreddit_topic()
+if not os.path.exists(OVERLAP_INDEX):
+    index_overlap = similarities.MatrixSimilarity(vectors_lst, num_features=NUM_FEATURES_OVERLAP)
+    index_overlap.save(OVERLAP_INDEX)
+    print("save similarity index of vectors from shared commenters...")
+else:
+    index_overlap = similarities.MatrixSimilarity.load(OVERLAP_INDEX)
+    print("load similarity index of vectors from shared commenters...")
 
-# print(corpus_tfidf)
+
+vectors_dict = defaultdict()
+for name, vec in map_vectors:
+    vectors_dict[name] = vec
+
+def find_most_similar_combined_subreddit_overlap(name1, name2, add = True):
+    if  name1 in vectors_dict and name2 in vectors_dict:
+        sub_tfidf1 = corpus_tfidf[subreddits.index(name1)]
+        sub_tfidf2 = corpus_tfidf[subreddits.index(name2)]
+        sub_vec1 = lsimodel[sub_tfidf1]
+        sub_vec2 = lsimodel[sub_tfidf2]
+        if add:
+            comb_vec = []
+            for vec1, vec2 in zip(sub_vec1, sub_vec2):
+                comb_vec.append((vec1[0], vec1[1] + vec2[1]))
+        else:
+            comb_vec = []
+            for vec1, vec2 in zip(sub_vec1, sub_vec2):
+                comb_vec.append((vec1[0], vec1[1] - vec2[1]))
+        sims = index[comb_vec]
+        sims = sorted(enumerate(sims), key=lambda item: -item[1])   
+        res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
+        print res
+    else:
+        print("at least one of the subreddit not found...")
+
+# def main():
+#     """
+#     Compare the results from lsi and from shared commenters.
+#     """
+
+
+# if __name__ == "__main__":
+#     main()
+
+# # def print_general_subreddit_topic():
+# #     """
+# #     Print all 100 topics for human inspection.
+# #     """
+# #     lsimodel.print_topics(100)
+
+# # print_general_subreddit_topic()
+
+# # print(corpus_tfidf)
 

@@ -217,7 +217,7 @@ def find_most_similar_combined_subreddit_lsi(name1, name2, add = True):
             comb_vec = []
             for vec1, vec2 in zip(sub_vec1, sub_vec2):
                 comb_vec.append((vec1[0], vec1[1] - vec2[1]))
-        print comb_vec
+        # print comb_vec
         sims = index[comb_vec]
         sims = sorted(enumerate(sims), key=lambda item: -item[1])   
         res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])

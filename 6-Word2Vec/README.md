@@ -2,7 +2,7 @@
 
 Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
 
-### Subreddit Arithmetic
+### Subreddit Arithmetic with Gensim's LSA
 
 Data preprocessing, TF-IDF transformation(better than not), LSI training(with topics = 200).
 
@@ -11,6 +11,16 @@ Data preprocessing, TF-IDF transformation(better than not), LSI training(with to
 
 - r/weightlifting + r/running
 [(u'crossfit', 0.88934195), (u'bodyweightfitness', 0.85599089), (u'weightroom', 0.83863521), (u'Weakpots', 0.81403542), (u'bodybuilding', 0.80674154), (u'weightlifting', 0.8024466), (u'powerlifting', 0.79955077), (u'xxfitness', 0.79556072), (u'Rowing', 0.75653619), (u'Fitness', 0.7504124)]
+
+![example](https://ww1.sinaimg.cn/large/006tKfTcgy1fl44ta4fjpj311w0smjv5.jpg)
+
+### with Article suggestions
+
+![explanation](https://ww1.sinaimg.cn/large/006tKfTcgy1fl45czem1vj313y0h244h.jpg)
+
+
+
+
 
 
 ### Pick Extreme Authors

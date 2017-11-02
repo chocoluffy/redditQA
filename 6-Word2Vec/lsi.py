@@ -227,7 +227,8 @@ query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
 # for q in query:
 #     find_most_similar_subreddit_lsi(q)
 # print(corpus_tfidf[0])
-find_most_similar_combined_subreddit_lsi('personalfinance', 'Frugal', add = False)
+find_most_similar_combined_subreddit_lsi('apple', 'Seattle', add = True)
+# print subreddits
 
 def print_general_subreddit_topic():
     """

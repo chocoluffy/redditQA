@@ -7,9 +7,11 @@ Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-fo
 Data preprocessing, TF-IDF transformation(better than not), LSI training(with topics = 200).
 
 - r/worldnews - r/news
+
 [(u'worldnews', 0.68611687), (u'arabs', 0.67156976), (u'Israel', 0.62338132), (u'worldpolitics', 0.59384269), (u'syriancivilwar', 0.48967499), (u'european', 0.48101518), (u'kurdistan', 0.47840986), (u'indianews', 0.4467034), (u'india', 0.44170839), (u'pakistan', 0.42912072)]
 
 - r/weightlifting + r/running
+
 [(u'crossfit', 0.88934195), (u'bodyweightfitness', 0.85599089), (u'weightroom', 0.83863521), (u'Weakpots', 0.81403542), (u'bodybuilding', 0.80674154), (u'weightlifting', 0.8024466), (u'powerlifting', 0.79955077), (u'xxfitness', 0.79556072), (u'Rowing', 0.75653619), (u'Fitness', 0.7504124)]
 
 ![example](https://ww1.sinaimg.cn/large/006tKfTcgy1fl44ta4fjpj311w0smjv5.jpg)
@@ -24,10 +26,17 @@ The raw data, as suggested from Google [BigQuery](https://github.com/lmcinnes/su
 
 It gives the number of overlapped unique commenters between each two subreddits, finally 56187 subreddits in total.
 
--> By grouping, pivoting data into matrix, normalization, and dimension reduction. 
+-> By grouping, pivoting data into matrix, normalization, and dimension reduction to 500. 
 
+### Result Compare
 
+- r/politics - r/Feminism
 
+(*'result by LSI: '*, [(u'politics', 0.6429922), (u'progressive', 0.59399098), (u'askaconservative', 0.48073345), (u'ShitPoliticsSays', 0.47253069), (u'PoliticalDiscussion', 0.45274672), (u'forwardsfromgrandma', 0.41883612), (u'Conservative', 0.41036281), (u'Libertarian', 0.38884613), (u'nyc', 0.38836086), (u'ShitRConservativeSays', 0.36959952)])
+
+(*'result by finding overlap commenters: '*, [('Republican', 0.37096062), ('Conservative', 0.3645336), ('The_Donald', 0.36203671), ('predictit', 0.36044911), ('republicans', 0.35726255), ('BernieSandersSucks', 0.35204911), ('BrookeMarks', 0.3510778), ('IDontLikeRPolitics', 0.34955251), ('nfl', 0.34289247), ('QuarkCoin', 0.3424975)])
+
+Try more on ipython, run `%load lsi.py`, then `test(subreddit1, subreddit2, if_add_ops)`.
 
 
 

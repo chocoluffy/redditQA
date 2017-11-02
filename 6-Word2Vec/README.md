@@ -1,18 +1,17 @@
 ## Progress
 
-Fixing issue listed here [10.18 meeting](https://github.com/chocoluffy/redditQA/issues/4).
+Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
 
-### Check Topics
+### Subreddit Arithmetic
 
-TF-IDF model with de-normalization from week 4. 
-![tfidf](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist.png)
+Data preprocessing, TF-IDF transformation(better than not), LSI training(with topics = 200).
 
-Normal BOW model.
-![normal](https://github.com/chocoluffy/redditQA/blob/master/5-Model-Inspection/results/topic_dist_normal.png)
+- r/worldnews - r/news
+[(u'worldnews', 0.68611687), (u'arabs', 0.67156976), (u'Israel', 0.62338132), (u'worldpolitics', 0.59384269), (u'syriancivilwar', 0.48967499), (u'european', 0.48101518), (u'kurdistan', 0.47840986), (u'indianews', 0.4467034), (u'india', 0.44170839), (u'pakistan', 0.42912072)]
 
-TF-IDF denorm version gives more polarized results than normal BOW version, meaning its ability to classify subreddit into topics is limited, given the assumption that author's interests are balanced. 
+- r/weightlifting + r/running
+[(u'crossfit', 0.88934195), (u'bodyweightfitness', 0.85599089), (u'weightroom', 0.83863521), (u'Weakpots', 0.81403542), (u'bodybuilding', 0.80674154), (u'weightlifting', 0.8024466), (u'powerlifting', 0.79955077), (u'xxfitness', 0.79556072), (u'Rowing', 0.75653619), (u'Fitness', 0.7504124)]
 
-Other than above comparison, pure TF-IDF without de-normalization performs the worst from week 3's result.
 
 ### Pick Extreme Authors
 

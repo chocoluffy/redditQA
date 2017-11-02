@@ -205,15 +205,20 @@ def find_most_similar_combined_subreddit_lsi(name1, name2, add = True):
     if  name1 in subreddits and name2 in subreddits:
         sub_tfidf1 = corpus_tfidf[subreddits.index(name1)]
         sub_tfidf2 = corpus_tfidf[subreddits.index(name2)]
-        print lsimodel[sub_tfidf1]
-        # if add:
-        #     comb_vec = sub_tfidf1 + sub_tfidf2
-        # else:
-        #     comb_vec = sub_tfidf1 - sub_tfidf2
-        # sims = index[lsimodel[comb_vec]]
-        # sims = sorted(enumerate(sims), key=lambda item: -item[1])   
-        # res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
-        # print res
+        sub_vec1 = lsimodel[sub_tfidf1]
+        sub_vec2 = lsimodel[sub_tfidf2]
+        if add:
+            comb_vec = []
+            for vec1, vec2 in zip(sub_vec1, sub_vec2):
+                comb_vec.append((vec1[0], vec1[1] + vec2[1]))
+        else:
+            comb_vec = []
+            for vec1, vec2 in zip(sub_vec1, sub_vec2):
+                comb_vec.append((vec1[0], vec1[1] - vec2[1]))
+        sims = index[comb_vec]
+        sims = sorted(enumerate(sims), key=lambda item: -item[1])   
+        res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
+        print res
     else:
         print("At least one of the subreddit not found...")
 
@@ -222,7 +227,7 @@ query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
 # for q in query:
 #     find_most_similar_subreddit_lsi(q)
 # print(corpus_tfidf[0])
-find_most_similar_combined_subreddit_lsi('worldnews', 'news', False)
+find_most_similar_combined_subreddit_lsi('personalfinance', 'Frugal', add = False)
 
 def print_general_subreddit_topic():
     """

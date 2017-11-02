@@ -199,7 +199,7 @@ def find_most_similar_subreddit_lsi(name):
         sims = index[lsimodel[sub_tfidf]]
         sims = sorted(enumerate(sims), key=lambda item: -item[1])   
         res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
-        print res
+        # print res
     else:
         print("subreddit not found...")
 
@@ -217,23 +217,17 @@ def find_most_similar_combined_subreddit_lsi(name1, name2, add = True):
             comb_vec = []
             for vec1, vec2 in zip(sub_vec1, sub_vec2):
                 comb_vec.append((vec1[0], vec1[1] - vec2[1]))
+        print comb_vec
         sims = index[comb_vec]
         sims = sorted(enumerate(sims), key=lambda item: -item[1])   
         res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
-        print res
+        return res
     else:
         print("at least one of the subreddit not found...")
 
-# query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
-# for q in query:
-#     find_most_similar_subreddit_lsi(q)
-# print(corpus_tfidf[0])
-# find_most_similar_combined_subreddit_lsi('apple', 'Seattle', add = True)
-# print subreddits
-
 # each item in a form of (name, vec)
 map_vectors = pickle.load(open(MAP_VECTORS_FROM_OVERLAP, 'rb'))
-vectors_lst = map(lambda x: x[1], map_vectors)
+names_lst, vectors_lst = [list(t) for t in zip(*map_vectors)]
 
 if not os.path.exists(OVERLAP_INDEX):
     index_overlap = similarities.MatrixSimilarity(vectors_lst, num_features=NUM_FEATURES_OVERLAP)
@@ -250,33 +244,45 @@ for name, vec in map_vectors:
 
 def find_most_similar_combined_subreddit_overlap(name1, name2, add = True):
     if  name1 in vectors_dict and name2 in vectors_dict:
-        sub_tfidf1 = corpus_tfidf[subreddits.index(name1)]
-        sub_tfidf2 = corpus_tfidf[subreddits.index(name2)]
-        sub_vec1 = lsimodel[sub_tfidf1]
-        sub_vec2 = lsimodel[sub_tfidf2]
+        sub_vec1 = vectors_dict[name1]
+        sub_vec2 = vectors_dict[name2]
         if add:
-            comb_vec = []
-            for vec1, vec2 in zip(sub_vec1, sub_vec2):
-                comb_vec.append((vec1[0], vec1[1] + vec2[1]))
+            comb_vec = [i+j for i, j in zip(sub_vec1, sub_vec2)]
         else:
-            comb_vec = []
-            for vec1, vec2 in zip(sub_vec1, sub_vec2):
-                comb_vec.append((vec1[0], vec1[1] - vec2[1]))
-        sims = index[comb_vec]
+            comb_vec = [i-j for i, j in zip(sub_vec1, sub_vec2)]
+        comb_vec = [(i, vec) for i, vec in enumerate(comb_vec)]
+        sims = index_overlap[comb_vec]
         sims = sorted(enumerate(sims), key=lambda item: -item[1])   
-        res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
-        print res
+        res = map(lambda x: (names_lst[x[0]], x[1]), sims[:10])
+        return res
     else:
         print("at least one of the subreddit not found...")
 
-# def main():
-#     """
-#     Compare the results from lsi and from shared commenters.
-#     """
+# query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
+# for q in query:
+#     find_most_similar_subreddit_lsi(q)
+# print(corpus_tfidf[0])
 
 
-# if __name__ == "__main__":
-#     main()
+def test(command1, command2, if_add):
+    sign = " + " if if_add else " - "
+    print("{0}{1}{2}:".format(command1, sign, command2))
+    lsi_res = find_most_similar_combined_subreddit_lsi(command1, command2, add = if_add)
+    print("result by LSI: ", lsi_res)
+    overlap_res = find_most_similar_combined_subreddit_overlap(command1, command2, add = if_add)
+    print("result by finding overlap commenters: ", overlap_res)
+
+
+command1 = 'politics'
+command2 = 'Feminism'
+if_add = False
+
+test(command1, command2, if_add)
+
+# print subreddits
+
+
+
 
 # # def print_general_subreddit_topic():
 # #     """

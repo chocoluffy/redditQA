@@ -21,6 +21,7 @@ CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LSI_PATH = os.path.join(VERSION_PATH, 'model.lsi')
 LSI_INDEX = os.path.join(VERSION_PATH, 'lsi.index')
 TF_IDF = True
+NUM_TOPICS = 200
 
 
 
@@ -166,10 +167,10 @@ if not os.path.exists(LSI_PATH):
     # Running and Trainign LSI model on the document term matrix.
     if TF_IDF:
         print("use tf-idf corpus to train model...")
-        lsimodel = Lsi(corpus_tfidf, num_topics=200, id2word = dictionary, onepass = False)
+        lsimodel = Lsi(corpus_tfidf, num_topics=NUM_TOPICS, id2word = dictionary, onepass = False)
     else:
         print("use normal corpus to train model...")
-        lsimodel = Lsi(corpus, num_topics=200, id2word = dictionary, onepass = False)
+        lsimodel = Lsi(corpus, num_topics=NUM_TOPICS, id2word = dictionary, onepass = False)
     lsimodel.save(LSI_PATH)
 else:
     lsimodel = gensim.models.LsiModel.load(LSI_PATH)
@@ -178,9 +179,9 @@ else:
 
 if not os.path.exists(LSI_INDEX):
     if TF_IDF:
-        index = similarities.MatrixSimilarity(lsimodel[corpus_tfidf], num_features=100)
+        index = similarities.MatrixSimilarity(lsimodel[corpus_tfidf], num_features=NUM_TOPICS)
     else:
-        index = similarities.MatrixSimilarity(lsimodel[corpus], num_features=100)
+        index = similarities.MatrixSimilarity(lsimodel[corpus], num_features=NUM_TOPICS)
     index.save(LSI_INDEX)
 else:
     index = similarities.MatrixSimilarity.load(LSI_INDEX)
@@ -197,10 +198,31 @@ def find_most_similar_subreddit_lsi(name):
         sims = sorted(enumerate(sims), key=lambda item: -item[1])   
         res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
         print res
+    else:
+        print("subreddit not found...")
 
+def find_most_similar_combined_subreddit_lsi(name1, name2, add = True):
+    if  name1 in subreddits and name2 in subreddits:
+        sub_tfidf1 = corpus_tfidf[subreddits.index(name1)]
+        sub_tfidf2 = corpus_tfidf[subreddits.index(name2)]
+        print lsimodel[sub_tfidf1]
+        # if add:
+        #     comb_vec = sub_tfidf1 + sub_tfidf2
+        # else:
+        #     comb_vec = sub_tfidf1 - sub_tfidf2
+        # sims = index[lsimodel[comb_vec]]
+        # sims = sorted(enumerate(sims), key=lambda item: -item[1])   
+        # res = map(lambda x: (subreddits[x[0]], x[1]), sims[:10])
+        # print res
+    else:
+        print("At least one of the subreddit not found...")
 
-find_most_similar_subreddit_lsi('nba')
+query = ['cats', 'MMA', 'AMA', 'gaming', 'wine']
+
+# for q in query:
+#     find_most_similar_subreddit_lsi(q)
 # print(corpus_tfidf[0])
+find_most_similar_combined_subreddit_lsi('worldnews', 'news', False)
 
 def print_general_subreddit_topic():
     """

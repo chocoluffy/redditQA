@@ -2,6 +2,7 @@ import pickle
 from gensim import similarities
 from collections import defaultdict
 import os.path
+from sklearn.metrics.pairwise import cosine_similarity
 
 VERSION_PATH = './models/lsi_tfidf_topic_100'
 MAP_VECTORS_FROM_OVERLAP = os.path.join(VERSION_PATH, 'subreddit_vector.pkl')
@@ -42,6 +43,13 @@ def find_most_similar_combined_subreddit_overlap(names, name2vec, indexing, name
     else:
         print("at least one of the subreddit not found...")
 
+def compare_two_subreddit_similarity(name1, name2, name2vec):
+    if name1 in name2vec and name2 in name2vec:
+        sub_vec1 = name2vec[name1]
+        sub_vec2 = name2vec[name2]
+        return cosine_similarity(sub_vec1, sub_vec2)
+    else:
+        print("at least one of the subreddit not found...")
 
 def test_overlap(command1, command2, if_add):
     """

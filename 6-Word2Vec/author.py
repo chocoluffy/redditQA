@@ -1,3 +1,4 @@
+from __future__ import division # to force division be float.
 import csv
 import pickle
 from operator import itemgetter
@@ -6,6 +7,7 @@ from gensim import corpora
 from collections import defaultdict
 from scipy.interpolate import interp1d
 import os.path
+import itertools
 
 VERSION_PATH = './models/lsi_tfidf_topic_100'
 AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
@@ -21,29 +23,56 @@ from construct_vec_from_overlap import *
 
 names, name2vec, indexing = construct_mapping_from_overlap()
 
-print compare_two_subreddit_similarity('technology', 'apple', name2vec)
+# print compare_two_subreddit_similarity('technology', 'apple', name2vec)
 
-# """
-# each user(row) has fields ["name", "dom_topics", "dom_topic_str", "score", "mapped_score", "contributions", "comments", "subreddit_num"]
-# """
+"""
+each user(row) has fields ["name", "dom_topics", "dom_topic_str", "score", "mapped_score", "contributions", "comments", "subreddit_num"]
+"""
 
-# # Extract score out for mapping.
-# scores = []
+# Extract score out for mapping.
+scores = []
 
-# # Add field "dom_topic_str" to the dictionary.
-# topic2str = defaultdict(str)
-# for i in range(100):
-#     topic2str[i] = ' + '.join(map(lambda x: x[0], ldamodel.show_topic(i, topn=4)))
+# Add field "dom_topic_str" to the dictionary.
+topic2str = defaultdict(str)
+for i in range(100):
+    topic2str[i] = ' + '.join(map(lambda x: x[0], ldamodel.show_topic(i, topn=4)))
 
-# for name, obj in author_stats.iteritems():
-#     topic_str = ["({0}, {1})".format(topic2str[tup[0]], tup[1]) for tup in obj['dom_topics']]
-#     author_stats[name]['dom_topics_str'] = topic_str
-#     scores.append(obj['score'])
+for name, obj in author_stats.iteritems():
+    topic_str = ["({0}, {1})".format(topic2str[tup[0]], tup[1]) for tup in obj['dom_topics']]
+    author_stats[name]['dom_topics_str'] = topic_str
+    scores.append(obj['score'])
 
-# scale = interp1d([min(scores), max(scores)],[1,100])
+scale = interp1d([min(scores), max(scores)],[1,100])
+
+# Add mapped_score, score_by_overlap, mapped_score_by_overlap into the object.
+scores_by_overlap = []
+
+sim_names, sim_matrix = compare_subreddits_similarity_batch(name2vec)
+print sim_names, sim_matrix
 
 # for name, obj in author_stats.iteritems():
 #     author_stats[name]['mapped_score'] = scale(obj['score'])
+#     active_contributions = filter(lambda x: x[1] > 1, obj['contributions']) # filter those minute contributions.
+#     # print active_contributions
+#     score_by_overlap = 0
+#     valid_scores = 0
+#     comb = list(itertools.combinations(active_contributions, 2)) # return topic index permutation.
+#     if len(comb) > 0:
+#         for sub1, sub2 in comb:
+#             # print sub1, sub2, compare_two_subreddit_similarity(sub1, sub2, name2vec)
+#             sim = compare_two_subreddit_similarity(sub1, sub2, name2vec)[0][0]
+#             if sim > -1:
+#                 score_by_overlap += sim # cosine similarity
+#                 valid_scores += 1
+#         score_by_overlap = score_by_overlap / valid_scores
+#     author_stats[name]['score_by_overlap'] = score_by_overlap
+#     scores_by_overlap.append(score_by_overlap)
+
+
+# scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])
+# for name, obj in author_stats.iteritems():
+#     author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
+
 
 # def write_dict_data_to_csv_file(csv_file_path, dict_data):
 #     csv_file = open(csv_file_path, 'wb')

@@ -1,6 +1,11 @@
 import pickle
 from gensim import similarities
 from collections import defaultdict
+import os.path
+
+VERSION_PATH = './models/lsi_tfidf_topic_100'
+MAP_VECTORS_FROM_OVERLAP = os.path.join(VERSION_PATH, 'subreddit_vector.pkl')
+OVERLAP_INDEX = os.path.join(VERSION_PATH, 'overlap.index')
 
 def construct_mapping_from_overlap():    
     map_vectors = pickle.load(open(MAP_VECTORS_FROM_OVERLAP, 'rb'))
@@ -21,7 +26,7 @@ def construct_mapping_from_overlap():
     
     return names_lst, vectors_dict, index_overlap
 
-def find_most_similar_combined_subreddit_overlap(name1, name2, add = True, names, name2vec, indexing):
+def find_most_similar_combined_subreddit_overlap(names, name2vec, indexing, name1, name2, add = True):
     if  name1 in name2vec and name2 in name2vec:
         sub_vec1 = name2vec[name1]
         sub_vec2 = name2vec[name2]
@@ -49,5 +54,5 @@ def test_overlap(command1, command2, if_add):
     sign = " + " if if_add else " - "
     print("{0}{1}{2}:".format(command1, sign, command2))
 
-    overlap_res = find_most_similar_combined_subreddit_overlap(command1, command2, add = if_add, names, name2vec, indexing)
+    overlap_res = find_most_similar_combined_subreddit_overlap(names, name2vec, indexing, command1, command2, add = if_add)
     print("result by finding overlap commenters: ", overlap_res)

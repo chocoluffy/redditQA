@@ -1,6 +1,41 @@
 ## Progress
 
-Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
+- Correct the csv data from last week, including analysis for each author and each subreddit in `./results`.
+
+- Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
+
+
+## Generalist/Specialist Score 
+
+### Author perspective
+
+[csv file](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/updated_each_author_topic_comment.csv)
+
+- name
+- score: generalist/specialist score, higher the score, more special the author is.
+- mapped_score: a re-scaling from the above score to 1~100, to be more intuitive.
+- dom_topics
+- subreddit_num: 
+- comments: top voted comments selected.
+- dom_topics_str: string representation of the dominant topics.
+- contributions
+
+We infer dominant topics and score. We observe that it accords with the ground truth(the actual subreddit the author contributes to and the actual comments text).
+
+### Subreddit perspective
+
+[csv file](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/each_subreddit_author_distribution.csv)
+
+- name 
+- involvements: the most active author and their contribution count under this subreddit.
+- total_author_count: the total number of unique authors.
+- scores: average score of each author.
+- dom_topic
+- dom_topic_str
+
+![subreddit](https://ww3.sinaimg.cn/large/006tKfTcgy1fl4naonfrrj31kw0hu4pj.jpg)
+
+## Subreddit Similarity
 
 ### Subreddit Arithmetic with Gensim's LSA
 

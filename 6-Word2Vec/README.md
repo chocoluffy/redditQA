@@ -36,6 +36,18 @@ It gives the number of overlapped unique commenters between each two subreddits,
 
 (**'result by finding overlap commenters: '**, [('Republican', 0.37096062), ('Conservative', 0.3645336), ('The_Donald', 0.36203671), ('predictit', 0.36044911), ('republicans', 0.35726255), ('BernieSandersSucks', 0.35204911), ('BrookeMarks', 0.3510778), ('IDontLikeRPolitics', 0.34955251), ('nfl', 0.34289247), ('QuarkCoin', 0.3424975)])
 
+- r/The_Donald - r/politics
+
+(**'result by LSI: '**, None)
+
+(**'result by finding overlap commenters: '**, [('EnoughAntifaSpam', 0.47904247), ('Donsguard', 0.47360644), ('Bigly', 0.43075886), ('gooddoggos', 0.4281798), ('TheRightBoycott', 0.40935427), ('Gamemetahaus', 0.40908358), ('RedPillReality', 0.40160739), ('IranianAtheists', 0.39918998), ('ranked312', 0.39918998), ('TrumpLivesMatter', 0.39918998)])
+
+- r/AskThe_Donald - r/politics
+
+(**'result by LSI: '**, None)
+
+(**'result by finding overlap commenters: '**, [('IranianAtheists', 0.78310621), ('ranked312', 0.78310621), ('TrumpLivesMatter', 0.78310621), ('AskAsians', 0.78131819), ('gooddoggos', 0.77355605), ('GlossyPodcast', 0.73881674), ('EnoughAntifaSpam', 0.68032324), ('hotsreplaydata', 0.66686326), ('highjump', 0.6042937), ('MyPr0n', 0.58099365)])
+
 Try more on ipython, run `%load lsi.py`, then `test(subreddit1, subreddit2, if_add_ops)`.
 
 

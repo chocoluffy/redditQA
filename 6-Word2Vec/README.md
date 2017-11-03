@@ -5,7 +5,7 @@
 - Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
 
 
-## Generalist/Specialist Score 
+## Task1: Generalist/Specialist Score 
 
 ### Author perspective
 
@@ -35,7 +35,7 @@ We infer dominant topics and score. We observe that it accords with the ground t
 
 ![subreddit](https://ww3.sinaimg.cn/large/006tKfTcgy1fl4naonfrrj31kw0hu4pj.jpg)
 
-## Subreddit Similarity
+## Task2: Subreddit Similarity
 
 ### Subreddit Arithmetic with Gensim's LSA
 

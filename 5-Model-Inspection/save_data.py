@@ -11,8 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-author_stats = pickle.load(open("./models/denorm_200_topic_100/each_author_topic_comments.pkl", 'rb'))
-ldamodel = gensim.models.ldamodel.LdaModel.load('models/denorm_200_topic_100/tfidf.lda')
+author_stats = pickle.load(open("./models/no_tfidf_topic_100/each_author_topic_comments.pkl", 'rb'))
+ldamodel = gensim.models.ldamodel.LdaModel.load('models/no_tfidf_topic_100/tfidf.lda')
+
 
 """
 each user(row) has fields ["name", "dom_topics", "dom_topic_str", "score", "mapped_score", "contributions", "comments", "subreddit_num"]
@@ -115,6 +116,7 @@ def construct_reddit():
                 if value > 0.1: # use 0.1 as topic cutoff
                     filtered_topics.append((index, value))
             topic_str = map(lambda x: (topic2str[x[0]], x[1]), filtered_topics)
+            topic_str = sorted(topic_str, key=lambda tup: tup[1], reverse=True)
             reddit[reddit_name]['dom_topic_str'] = topic_str
             reddit[reddit_name]['dom_topic'] = filtered_topics
             reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
@@ -132,7 +134,7 @@ def subreddit_to_authors_distribution(reddit):
     csv_file = open(csv_file_path, 'wb')
     writer = csv.writer(csv_file, dialect='excel')
     
-    headers = ['name', 'involvements', 'scores', 'dom_topic', 'dom_topic_str']
+    headers = ['name', 'involvements', 'total_author_count', 'scores', 'dom_topic', 'dom_topic_str']
     writer.writerow(headers)
 
     for key, value in reddit.items():
@@ -141,6 +143,9 @@ def subreddit_to_authors_distribution(reddit):
         for field in headers:
             if field == 'involvements':
                 res = sorted(value['involvements'], key=lambda tup: tup[1], reverse=True)
+                line.append(res) 
+            elif field == 'total_author_count':
+                res = len(value['involvements'])
                 line.append(res) 
             elif field == 'scores':
                 res = sum(value['scores']) / len(value['scores'])

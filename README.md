@@ -27,3 +27,9 @@ Fine tune the model from week3, with TF-IDF weights applied on BOW matrix but ke
 Examine the validity of models obtained from week4, and refine models by tuning hyper-parameters.
 
 [Model Inspection](https://github.com/chocoluffy/redditQA/tree/master/5-Model-Inspection)
+
+## 6-Word2Vec
+
+Apply non-semantic techniques(finding overlapping commenters), and semantic techniques(such as LSA, word2vec) to examine similarity between each subreddits.
+
+[Word2vec](https://github.com/chocoluffy/redditQA/tree/master/6-Word2Vec)

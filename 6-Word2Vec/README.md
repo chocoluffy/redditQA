@@ -49,6 +49,7 @@ It gives the number of overlapped unique commenters between each two subreddits,
 (**'result by finding overlap commenters: '**, [('IranianAtheists', 0.78310621), ('ranked312', 0.78310621), ('TrumpLivesMatter', 0.78310621), ('AskAsians', 0.78131819), ('gooddoggos', 0.77355605), ('GlossyPodcast', 0.73881674), ('EnoughAntifaSpam', 0.68032324), ('hotsreplaydata', 0.66686326), ('highjump', 0.6042937), ('MyPr0n', 0.58099365)])
 
 - r/anime + r/science 【Cool~】
+
 (**'result by LSI: '**, [(u'anime', 0.83610475), (u'TrueAnime', 0.80928802), (u'Animesuggest', 0.80773562), (u'hentai', 0.67106557), (u'sailormoon', 0.64929271), (u'fatestaynight', 0.63300067), (u'science', 0.62421095), (u'visualnovels', 0.5954234), (u'Toonami', 0.57869101), (u'TokyoGhoul', 0.56923985)])
 
 (**'result by finding overlap commenters: '**, [('TrueAnime', 0.87909448), ('Animesuggest', 0.87391996), ('todayilearned', 0.87237281), ('Showerthoughts', 0.86084092), ('explainlikeimfive', 0.86064804), ('funny', 0.85838616), ('IAmA', 0.85830939), ('worldnews', 0.85763919), ('thebutton', 0.85618025), ('bestof', 0.85596949)])

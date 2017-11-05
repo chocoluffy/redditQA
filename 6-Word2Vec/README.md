@@ -13,7 +13,9 @@
 
 - name
 - score: generalist/specialist score, higher the score, more special the author is.
+- score_by_overlap: still generalist/specialist score, but using LSA on author perspective, by calculating overlapping authors.
 - mapped_score: a re-scaling from the above score to 1~100, to be more intuitive.
+- mapped_score_by_overlap: a re-scaling from score_by_overlap.
 - dom_topics
 - subreddit_num: 
 - comments: top voted comments selected.

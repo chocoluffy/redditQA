@@ -44,13 +44,25 @@ def find_most_similar_combined_subreddit_overlap(names, name2vec, indexing, name
     else:
         print("at least one of the subreddit not found...")
 
+
+pair2sim = defaultdict()
 def compare_two_subreddit_similarity(name1, name2, name2vec):
+    """
+    Construct a dictionary to cache the final similarity results. Sort two names and concat as the key.
+    """
     if name1 in name2vec and name2 in name2vec:
+        pair_key = ','.join(sorted([name1, name2]))
         sub_vec1 = name2vec[name1]
         sub_vec2 = name2vec[name2]
-        sub_vec1 = np.array(sub_vec1).reshape((len(sub_vec1), 1))
-        sub_vec2 = np.array(sub_vec2).reshape((len(sub_vec2), 1))
-        return cosine_similarity(sub_vec1, sub_vec2)
+        sub_vec1 = np.array(sub_vec1).reshape((1, len(sub_vec1)))
+        sub_vec2 = np.array(sub_vec2).reshape((1, len(sub_vec2)))
+        if pair_key in pair2sim:
+            res = pair2sim[pair_key]
+        else:
+            res = cosine_similarity(sub_vec1, sub_vec2)
+            # print("add key", pair_key)
+            pair2sim[pair_key] = res
+        return res
     else:
         # print("at least one of the subreddit not found...")
         return [[-1]]

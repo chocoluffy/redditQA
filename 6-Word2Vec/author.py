@@ -80,10 +80,9 @@ for name, obj in author_stats.iteritems():
 
 scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])
 for name, obj in author_stats.iteritems():
-    if obj['score_by_overlap'] == 1:
+    author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
+    if author_stats[name]['mapped_score_by_overlap'] == 1:
         author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
-    else:
-        author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
 
 
 def write_dict_data_to_csv_file(csv_file_path, dict_data):

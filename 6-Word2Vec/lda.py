@@ -195,7 +195,11 @@ def print_general_subreddit_topic():
     """
     ldamodel.print_topics(100)
 
-print_general_subreddit_topic()
+def print_specific_subreddit_topic(id):
+    print ldamodel.show_topic(id, topn=10)
+
+# print_general_subreddit_topic()
+print_specific_subreddit_topic(22)
 
 
 # # Return all topics probability distribution for each document, instead of clipping value using threshold.

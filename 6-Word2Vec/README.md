@@ -4,6 +4,7 @@
 
 - Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
 
+> Upon this point, we have methods to obtain subreddit vector(by LSA), topic vector(by LDA) and word vector(by word2vec).
 
 ## Task1: Generalist/Specialist Score 
 

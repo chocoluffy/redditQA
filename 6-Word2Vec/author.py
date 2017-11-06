@@ -10,9 +10,13 @@ import os.path
 import itertools
 import math
 
-VERSION_PATH = './models/lsi_tfidf_topic_100'
+# Model path.
+# VERSION_PATH = './models/lsi_tfidf_topic_100'
+VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+
+
 AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
-LDA_MODEL = os.path.join(VERSION_PATH, 'tfidf.lda')
+LDA_MODEL = os.path.join(VERSION_PATH, 'model.lda')
 AUTHOR_CSV = os.path.join(VERSION_PATH, 'each_author_topic_comment.csv')
 
 author_stats = pickle.load(open(AUTHOR_COMMENT_RAW, 'rb'))
@@ -70,13 +74,16 @@ for name, obj in author_stats.iteritems():
                 valid_scores += weight
         score_by_overlap = score_by_overlap / valid_scores
     author_stats[name]['score_by_overlap'] = score_by_overlap
-    print(name, score_by_overlap)
+    # print(name, score_by_overlap)
     scores_by_overlap.append(score_by_overlap)
 
 
 scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])
 for name, obj in author_stats.iteritems():
-    author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
+    if obj['score_by_overlap'] == 1:
+        author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
+    else:
+        author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
 
 
 def write_dict_data_to_csv_file(csv_file_path, dict_data):

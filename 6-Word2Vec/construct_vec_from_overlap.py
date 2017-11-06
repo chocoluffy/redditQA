@@ -5,7 +5,10 @@ import os.path
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-VERSION_PATH = './models/lsi_tfidf_topic_100'
+# Model path.
+# VERSION_PATH = './models/lsi_tfidf_topic_100'
+VERSION_PATH = './models/share'
+
 MAP_VECTORS_FROM_OVERLAP = os.path.join(VERSION_PATH, 'subreddit_vector.pkl')
 OVERLAP_INDEX = os.path.join(VERSION_PATH, 'overlap.index')
 

@@ -24,6 +24,8 @@
 
 We infer dominant topics and score. We observe that it accords with the ground truth(the actual subreddit the author contributes to and the actual comments text).
 
+
+
 ### Subreddit perspective
 
 [csv file](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/each_subreddit_author_distribution.csv)

@@ -1,3 +1,11 @@
+mother
+father
+grandmother
+grandfather
+men
+women
+boy
+girl
 accountant
 actor
 actress
@@ -73,8 +81,6 @@ doorman
 driver
 drummer
 drycleaner
-
-E
 ecologist
 economist
 editor

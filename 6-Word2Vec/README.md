@@ -4,7 +4,7 @@
 
 - Reproduce the experiment documented from [dissecting-trumps-most-rabid-online-following/](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/).
 
-> Upon this point, we have methods to obtain subreddit vector(by LSA), topic vector(by LDA) and word vector(by word2vec). 
+> Upon this point, we have methods to obtain subreddit vector(by LSA), topic vector(by LDA) and word vector(by word2vec).
 
 ## Task1: Generalist/Specialist Score 
 
@@ -39,6 +39,15 @@ We infer dominant topics and score. We observe that it accords with the ground t
 - dom_topic_str
 
 ![subreddit](https://ww3.sinaimg.cn/large/006tKfTcgy1fl4naonfrrj31kw0hu4pj.jpg)
+
+
+### Time-Series perspective
+
+- score by LSA on authors seems more coherent, than LDA.
+- there are some interesting contrast between scores produced by two matrixs.
+
+
+
 
 ## Task2: Subreddit Similarity
 

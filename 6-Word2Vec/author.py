@@ -10,17 +10,6 @@ import os.path
 import itertools
 import math
 
-# Model path.
-# VERSION_PATH = './models/lsi_tfidf_topic_100'
-VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
-
-
-AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
-LDA_MODEL = os.path.join(VERSION_PATH, 'model.lda')
-AUTHOR_CSV = os.path.join(VERSION_PATH, 'each_author_topic_comment.csv')
-
-author_stats = pickle.load(open(AUTHOR_COMMENT_RAW, 'rb'))
-ldamodel = gensim.models.ldamodel.LdaModel.load(LDA_MODEL)
 
 
 # import construction from module.
@@ -28,6 +17,20 @@ from construct_vec_from_overlap import *
 
 
 def return_author_stats_on_8G():
+
+    # Model path.
+    # VERSION_PATH = './models/lsi_tfidf_topic_100'
+    VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+
+
+    AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
+    LDA_MODEL = os.path.join(VERSION_PATH, 'model.lda')
+    AUTHOR_CSV = os.path.join(VERSION_PATH, 'each_author_topic_comment.csv')
+
+    author_stats = pickle.load(open(AUTHOR_COMMENT_RAW, 'rb'))
+    ldamodel = gensim.models.ldamodel.LdaModel.load(LDA_MODEL)
+
+
     names, name2vec, indexing = construct_mapping_from_overlap()
 
     # print compare_two_subreddit_similarity('technology', 'apple', name2vec)
@@ -85,6 +88,7 @@ def return_author_stats_on_8G():
         author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
         if author_stats[name]['mapped_score_by_overlap'] == 1:
             author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
+        author_stats[name]['contributions'] = sorted(obj['contributions'].iteritems(), key=itemgetter(1), reverse=True)
     
     return author_stats
 

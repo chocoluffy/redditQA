@@ -96,8 +96,11 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
     writer = csv.writer(csv_file, dialect='excel')
     
     headers = dict_data[dict_data.keys()[0]].keys()
-    new_headers = ['8g_mapped_score', '8g_mapped_score_by_overlap', '8g_topics_str', '8g_contributions', '8g_subreddit_num']
-    writer.writerow(headers.extend(new_headers))
+    new_headers = ['8g_mapped_score', '8g_mapped_score_by_overlap', '8g_dom_topics_str', '8g_contributions', '8g_subreddit_num']
+    # print headers
+    headers.extend(new_headers)
+    
+    writer.writerow(headers)
 
     for key, value in dict_data.items():
         # print key, value
@@ -112,8 +115,14 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
                     line.append(res)
                 elif field in new_headers: # add the data from 8g dictionary.
                     origin_name = '_'.join(field.split('_')[1:])
-                    res = author_stats_large[key][origin_name]
-                    line.append(res)
+                    if key in author_stats_large:
+                        if origin_name in author_stats_large[key]:
+                            res = author_stats_large[key][origin_name]
+                            line.append(res)
+                        else:
+                            line.append([])
+                    else:
+                        line.append([])
                 else:
                     line.append(value[field])
             writer.writerow(line)

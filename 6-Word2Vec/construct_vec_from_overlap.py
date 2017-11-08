@@ -47,6 +47,20 @@ def find_most_similar_combined_subreddit_overlap(names, name2vec, indexing, name
     else:
         print("at least one of the subreddit not found...")
 
+def find_most_similar_algebra_subreddit_overlap(names, name2vec, indexing, name1, name2, name3):
+    if  name1 in name2vec and name2 in name2vec and name3 in name2vec:
+        sub_vec1 = name2vec[name1]
+        sub_vec2 = name2vec[name2]
+        sub_vec3 = name2vec[name3]
+        comb_vec = [k-i+j for i, j, k in zip(sub_vec1, sub_vec2, sub_vec3)]
+        comb_vec = [(i, vec) for i, vec in enumerate(comb_vec)]
+        sims = indexing[comb_vec]
+        sims = sorted(enumerate(sims), key=lambda item: -item[1])   
+        res = map(lambda x: (names[x[0]], x[1]), sims[:10])
+        return res
+    else:
+        print("at least one of the subreddit not found...")
+
 
 pair2sim = defaultdict()
 def compare_two_subreddit_similarity(name1, name2, name2vec):

@@ -1,3 +1,4 @@
+from __future__ import division
 import csv
 import pickle
 from operator import itemgetter
@@ -21,7 +22,7 @@ LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
 TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
-SUBREDDIT_CSV = os.path.join(VERSION_PATH, 'subreddit.csv')
+SUBREDDIT_CSV = os.path.join(VERSION_PATH, 'new_subreddit.csv')
 
 
 
@@ -106,6 +107,23 @@ def construct_reddit():
             reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
     return reddit
 
+def subreddit_elite_score(reddit):
+    # Try calculating the top 5% elite's average score.
+    ELITE_PERCENTAGE = 0.05
+    for reddit_name, obj in reddit.iteritems():
+        involvements = obj['involvements']
+        involvements = sorted(involvements, key=lambda tup: tup[1], reverse=True)
+        counter = 0
+        total = len(involvements) * ELITE_PERCENTAGE
+        score_lst = []
+        while counter < total:
+            if involvements[counter][0] in author_stats:
+                score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
+            counter += 1
+        # print reddit_name, score_lst
+        aver = sum(score_lst) / len(score_lst)
+        reddit[reddit_name]['elite_scores'] = aver
+    return reddit
 
 
 def subreddit_to_authors_distribution(reddit):
@@ -118,7 +136,7 @@ def subreddit_to_authors_distribution(reddit):
     csv_file = open(csv_file_path, 'wb')
     writer = csv.writer(csv_file, dialect='excel')
     
-    headers = ['name', 'involvements', 'total_author_count', 'scores', 'dom_topic', 'dom_topic_str']
+    headers = ['name', 'involvements', 'total_author_count', 'scores', 'elite_scores', 'dom_topic', 'dom_topic_str']
     writer.writerow(headers)
 
     for key, value in reddit.items():
@@ -147,5 +165,6 @@ def subreddit_to_authors_distribution(reddit):
     csv_file.close()
 
 reddit = construct_reddit()
+reddit = subreddit_elite_score(reddit)
 # print reddit
 subreddit_to_authors_distribution(reddit)

@@ -36,15 +36,6 @@ commentCounters = []
 con = MongoClient('localhost', 27017)
 db = con.test
 
-# 898 subreddit with >100 ups comments concated, from rc-2015-06 10G data.
-def load_from_file():
-    with open('3-results-20170921-224241.json') as f:
-        for line in f:
-            obj = json.loads(line)
-            subreddits.append(obj["subreddit"])
-            data.append(obj["comments"])
-            commentCounters.append(obj["countcomments"])
-
 # use pymongo to load large chunk of data from mongo.
 def load_from_mongo():
     if not os.path.exists('./models/4G_top008subreddit_top1kcomments.pkl'):

@@ -55,9 +55,10 @@ def load_from_mongo():
         sub_data = defaultdict(dict)
         counter = 0
         cursor = db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True)
-        total_count = len(list(cursor))
+        all_docs = cursor.toArray()
+        total_count = len(all_docs)
         print("totoal count...", total_count)
-        for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True):
+        for document in all_docs:
             counter += 1
             if counter < total_count * 0.33: # only use the top most active subreddit data.
                 print "Processing #%d subreddit"%(counter)

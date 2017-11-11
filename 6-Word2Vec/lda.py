@@ -46,19 +46,19 @@ def load_from_mongo():
             {'$group': {'_id': '$subreddit', 'comments': { '$push':  { 'body': "$body", 'ups': "$ups" } }}},
             {'$addFields': { 'commentsCount': { '$size': "$comments" } } },
             { "$project": { 
-                "comments": { "$slice": [ "$comments", 4000 ] }, # slice the top comments.
+                "comments": { "$slice": [ "$comments", 5000 ] }, # slice the top comments.
                 "commentsCount": 1
             }},
-            {"$sort": {"commentsCount": -1}}
+            {"$sort": {"commentsCount": -1}},
+            {"$out" : "top_comments" }
         ]
 
         sub_data = defaultdict(dict)
         counter = 0
         cursor = db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True)
-        all_docs = cursor.toArray()
-        total_count = len(all_docs)
+        total_count = db.top_comments.find({}).count()
         print("totoal count...", total_count)
-        for document in all_docs:
+        for document in db.top_comments.find({}):
             counter += 1
             if counter < total_count * 0.33: # only use the top most active subreddit data.
                 print "Processing #%d subreddit"%(counter)

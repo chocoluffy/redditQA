@@ -54,10 +54,10 @@ def load_from_mongo():
 
         sub_data = defaultdict(dict)
         counter = 0
-        cursor = db.docs_31G.aggregate(pipeline = pipe)
+        cursor = db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True)
         total_count = len(list(cursor))
         print("totoal count...", total_count)
-        for document in db.docs_31G.aggregate(pipeline = pipe):
+        for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True):
             counter += 1
             if counter < total_count * 0.25: # only use the top most active subreddit data.
                 print "Processing #%d subreddit"%(counter)
@@ -289,12 +289,12 @@ print_general_subreddit_topic()
 #             {"$sort": {"commentsCount": -1}}
 #         ]
 
-#         cursor = db.docs_l8.aggregate(pipeline = pipe)
+#         cursor = db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True)
 #         total_count = len(list(cursor)) 
 
 #         data = defaultdict(dict)
 #         counter = 0
-#         for document in db.docs_l8.aggregate(pipeline = pipe):
+#         for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
 #             counter += 1
 #             # Pick the top 5% most acitve user by commentsCount, ignore the first 10, probably bots!
 #             if counter > 15 and counter < total_count * 0.1:
@@ -414,7 +414,7 @@ print_general_subreddit_topic()
 #         {"$sort": {"commentsCount": -1}}
 #     ]
 
-#     for document in db.docs_l8.aggregate(pipeline = pipe):
+#     for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
 #         author_name = document['_id']
 #         if author_name in author_dict:
 #             contributions = defaultdict(int)

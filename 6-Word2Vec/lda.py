@@ -46,7 +46,7 @@ def load_from_mongo():
             {'$group': {'_id': '$subreddit', 'comments': { '$push':  { 'body': "$body", 'ups': "$ups" } }}},
             {'$addFields': { 'commentsCount': { '$size': "$comments" } } },
             { "$project": { 
-                "comments": { "$slice": [ "$comments", 6000 ] }, # slice the top comments.
+                "comments": { "$slice": [ "$comments", 5000 ] }, # slice the top comments.
                 "commentsCount": 1
             }},
             {"$sort": {"commentsCount": -1}}
@@ -59,7 +59,7 @@ def load_from_mongo():
         print("totoal count...", total_count)
         for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True):
             counter += 1
-            if counter < total_count * 0.25: # only use the top most active subreddit data.
+            if counter < total_count * 0.33: # only use the top most active subreddit data.
                 print "Processing #%d subreddit"%(counter)
                 docset = " ".join(map(lambda x: x["body"], document['comments']))
                 sub_data[document['_id']]['docset'] = docset

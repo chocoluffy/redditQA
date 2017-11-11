@@ -25,7 +25,7 @@ TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl'
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
 TF_IDF = False
-
+MULTI_CORE = True
 
 
 subreddits = []
@@ -54,7 +54,7 @@ def load_from_mongo():
 
         sub_data = defaultdict(dict)
         counter = 0
-        cursor = db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True)
+        cursor = db.docs_all.aggregate(pipeline = pipe, allowDiskUse = True)
         total_count = len(list(cursor))
         print("totoal count...", total_count)
         for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
@@ -169,7 +169,10 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 # Save LDA model
 if not os.path.exists(LDA_PATH):
     # Creating the object for LDA model using gensim library
-    Lda = gensim.models.ldamodel.LdaModel
+    if MULTI_CORE:
+        Lda = gensim.models.ldamulticore.LdaMulticore
+    else:
+        Lda = gensim.models.ldamodel.LdaModel
     # Running and Trainign LDA model on the document term matrix.
     if TF_IDF:
         ldamodel = Lda(corpus_tfidf, num_topics=100, id2word = dictionary, passes=50)

@@ -15,6 +15,8 @@ import re
 
 # Gloabl Configuration
 VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+
+
 DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
 CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
@@ -110,7 +112,7 @@ if not os.path.exists(DICTIONARY_PATH):
         link_free = re.sub(r"http\S+", "", doc) # remove url
         hashtag_free = " ".join(re.findall('[A-Z][^A-Z]*', link_free)) # remove hashtag style words, such as: OnePieceIsGreat
         number_free = re.sub(r'\d+', "", hashtag_free) # remove numbers
-        stop_free = " ".join([i for i in number_free.lower().split() if i not in stop and len(i) > 2]) # remove stopword
+        stop_free = " ".join([i for i in number_free.lower().split() if i not in stop and len(i) > 2 and len(i) < 20]) # remove stopword
         punc_free = ''.join(ch for ch in stop_free if ch not in exclude) # remove punctuation
         normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split()) # stem
         return normalized

@@ -1,0 +1,8 @@
+gensim==0.12.4
+numpy==1.11.2
+nltk==3.2.1
+pandas==0.18.1
+pymongo==3.3.0
+scipy==0.18.1
+matplotlib==1.5.1
+scikit_learn==0.19.1

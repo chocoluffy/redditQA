@@ -14,14 +14,14 @@ import os.path
 import re
 
 # Gloabl Configuration
-VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 
 
 DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
 CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
-TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
+TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
 TF_IDF = False
@@ -37,15 +37,6 @@ commentCounters = []
 con = MongoClient('localhost', 27017)
 db = con.test
 
-# 898 subreddit with >100 ups comments concated, from rc-2015-06 10G data.
-def load_from_file():
-    with open('3-results-20170921-224241.json') as f:
-        for line in f:
-            obj = json.loads(line)
-            subreddits.append(obj["subreddit"])
-            data.append(obj["comments"])
-            commentCounters.append(obj["countcomments"])
-
 # use pymongo to load large chunk of data from mongo.
 def load_from_mongo():
     if not os.path.exists(TOP_COMMENTS):
@@ -55,7 +46,7 @@ def load_from_mongo():
             {'$group': {'_id': '$subreddit', 'comments': { '$push':  { 'body': "$body", 'ups': "$ups" } }}},
             {'$addFields': { 'commentsCount': { '$size': "$comments" } } },
             { "$project": { 
-                "comments": { "$slice": [ "$comments", 2000 ] }, # slice the top 2000 comments.
+                "comments": { "$slice": [ "$comments", 6000 ] }, # slice the top comments.
                 "commentsCount": 1
             }},
             {"$sort": {"commentsCount": -1}}
@@ -68,7 +59,7 @@ def load_from_mongo():
         print("totoal count...", total_count)
         for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
             counter += 1
-            if counter < total_count * 0.1: # only use the top 8% most active subreddit data.
+            if counter < total_count * 0.25: # only use the top most active subreddit data.
                 print "Processing #%d subreddit"%(counter)
                 docset = " ".join(map(lambda x: x["body"], document['comments']))
                 sub_data[document['_id']]['docset'] = docset

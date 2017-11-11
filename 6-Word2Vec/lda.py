@@ -46,7 +46,7 @@ def load_from_mongo():
             {'$group': {'_id': '$subreddit', 'comments': { '$push':  { 'body': "$body", 'ups': "$ups" } }}},
             {'$addFields': { 'commentsCount': { '$size': "$comments" } } },
             { "$project": { 
-                "comments": { "$slice": [ "$comments", 6000 ] }, # slice the top comments.
+                "comments": { "$slice": [ "$comments", 100 ] }, # slice the top comments.
                 "commentsCount": 1
             }},
             {"$sort": {"commentsCount": -1}}

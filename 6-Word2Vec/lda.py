@@ -176,9 +176,9 @@ if not os.path.exists(LDA_PATH):
         Lda = gensim.models.ldamodel.LdaModel
     # Running and Trainign LDA model on the document term matrix.
     if TF_IDF:
-        ldamodel = Lda(corpus_tfidf, num_topics=100, id2word = dictionary, passes=50, workers=32)
+        ldamodel = Lda(corpus_tfidf, num_topics=100, id2word = dictionary, passes=50, workers=20)
     else:
-        ldamodel = Lda(corpus, num_topics=100, id2word = dictionary, passes=50, workers=32)
+        ldamodel = Lda(corpus, num_topics=100, id2word = dictionary, passes=50, workers=20)
     ldamodel.save(LDA_PATH)
 else:
     ldamodel = gensim.models.ldamodel.LdaModel.load(LDA_PATH)

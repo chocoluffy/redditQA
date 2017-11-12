@@ -18,7 +18,7 @@ VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 
 
 DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
-CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
+CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm.bz2')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
 TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
@@ -92,6 +92,7 @@ import string
 import gensim
 from gensim import corpora
 import os.path
+import bz2
 
 # If dictionary model exists, use it; Otherwise, save a new one.
 if not os.path.exists(DICTIONARY_PATH):
@@ -107,7 +108,9 @@ if not os.path.exists(DICTIONARY_PATH):
         stop_free = " ".join([i for i in number_free.lower().split() if i not in stop and len(i) > 2 and len(i) < 20]) # remove stopword
         punc_free = ''.join(ch for ch in stop_free if ch not in exclude) # remove punctuation
         normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split()) # stem
-        return normalized
+        commoned = re.sub(r'[^\x00-\x7f]',r' ', normalized) # remove non-english characters
+        commoned = re.sub( '\s+', ' ', commoned ).strip() # replace multiple space with one
+        return commoned
 
     doc_clean = [clean(doc).split() for doc in doc_complete] 
 
@@ -134,7 +137,8 @@ if not os.path.exists(CORPUS_PATH):
     # Save the matrix into Market Matrix format. 
     corpora.MmCorpus.serialize(CORPUS_PATH, corpus)
 else:
-    corpus = corpora.MmCorpus(CORPUS_PATH)
+    # corpus = corpora.MmCorpus(CORPUS_PATH)
+    corpus = corpora.MmCorpus(bz2.BZ2File(CORPUS_PATH)) # use bz2 version.
     print("document to term matrix loaded...")
 
 # Use TF-IDF model

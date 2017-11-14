@@ -188,10 +188,11 @@ def plot(reddit_data):
     r = []
     # pprint(reddit)
     for name, obj in reddit_data.iteritems():
-        labels.append(name)
-        x.append(obj['scores'])
-        y.append(obj['elite_scores'])
-        r.append(obj['total_author_count'])
+        if len(obj['involvements']) > 10: # only pick active subreddits.
+            labels.append(name)
+            x.append(sum(obj['scores']) / len(obj['scores']))
+            y.append(obj['elite_scores'])
+            r.append(len(obj['involvements']))
     
     colors = cm.rainbow(np.linspace(0, 1, len(labels)))
                    

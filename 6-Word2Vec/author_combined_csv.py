@@ -31,7 +31,7 @@ from construct_vec_from_overlap import *
 names, name2vec, indexing = construct_mapping_from_overlap()
 
 # import 8G author_stats from module.
-from author import *
+from author_csv import *
 
 author_stats_large = return_author_stats()
 

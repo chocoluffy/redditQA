@@ -49,7 +49,7 @@ def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
         topic2str[i] = ' + '.join(map(lambda x: x[0], ldamodel.show_topic(i, topn=4)))
 
     for name, obj in author_stats.iteritems():
-        topic_str = ["({0}, {1})".format(topic2str[tup[0]], tup[1]) for tup in obj['dom_topics']]
+        topic_str = [u"({0}, {1})".format(topic2str[tup[0]], tup[1]) for tup in obj['dom_topics']]
         author_stats[name]['dom_topics_str'] = topic_str
         scores.append(obj['score'])
 

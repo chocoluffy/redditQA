@@ -78,7 +78,8 @@ def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
                 if sim > -1:
                     score_by_overlap += weight * sim # cosine similarity
                     valid_scores += weight
-            score_by_overlap = score_by_overlap / valid_scores
+            if valid_scores > 0:
+                score_by_overlap = score_by_overlap / valid_scores
         author_stats[name]['score_by_overlap'] = score_by_overlap
         # print(name, score_by_overlap)
         scores_by_overlap.append(score_by_overlap)

@@ -16,11 +16,12 @@ import math
 from construct_vec_from_overlap import *
 
 
-def return_author_stats_on_8G():
+
+def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
 
     # Model path.
     # VERSION_PATH = './models/lsi_tfidf_topic_100'
-    VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+    VERSION_PATH = path
 
 
     AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')

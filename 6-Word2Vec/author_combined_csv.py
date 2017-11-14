@@ -96,7 +96,7 @@ scale_by_entropy = interp1d([min(scores_by_entropy), max(scores_by_entropy)],[1,
 
 for name, obj in author_stats.iteritems():
     author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
-    author_stats[name]['mapped_score_by_entropy'] = scale_by_overlap(obj['score_by_entropy'])
+    author_stats[name]['mapped_score_by_entropy'] = 101 - scale_by_overlap(obj['score_by_entropy'])
     if author_stats[name]['mapped_score_by_overlap'] == 1:
         author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
 

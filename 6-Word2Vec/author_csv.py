@@ -107,13 +107,7 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
         if isinstance(value['subreddit_num'], int): # filter malformed field.
             line = []
             for field in headers:
-                if field == 'contributions':
-                    if isinstance(value['contributions'], list):
-                        line.append([])
-                    else:
-                        res = sorted(value['contributions'].iteritems(), key=itemgetter(1), reverse=True)
-                        line.append(res) 
-                elif field == 'comments':
+                if field == 'comments':
                     res = value['comments'][:20]
                     line.append(res)
                 else:

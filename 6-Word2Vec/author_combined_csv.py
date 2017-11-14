@@ -34,6 +34,7 @@ names, name2vec, indexing = construct_mapping_from_overlap()
 from author_csv import *
 
 author_stats_large = return_author_stats()
+print("8G data imported...")
 
 
 
@@ -85,8 +86,10 @@ for name, obj in author_stats.iteritems():
         score_by_overlap = score_by_overlap / valid_scores
     author_stats[name]['score_by_overlap'] = score_by_overlap
     
-    author_stats[name]['score_by_entropy'] = entropy(map(lambda x: x[1], active_contributions))
-    # print(name, score_by_overlap)
+    # entropy_score = entropy(map(lambda x: x[1], active_contributions))
+    # author_stats[name]['score_by_entropy'] = entropy_score
+    # print(name, score_by_overlap, entropy_score)
+    print(name, score_by_overlap)
     scores_by_overlap.append(score_by_overlap)
     scores_by_entropy.append(scores_by_entropy)
 

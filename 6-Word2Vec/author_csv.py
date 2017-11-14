@@ -104,7 +104,7 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
 
     for key, value in dict_data.items():
         # print key, value
-        if isinstance(value['subreddit_num'], int): # filter malformed field.
+        if isinstance(value['subreddit_num'], int) and not isinstance(value['contributions'], list): # filter malformed field.
             line = []
             for field in headers:
                 if field == 'contributions':

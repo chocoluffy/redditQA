@@ -1,3 +1,25 @@
+## Summary
+
+A series of incremental experiments conducted on reddit comments, from 4G, 8G to 31G(one month data).
+
+### Author
+
+We can infer reddit authors's generalist/specialist score from three dimensions:
+- weighted similarity of dominant topics from each author's contributions.
+- weighted similarity of different subreddits by counting overlapping authors.
+- entropy value from their contribution distribution.
+
+And in the process, we implement two embeddings on the data:
+- subreddit vector, by LSA on authors level.
+- topic vector, by LDA.
+
+### Subreddits
+
+Given involved authors' scores, we can calculate average generalist/specialist score for each subreddit, and furthermore, find out the elite group(with the most upvoted contributions), and calculate score to examine if a pre-known generalist/specialist can be successful in such env.
+
+(above is the general summary of achievements so far.)
+---
+
 ## Progress
 
 - Correct the csv data from last week, including analysis for each author and each subreddit in `./results`.
@@ -39,14 +61,6 @@ We infer dominant topics and score. We observe that it accords with the ground t
 - dom_topic_str
 
 ![subreddit](https://ww3.sinaimg.cn/large/006tKfTcgy1fl4naonfrrj31kw0hu4pj.jpg)
-
-
-### Time-Series perspective
-
-- score by LSA on authors seems more coherent, than LDA.
-- there are some interesting contrast between scores produced by two matrixs.
-
-
 
 
 ## Task2: Subreddit Similarity

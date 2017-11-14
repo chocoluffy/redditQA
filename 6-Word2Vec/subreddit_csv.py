@@ -167,4 +167,70 @@ def subreddit_to_authors_distribution(reddit):
 reddit = construct_reddit()
 reddit = subreddit_elite_score(reddit)
 # print reddit
-subreddit_to_authors_distribution(reddit)
+# subreddit_to_authors_distribution(reddit)
+
+
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import numpy as np
+import math
+
+def plot_specialist_distribution():
+    """
+    x: average generalist/specialist score.
+    y: average elite's generalist/specialist score.
+    radius: how many authors involved.
+
+    inspect_authors_stats: each tuple contains author, res, score
+    data: each author's contribution.
+    """
+    reddit = defaultdict(list)
+    author_scores = defaultdict(dict)
+    res = defaultdict(dict)
+    for name, res, score in inspect_authors_stats:
+        author_scores[name] = score
+
+    for author in author_topics.iterkeys():
+        for subreddit in author_topics[author]['contributions']:
+            if author_scores[author]:
+                reddit[subreddit].append((author_scores[author], author_topics[author]['contributions'][subreddit], 1))
+
+    labels = []
+    x = []
+    y = []
+    r = []
+    # pprint(reddit)
+    for subreddit, lst in reddit.iteritems():
+        labels.append(subreddit)
+        x.append(sum(map(lambda x: x[0], lst)) / len(lst))
+        y.append(sum(map(lambda x: x[1], lst)) / len(lst))
+        r.append(sum(map(lambda x: x[2], lst)))
+    
+    print(r)
+    colors = cm.rainbow(np.linspace(0, 1, len(labels)))
+                   
+    fig = plt.figure(figsize=(16, 16)) 
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(top=0.85)
+    ax.set_xlabel('generalist/specialist score')
+    ax.set_ylabel('average contributions count')
+
+    for i in range(len(x)):
+        sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 20), linewidths=2, edgecolor='w')
+        sct.set_alpha(0.75)
+        if float(y[i]) > 15:
+            plt.annotate(labels[i],
+                        xy=(x[i], y[i]),
+                        xytext=(5, 2),
+                        textcoords='offset points',
+                        ha='right',
+                        va='bottom')
+    plt.show()
+
+# plot_specialist_distribution()
+
+
+# print_authors_comments(inspect_authors_stats)
+
+# # # print_general_subreddit_topic()
+

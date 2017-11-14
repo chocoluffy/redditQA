@@ -85,8 +85,7 @@ for name, obj in author_stats.iteritems():
         score_by_overlap = score_by_overlap / valid_scores
     author_stats[name]['score_by_overlap'] = score_by_overlap
     
-    scores_by_entropy = entropy(map(lambda x: x[1], active_contributions))
-    author_stats[name]['score_by_entropy'] = score_by_entropy
+    author_stats[name]['score_by_entropy'] = entropy(map(lambda x: x[1], active_contributions))
     # print(name, score_by_overlap)
     scores_by_overlap.append(score_by_overlap)
     scores_by_entropy.append(scores_by_entropy)

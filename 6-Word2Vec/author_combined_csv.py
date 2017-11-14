@@ -8,6 +8,7 @@ import gensim
 from gensim import corpora
 from collections import defaultdict
 from scipy.interpolate import interp1d
+from scipy.stats import entropy
 import os.path
 import itertools
 import math
@@ -58,6 +59,9 @@ scale = interp1d([min(scores), max(scores)],[1,100])
 # Add mapped_score, score_by_overlap, mapped_score_by_overlap into the object.
 scores_by_overlap = []
 
+# Add score computed by entropy.
+scores_by_entropy = []
+
 # sim_names, sim_matrix = compare_subreddits_similarity_batch(name2vec)
 # print sim_names, sim_matrix
 
@@ -80,13 +84,20 @@ for name, obj in author_stats.iteritems():
                 valid_scores += weight
         score_by_overlap = score_by_overlap / valid_scores
     author_stats[name]['score_by_overlap'] = score_by_overlap
+    
+    scores_by_entropy = entropy(map(lambda x: x[1], active_contributions))
+    author_stats[name]['score_by_entropy'] = score_by_entropy
     # print(name, score_by_overlap)
     scores_by_overlap.append(score_by_overlap)
+    scores_by_entropy.append(scores_by_entropy)
 
 
 scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])
+scale_by_entropy = interp1d([min(scores_by_entropy), max(scores_by_entropy)],[1,100])
+
 for name, obj in author_stats.iteritems():
     author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
+    author_stats[name]['mapped_score_by_entropy'] = scale_by_overlap(obj['score_by_entropy'])
     if author_stats[name]['mapped_score_by_overlap'] == 1:
         author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
 
@@ -96,7 +107,7 @@ def write_dict_data_to_csv_file(csv_file_path, dict_data):
     writer = csv.writer(csv_file, dialect='excel')
     
     headers = dict_data[dict_data.keys()[0]].keys()
-    new_headers = ['8g_mapped_score', '8g_mapped_score_by_overlap', '8g_dom_topics_str', '8g_contributions', '8g_subreddit_num']
+    new_headers = ['8g_mapped_score', '8g_mapped_score_by_overlap', '8g_mapped_score_by_entropy', '8g_dom_topics_str', '8g_contributions', '8g_subreddit_num']
     # print headers
     headers.extend(new_headers)
     

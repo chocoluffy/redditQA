@@ -105,12 +105,12 @@ if not os.path.exists(DICTIONARY_PATH):
         link_free = re.sub(r"http\S+", "", doc) # remove url
         hashtag_free = " ".join(re.findall('[A-Z][^A-Z]*', link_free)) # remove hashtag style words, such as: OnePieceIsGreat
         number_free = re.sub(r'\d+', "", hashtag_free) # remove numbers
-        stop_free = " ".join([i for i in number_free.lower().split() if i not in stop and len(i) > 2 and len(i) < 20]) # remove stopword
+        specialchar_free = re.sub(r'[^\x00-\x7f]',r' ', number_free) # remove non-english characters
+        specialchar_free = re.sub( '\s+', ' ', specialchar_free ).strip() # replace multiple space with one
+        stop_free = " ".join([i for i in specialchar_free.lower().split() if i not in stop and len(i) > 2 and len(i) < 20]) # remove stopword
         punc_free = ''.join(ch for ch in stop_free if ch not in exclude) # remove punctuation
         normalized = " ".join(lemma.lemmatize(word) for word in punc_free.split()) # stem
-        commoned = re.sub(r'[^\x00-\x7f]',r' ', normalized) # remove non-english characters
-        commoned = re.sub( '\s+', ' ', commoned ).strip() # replace multiple space with one
-        return commoned
+        return normalized
 
     doc_clean = [clean(doc).split() for doc in doc_complete] 
 

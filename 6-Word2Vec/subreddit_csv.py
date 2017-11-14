@@ -175,8 +175,9 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 import math
+from adjustText import adjust_text
 
-def plot(reddit_data):
+def plot(reddit_data, adjust = False):
     """
     x: average generalist/specialist score.
     y: average elite's generalist/specialist score.
@@ -186,6 +187,8 @@ def plot(reddit_data):
     x = []
     y = []
     r = []
+
+
     # pprint(reddit)
     for name, obj in reddit_data.iteritems():
         if len(obj['involvements']) > 10: # only pick active subreddits.
@@ -197,21 +200,42 @@ def plot(reddit_data):
     colors = cm.rainbow(np.linspace(0, 1, len(labels)))
                    
     fig = plt.figure(figsize=(16, 16)) 
+    axes = plt.gca()
+    axes.set_xlim([1,100])
+    axes.set_ylim([1,100])
     ax = fig.add_subplot(111)
     fig.subplots_adjust(top=0.85)
     ax.set_xlabel('average G/S score')
     ax.set_ylabel('average elite G/S score')
+    ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+    plt.title("common VS elites G/S score")
 
-    for i in range(len(x)):
-        sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 25), linewidths=2, edgecolor='w')
-        sct.set_alpha(0.75)
-        if abs(y[i] - x[i]) > 20:
-            plt.annotate(labels[i],
-                        xy=(x[i], y[i]),
-                        xytext=(5, 2),
-                        textcoords='offset points',
-                        ha='right',
-                        va='bottom')
+    # to dynamic adjust texts labels.
+    texts = []
+    annotate_x = []
+    annotate_y = []
+    for xx, yy, ll in zip(x, y, labels):
+        if abs(yy - xx) > 25:
+            texts.append(ax.text(xx, yy, ll))
+            annotate_x.append(xx)
+            annotate_y.append(yy)
+
+    if adjust:
+        for i in range(len(x)):
+            sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
+            sct.set_alpha(0.75)
+        adjust_text(texts, annotate_x, annotate_y, arrowprops=dict(arrowstyle="-", color='k', lw=0.5))
+    else:
+        for i in range(len(x)):
+            sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
+            sct.set_alpha(0.75)
+            if abs(y[i] - x[i]) > 25:
+                plt.annotate(labels[i],
+                            xy=(x[i], y[i]),
+                            xytext=(5, 2),
+                            textcoords='offset points',
+                            ha='right',
+                            va='bottom')
     plt.show()
 
-plot(reddit)
+plot(reddit, True)

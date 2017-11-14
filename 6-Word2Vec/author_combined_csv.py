@@ -73,25 +73,26 @@ for name, obj in author_stats.iteritems():
     # print active_contributions
     score_by_overlap = 0
     valid_scores = 0
+    # print(name, active_contributions)
     comb = list(itertools.combinations(active_contributions, 2)) # return topic index permutation.
     if len(comb) > 0:
         for sub1, sub2 in comb:
             # print sub1, sub2, compare_two_subreddit_similarity(sub1, sub2, name2vec)
             weight = math.sqrt(sub1[1] * sub2[1])
+            # print(sub1, sub2)
             sim = compare_two_subreddit_similarity(sub1[0], sub2[0], name2vec)[0][0]
-            # print(sub1, sub2, sim)
             if sim > -1:
                 score_by_overlap += weight * sim # cosine similarity
                 valid_scores += weight
         score_by_overlap = score_by_overlap / valid_scores
     author_stats[name]['score_by_overlap'] = score_by_overlap
     
-    # entropy_score = entropy(map(lambda x: x[1], active_contributions))
-    # author_stats[name]['score_by_entropy'] = entropy_score
+    entropy_score = entropy(map(lambda x: x[1], active_contributions))
+    author_stats[name]['score_by_entropy'] = entropy_score
     # print(name, score_by_overlap, entropy_score)
-    print(name, score_by_overlap)
+    # print(name, score_by_overlap)
     scores_by_overlap.append(score_by_overlap)
-    scores_by_entropy.append(scores_by_entropy)
+    scores_by_entropy.append(entropy_score)
 
 
 scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])

@@ -125,6 +125,7 @@ def subreddit_elite_score(reddit, if_by_overlap = False):
                     score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
                 else:
                     score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
+                print score_lst
             counter += 1
         # print reddit_name, score_lst
         aver = sum(score_lst) / len(score_lst)

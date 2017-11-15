@@ -17,6 +17,10 @@ And in the process, we implement two embeddings on the data:
 
 Given involved authors' scores, we can calculate average generalist/specialist score for each subreddit, and furthermore, find out the elite group(with the most upvoted contributions), and calculate score to examine if a pre-known generalist/specialist can be successful in such env.
 
+### Distribution
+
+
+
 (above is the general summary of achievements so far.)
 ---
 

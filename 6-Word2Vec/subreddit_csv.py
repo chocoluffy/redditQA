@@ -74,7 +74,7 @@ for label, obj in reddit_comments.items():
     data.append(obj["docset"])
     commentCounters.append(obj["length"])
     
-def construct_reddit():
+def construct_reddit(if_by_overlap = False):
     # Covert the comments from data into a topic vector, for now given 100 topics, each vector will be 
     # of length 100, indicating the probability from each topic.
     reddit_2_topic = defaultdict(dict)
@@ -89,7 +89,10 @@ def construct_reddit():
     for author_name, obj in author_stats.iteritems():
         for reddit_name, ups in obj['contributions'].iteritems():
             reddit[reddit_name]['involvements'].append((author_name, ups))
-            reddit[reddit_name]['scores'].append(obj['mapped_score'])
+            if if_by_overlap:
+                reddit[reddit_name]['scores'].append(obj['mapped_score_by_overlap'])
+            else:
+                reddit[reddit_name]['scores'].append(obj['mapped_score'])
             reddit[reddit_name]['name'] = reddit_name
     
     # populate from reddit_2_topic
@@ -107,7 +110,7 @@ def construct_reddit():
             reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
     return reddit
 
-def subreddit_elite_score(reddit):
+def subreddit_elite_score(reddit, if_by_overlap = False):
     # Try calculating the top 5% elite's average score.
     ELITE_PERCENTAGE = 0.05
     for reddit_name, obj in reddit.iteritems():
@@ -118,7 +121,10 @@ def subreddit_elite_score(reddit):
         score_lst = []
         while counter < total:
             if involvements[counter][0] in author_stats:
-                score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
+                if if_by_overlap:
+                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
+                else:
+                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
             counter += 1
         # print reddit_name, score_lst
         aver = sum(score_lst) / len(score_lst)
@@ -164,8 +170,9 @@ def subreddit_to_authors_distribution(reddit):
         
     csv_file.close()
 
-reddit = construct_reddit()
-reddit = subreddit_elite_score(reddit)
+IF_BY_OVERLAP = True
+reddit = construct_reddit(IF_BY_OVERLAP)
+reddit = subreddit_elite_score(reddit, IF_BY_OVERLAP)
 
 
 # subreddit_to_authors_distribution(reddit)
@@ -238,4 +245,4 @@ def plot(reddit_data, adjust = False):
                             va='bottom')
     plt.show()
 
-plot(reddit, True)
+plot(reddit, adjust = True)

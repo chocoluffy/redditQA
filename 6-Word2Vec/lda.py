@@ -2,6 +2,10 @@
 Some tips:
 - Make sure use a relatively balanced dataset, each subreddit with 10000 comments. Check the last one's comment count.
 - Before training on TF-IDF, need to de-normalize it into normal integer!
+
+Goal:
+Finally will save data into each_author_topic_comments.pkl, for further process in author_*.py and subreddit_*.py 
+
 """
 from __future__ import division
 import operator
@@ -24,6 +28,8 @@ LDA_PATH = os.path.join(VERSION_PATH, 'new-model.lda')
 TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
+AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+
 TF_IDF = False
 MULTI_CORE = True
 
@@ -385,6 +391,10 @@ for author, obj in author_topics.items():
         # print("User author {0}, dominant topics num {1}, score: {2}, {3}".format(author, len(res), score, res))
         inspect_authors_stats.append((author, res, score))
 
+"""
+Up to here: inspect_authors_stats contains the score by LDA. 
+In order to construct a complete dictionary file, find to look up from the DB again.
+"""
 
 author_stats = defaultdict(dict)
 for (name, res, score) in inspect_authors_stats:
@@ -423,14 +433,17 @@ def collect_authors_info(author_dict):
         author_name = document['_id']
         if author_name in author_dict:
             contributions = defaultdict(int)
+            contributions_by_count = defaultdict(int)
             for comment_info in document['contributions']:
                 contributions[comment_info['subreddit']] += comment_info['ups']
+                contributions_by_count[comment_info['subreddit']] += 1
             author_stats[author_name]['contributions'] = contributions
+            author_stats[author_name]['contributions_by_count'] = contributions_by_count
             author_stats[author_name]['comments'] = document['comments']
             author_stats[author_name]['subreddit_num'] = document['subredditnum']
 
 
 
 collect_authors_info(author_stats)
-pickle.dump(author_stats, open(AUTHOR_STATS, 'wb'))
+pickle.dump(author_stats, open(AUTHOR_STATS_WITH_CONTRIBUTION_COUNT, 'wb'))
 print("saved stats for each user...")

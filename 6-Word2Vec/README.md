@@ -21,7 +21,9 @@ Given involved authors' scores, we can calculate average generalist/specialist s
 
 ![elite and all average](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/common-elites-score.png)
 
-The distribution indicates, in some subreddits, the elites exhibit different loyalty traits than common people. One interesting finding is the elite line has a slope saliently higher than 1, meaning the elite easily goes to extreme compared with the common. If the subreddit is generally dominated by specialist, then sorry the elite of this subreddit is more specialist! The converse statement also holds true. The elite tends to be an extreme form of such subreddit. 
+- The distribution indicates, in some subreddits, the elites exhibit different loyalty traits than common people. One interesting finding is the elite line has a slope saliently higher than 1, meaning the elite easily goes to extreme compared with the common. If the subreddit is generally dominated by specialist, then sorry the elite of this subreddit is more specialist! The converse statement also holds true. The elite tends to be an extreme form of such subreddit. 
+
+- As expected, methods by LDA and LSA are able to correct some low score calculated by entropy. As people with equally approximate contribution may be a potential specialist if his subreddits are similar to each other.
 
 (above is the general summary of achievements so far.)
 ---

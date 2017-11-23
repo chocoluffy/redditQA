@@ -17,7 +17,7 @@ import pandas as pd
 Global configuration.
 """
 IS_LOCAL = True # test 8G data on local machine. test 31G data on remote server.
-IF_BY_OVERLAP = True # 
+SCORE_METHOD = 2 # 0: by lda; 1: by overlapping; 2: by entropy
 
 if not IS_LOCAL:
     print "Loaded 31G dataset..."
@@ -39,7 +39,7 @@ else:
     CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
     LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
     TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
-    AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+    AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl')
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '8G_subreddit.csv')
 
 
@@ -97,7 +97,7 @@ for label, obj in reddit_comments.items():
     data.append(obj["docset"])
     commentCounters.append(obj["length"])
     
-def construct_reddit(if_by_overlap = False):
+def construct_reddit(score_method = 0):
     # Covert the comments from data into a topic vector, for now given 100 topics, each vector will be 
     # of length 100, indicating the probability from each topic.
     reddit_2_topic = defaultdict(dict)
@@ -110,13 +110,15 @@ def construct_reddit(if_by_overlap = False):
     # populate from author_stats.
     reddit = defaultdict(lambda:defaultdict(list))
     for author_name, obj in author_stats.iteritems():
-        for reddit_name, ups in obj['contributions'].iteritems():
+        for reddit_name, ups in obj['contributions']: # currently obj['contributions'] is a list.
             author_this_subreddit_count = obj['contributions_by_count'][reddit_name]
             reddit[reddit_name]['involvements'].append((author_name, ups, author_this_subreddit_count))
-            if if_by_overlap:
-                reddit[reddit_name]['scores'].append(obj['mapped_score_by_overlap'])
-            else:
+            if score_method == 0:
                 reddit[reddit_name]['scores'].append(obj['mapped_score'])
+            elif score_method == 1:
+                reddit[reddit_name]['scores'].append(obj['mapped_score_by_overlap'])
+            else: 
+                reddit[reddit_name]['scores'].append(obj['mapped_score_by_entropy'])
             reddit[reddit_name]['name'] = reddit_name
     
     # populate from reddit_2_topic
@@ -134,7 +136,7 @@ def construct_reddit(if_by_overlap = False):
             reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
     return reddit
 
-def subreddit_elite_score(reddit, if_by_overlap = False):
+def subreddit_elite_score(reddit, score_method = 0):
     # Try calculating the top 5% elite's average score.
     ELITE_PERCENTAGE = 0.05
     for reddit_name, obj in reddit.iteritems():
@@ -145,11 +147,13 @@ def subreddit_elite_score(reddit, if_by_overlap = False):
         score_lst = []
         while counter < total:
             if involvements[counter][0] in author_stats:
-                if if_by_overlap:
-                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
-                else:
+                if score_method == 0:
                     score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
-                print score_lst
+                elif score_method == 1:
+                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
+                elif score_method == 2:
+                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_entropy'])
+                # print score_lst
             counter += 1
         # print reddit_name, score_lst
         aver = sum(score_lst) / len(score_lst)
@@ -195,8 +199,8 @@ def subreddit_to_authors_distribution(reddit):
         
     csv_file.close()
 
-reddit = construct_reddit(IF_BY_OVERLAP)
-reddit = subreddit_elite_score(reddit, IF_BY_OVERLAP)
+reddit = construct_reddit(SCORE_METHOD)
+reddit = subreddit_elite_score(reddit, SCORE_METHOD)
 
 
 # subreddit_to_authors_distribution(reddit)

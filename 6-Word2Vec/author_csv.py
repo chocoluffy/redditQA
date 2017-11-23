@@ -6,6 +6,7 @@ import gensim
 from gensim import corpora
 from collections import defaultdict
 from scipy.interpolate import interp1d
+from scipy.stats import entropy
 import os.path
 import itertools
 import math
@@ -18,15 +19,16 @@ from construct_vec_from_overlap import *
 
 
 def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
+    """
+    Finally return author_stats data with additional score_by_overlap and mapped_score_by_overlap.
+    """
 
     # Model path.
     # VERSION_PATH = './models/lsi_tfidf_topic_100'
     VERSION_PATH = path
 
-
-    AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
+    AUTHOR_COMMENT_RAW = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
     LDA_MODEL = os.path.join(VERSION_PATH, 'model.lda')
-    AUTHOR_CSV = os.path.join(VERSION_PATH, 'each_author_topic_comment.csv')
 
     author_stats = pickle.load(open(AUTHOR_COMMENT_RAW, 'rb'))
     ldamodel = gensim.models.ldamodel.LdaModel.load(LDA_MODEL)
@@ -58,6 +60,9 @@ def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
     # Add mapped_score, score_by_overlap, mapped_score_by_overlap into the object.
     scores_by_overlap = []
 
+    # Add score computed by entropy.
+    scores_by_entropy = []
+
     # sim_names, sim_matrix = compare_subreddits_similarity_batch(name2vec)
     # print sim_names, sim_matrix
 
@@ -81,13 +86,20 @@ def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
             if valid_scores > 0:
                 score_by_overlap = score_by_overlap / valid_scores
         author_stats[name]['score_by_overlap'] = score_by_overlap
+        
+        entropy_score = entropy(map(lambda x: x[1], active_contributions))
+        author_stats[name]['score_by_entropy'] = entropy_score
+        # print(name, score_by_overlap, entropy_score)
         # print(name, score_by_overlap)
         scores_by_overlap.append(score_by_overlap)
-
+        scores_by_entropy.append(entropy_score)
 
     scale_by_overlap = interp1d([min(scores_by_overlap), max(scores_by_overlap)],[1,100])
+    scale_by_entropy = interp1d([min(scores_by_entropy), max(scores_by_entropy)],[1,100])
+
     for name, obj in author_stats.iteritems():
         author_stats[name]['mapped_score_by_overlap'] = scale_by_overlap(obj['score_by_overlap'])
+        author_stats[name]['mapped_score_by_entropy'] = 101 - scale_by_entropy(obj['score_by_entropy'])
         if author_stats[name]['mapped_score_by_overlap'] == 1:
             author_stats[name]['mapped_score_by_overlap'] = -1 # meaning data too few.
         author_stats[name]['contributions'] = sorted(obj['contributions'].iteritems(), key=itemgetter(1), reverse=True)

@@ -17,8 +17,10 @@ import pandas as pd
 Global configuration.
 """
 IS_LOCAL = True # test 8G data on local machine. test 31G data on remote server.
+IF_BY_OVERLAP = True # 
 
 if not IS_LOCAL:
+    print "Loaded 31G dataset..."
     VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 
     DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
@@ -29,6 +31,7 @@ if not IS_LOCAL:
     AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '31G_subreddit.csv')
 else:
+    print "Loaded 8G dataset..."
     VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
 
     DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
@@ -36,7 +39,7 @@ else:
     CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
     LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
     TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
-    AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
+    AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '8G_subreddit.csv')
 
 
@@ -192,7 +195,6 @@ def subreddit_to_authors_distribution(reddit):
         
     csv_file.close()
 
-IF_BY_OVERLAP = True
 reddit = construct_reddit(IF_BY_OVERLAP)
 reddit = subreddit_elite_score(reddit, IF_BY_OVERLAP)
 

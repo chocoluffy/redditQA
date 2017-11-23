@@ -16,11 +16,11 @@ import pandas as pd
 """
 Global configuration.
 """
-IS_LOCAL = True # test 8G data on local machine. test 31G data on remote server.
+IS_LOCAL = False # test 8G data on local machine. test 31G data on remote server.
 # SCORE_METHOD = 2 # 0: by lda; 1: by overlapping; 2: by entropy
 
 """
-'complete_author_stats.pkl': contains author's statistics for 8G data.
+'complete_author_stats.pkl': contains author's statistics for 8G data. 
 """
 
 if not IS_LOCAL:
@@ -34,6 +34,8 @@ if not IS_LOCAL:
     TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
     AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '31G_subreddit.csv')
+    AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl') # each author's statistics. 
+    REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
 else:
     print "Loaded 8G dataset..."
     VERSION_PATH = './models/no_tfidf_topic_100_8G_data'

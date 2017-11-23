@@ -18,6 +18,12 @@ import os.path
 import sys
 import re
 
+# encoding=utf8  
+import sys  
+
+reload(sys)  
+sys.setdefaultencoding('utf8') # to make the system in utf-8 not ascii.
+
 lib_path = os.path.abspath(os.path.join('.'))
 sys.path.append(lib_path) # in order to import author_csv, which is at a upper folder.
 

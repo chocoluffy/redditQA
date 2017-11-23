@@ -25,6 +25,8 @@ Given involved authors' scores, we can calculate average generalist/specialist s
 
 - As expected, methods by LDA and LSA are able to correct some low score calculated by entropy. As people with equally approximate contribution may be a potential specialist if his subreddits are similar to each other.
 
+- Three plots focus on the same elite groups, as we define elites by the most active contributions. The difference is that each person will has different score under these three standards. 
+
 (above is the general summary of achievements so far.)
 ---
 

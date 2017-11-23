@@ -17,7 +17,11 @@ import pandas as pd
 Global configuration.
 """
 IS_LOCAL = True # test 8G data on local machine. test 31G data on remote server.
-SCORE_METHOD = 2 # 0: by lda; 1: by overlapping; 2: by entropy
+# SCORE_METHOD = 2 # 0: by lda; 1: by overlapping; 2: by entropy
+
+"""
+'complete_author_stats.pkl': contains author's statistics for 8G data.
+"""
 
 if not IS_LOCAL:
     print "Loaded 31G dataset..."
@@ -39,8 +43,9 @@ else:
     CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
     LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
     TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
-    AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl')
+    AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl') # each author's statistics. 
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '8G_subreddit.csv')
+    REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
 
 
 
@@ -96,29 +101,44 @@ for label, obj in reddit_comments.items():
     subreddits.append(label)
     data.append(obj["docset"])
     commentCounters.append(obj["length"])
+
+
+def append_item_to_list(dictionary, field, item):
+    if field in dictionary:
+        dictionary[field].append(item)
+    else:
+        dictionary[field] = [item]
     
-def construct_reddit(score_method = 0):
+def construct_reddit():
     # Covert the comments from data into a topic vector, for now given 100 topics, each vector will be 
     # of length 100, indicating the probability from each topic.
     reddit_2_topic = defaultdict(dict)
     for index, doc_term_vec in enumerate(corpus):
         topic_dist = get_doc_topics(ldamodel, doc_term_vec)
         reddit_2_topic[subreddits[index]]['topic_dist'] = topic_dist
-        reddit_2_topic[subreddits[index]]['doc'] = data[index]
+        # reddit_2_topic[subreddits[index]]['doc'] = data[index]
         # topic_dist = ldamodel[doc_term_vec] # Bad, only shows top several topics; it clips the topic value under threshold.
 
     # populate from author_stats.
-    reddit = defaultdict(lambda:defaultdict(list))
+    reddit = defaultdict(dict)
     for author_name, obj in author_stats.iteritems():
         for reddit_name, ups in obj['contributions']: # currently obj['contributions'] is a list.
             author_this_subreddit_count = obj['contributions_by_count'][reddit_name]
-            reddit[reddit_name]['involvements'].append((author_name, ups, author_this_subreddit_count))
-            if score_method == 0:
-                reddit[reddit_name]['scores'].append(obj['mapped_score'])
-            elif score_method == 1:
-                reddit[reddit_name]['scores'].append(obj['mapped_score_by_overlap'])
-            else: 
-                reddit[reddit_name]['scores'].append(obj['mapped_score_by_entropy'])
+
+            append_item_to_list(reddit[reddit_name], 'involvements', (author_name, ups, author_this_subreddit_count))
+            append_item_to_list(reddit[reddit_name], 'scores_by_lda', obj['mapped_score'])
+            append_item_to_list(reddit[reddit_name], 'scores_by_overlap', obj['mapped_score_by_overlap'])
+            append_item_to_list(reddit[reddit_name], 'scores_by_entropy', obj['mapped_score_by_entropy'])
+            # reddit[reddit_name]['involvements'].append((author_name, ups, author_this_subreddit_count))
+            # reddit[reddit_name]['scores_by_lda'].append(obj['mapped_score'])
+            # reddit[reddit_name]['scores_by_overlap'].append(obj['mapped_score_by_overlap'])
+            # reddit[reddit_name]['scores_by_entropy'].append(obj['mapped_score_by_entropy'])
+            # if score_method == 0:
+            #     reddit[reddit_name]['scores'].append(obj['mapped_score'])
+            # elif score_method == 1:
+            #     reddit[reddit_name]['scores'].append(obj['mapped_score_by_overlap'])
+            # else: 
+            #     reddit[reddit_name]['scores'].append(obj['mapped_score_by_entropy'])
             reddit[reddit_name]['name'] = reddit_name
     
     # populate from reddit_2_topic
@@ -133,10 +153,10 @@ def construct_reddit(score_method = 0):
             # topic_str = sorted(topic_str, key=lambda tup: tup[1], reverse=True)
             # reddit[reddit_name]['dom_topic_str'] = topic_str
             reddit[reddit_name]['dom_topic'] = filtered_topics
-            reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
+            # reddit[reddit_name]['comments'] = reddit_2_topic[reddit_name]['doc']
     return reddit
 
-def subreddit_elite_score(reddit, score_method = 0):
+def subreddit_elite_score(reddit):
     # Try calculating the top 5% elite's average score.
     ELITE_PERCENTAGE = 0.05
     for reddit_name, obj in reddit.iteritems():
@@ -144,20 +164,29 @@ def subreddit_elite_score(reddit, score_method = 0):
         involvements = sorted(involvements, key=lambda tup: tup[2], reverse=True) # sort by [1]: total ups or [2]: total counts.
         counter = 0
         total = len(involvements) * ELITE_PERCENTAGE
-        score_lst = []
+        score_lst_lda = []
+        score_lst_overlap = []
+        score_lst_entropy = []
         while counter < total:
             if involvements[counter][0] in author_stats:
-                if score_method == 0:
-                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
-                elif score_method == 1:
-                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
-                elif score_method == 2:
-                    score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_entropy'])
+                score_lst_lda.append(author_stats[involvements[counter][0]]['mapped_score'])
+                score_lst_overlap.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
+                score_lst_entropy.append(author_stats[involvements[counter][0]]['mapped_score_by_entropy'])
+                # if score_method == 0:
+                #     score_lst.append(author_stats[involvements[counter][0]]['mapped_score'])
+                # elif score_method == 1:
+                #     score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_overlap'])
+                # elif score_method == 2:
+                #     score_lst.append(author_stats[involvements[counter][0]]['mapped_score_by_entropy'])
                 # print score_lst
             counter += 1
         # print reddit_name, score_lst
-        aver = sum(score_lst) / len(score_lst)
-        reddit[reddit_name]['elite_scores'] = aver
+        aver_lda = sum(score_lst_lda) / len(score_lst_lda)
+        aver_overlap = sum(score_lst_overlap) / len(score_lst_overlap)
+        aver_entropy = sum(score_lst_entropy) / len(score_lst_entropy)
+        reddit[reddit_name]['elite_scores_lda'] = aver_lda
+        reddit[reddit_name]['elite_scores_overlap'] = aver_overlap
+        reddit[reddit_name]['elite_scores_entropy'] = aver_entropy
     return reddit
 
 
@@ -199,80 +228,91 @@ def subreddit_to_authors_distribution(reddit):
         
     csv_file.close()
 
-reddit = construct_reddit(SCORE_METHOD)
-reddit = subreddit_elite_score(reddit, SCORE_METHOD)
+
+
+
+
+reddit = construct_reddit()
+reddit = subreddit_elite_score(reddit)
+pickle.dump(reddit, open(REDDIT_ALL, 'wb'))
+
+
+
+
+
+
 
 
 # subreddit_to_authors_distribution(reddit)
 
-"""
-Below is generating the plot for score distribution. 
-"""
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import numpy as np
-import math
-from adjustText import adjust_text
+# """
+# Below is generating the plot for score distribution. 
+# """
+# import matplotlib.pyplot as plt
+# import matplotlib.cm as cm
+# import numpy as np
+# import math
+# from adjustText import adjust_text
 
-def plot(reddit_data, adjust = False):
-    """
-    x: average generalist/specialist score.
-    y: average elite's generalist/specialist score.
-    radius: total authors involved.
-    """
-    labels = []
-    x = []
-    y = []
-    r = []
+# def plot(reddit_data, adjust = False):
+#     """
+#     x: average generalist/specialist score.
+#     y: average elite's generalist/specialist score.
+#     radius: total authors involved.
+#     """
+#     labels = []
+#     x = []
+#     y = []
+#     r = []
 
 
-    # pprint(reddit)
-    for name, obj in reddit_data.iteritems():
-        if len(obj['involvements']) > 10: # only pick active subreddits.
-            labels.append(name)
-            x.append(sum(obj['scores']) / len(obj['scores']))
-            y.append(obj['elite_scores'])
-            r.append(len(obj['involvements']))
+#     # pprint(reddit)
+#     for name, obj in reddit_data.iteritems():
+#         if len(obj['involvements']) > 10: # only pick active subreddits.
+#             labels.append(name)
+#             x.append(sum(obj['scores']) / len(obj['scores']))
+#             y.append(obj['elite_scores'])
+#             r.append(len(obj['involvements']))
     
-    colors = cm.rainbow(np.linspace(0, 1, len(labels)))
+#     colors = cm.rainbow(np.linspace(0, 1, len(labels)))
                    
-    fig = plt.figure(figsize=(16, 16)) 
-    axes = plt.gca()
-    axes.set_xlim([1,100])
-    axes.set_ylim([1,100])
-    ax = fig.add_subplot(111)
-    fig.subplots_adjust(top=0.85)
-    ax.set_xlabel('average G/S score')
-    ax.set_ylabel('average elite G/S score')
-    ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
-    plt.title("common VS elites G/S score")
+#     fig = plt.figure(figsize=(16, 16)) 
+#     axes = plt.gca()
+#     axes.set_xlim([1,100])
+#     axes.set_ylim([1,100])
+#     ax = fig.add_subplot(111)
+#     fig.subplots_adjust(top=0.85)
+#     ax.set_xlabel('average G/S score')
+#     ax.set_ylabel('average elite G/S score')
+#     ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+#     plt.title("common VS elites G/S score")
 
-    # to dynamic adjust texts labels.
-    texts = []
-    annotate_x = []
-    annotate_y = []
-    for xx, yy, ll in zip(x, y, labels):
-        if abs(yy - xx) > 25:
-            texts.append(ax.text(xx, yy, ll))
-            annotate_x.append(xx)
-            annotate_y.append(yy)
+#     # to dynamic adjust texts labels.
+#     texts = []
+#     annotate_x = []
+#     annotate_y = []
+#     for xx, yy, ll in zip(x, y, labels):
+#         if abs(yy - xx) > 25:
+#             texts.append(ax.text(xx, yy, ll))
+#             annotate_x.append(xx)
+#             annotate_y.append(yy)
 
-    if adjust:
-        for i in range(len(x)):
-            sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
-            sct.set_alpha(0.75)
-        adjust_text(texts, annotate_x, annotate_y, arrowprops=dict(arrowstyle="-", color='k', lw=0.5))
-    else:
-        for i in range(len(x)):
-            sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
-            sct.set_alpha(0.75)
-            if abs(y[i] - x[i]) > 25:
-                plt.annotate(labels[i],
-                            xy=(x[i], y[i]),
-                            xytext=(5, 2),
-                            textcoords='offset points',
-                            ha='right',
-                            va='bottom')
-    plt.show()
+#     if adjust:
+#         for i in range(len(x)):
+#             sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
+#             sct.set_alpha(0.75)
+#         adjust_text(texts, annotate_x, annotate_y, arrowprops=dict(arrowstyle="-", color='k', lw=0.5))
+#     else:
+#         for i in range(len(x)):
+#             sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 3), linewidths=2, edgecolor='w')
+#             sct.set_alpha(0.75)
+#             if abs(y[i] - x[i]) > 25:
+#                 plt.annotate(labels[i],
+#                             xy=(x[i], y[i]),
+#                             xytext=(5, 2),
+#                             textcoords='offset points',
+#                             ha='right',
+#                             va='bottom')
+#     plt.show()
 
-plot(reddit, adjust = True)
+# plot(reddit, adjust = True)

@@ -23,19 +23,42 @@ sys.path.append(lib_path) # in order to import author_csv, which is at a upper f
 
 from author_csv import *
 
-# Gloabl Configuration
-VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+"""
+Global configuration.
+"""
+IS_LOCAL = False # test 8G data on local machine. test 31G data on remote server.
+# SCORE_METHOD = 2 # 0: by lda; 1: by overlapping; 2: by entropy
 
+"""
+'complete_author_stats.pkl': contains author's statistics for 8G data. 
+"""
 
-DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
-CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
-CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
-LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
-TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
-AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
-AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
-COMPLETE_AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl')
-AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+if not IS_LOCAL:
+    print "Loaded 31G dataset..."
+    VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
+
+    DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
+    CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
+    CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
+    LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
+    TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
+    AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+    SUBREDDIT_CSV = os.path.join(VERSION_PATH, '31G_subreddit.csv')
+    AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+else:
+    print "Loaded 8G dataset..."
+    VERSION_PATH = './models/no_tfidf_topic_100_8G_data'
+
+    DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
+    CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
+    CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
+    LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
+    TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
+    AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
+    AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+    COMPLETE_AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl') # complete author stats.
+    SUBREDDIT_CSV = os.path.join(VERSION_PATH, '8G_subreddit.csv')
+    REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
 
 
 TF_IDF = False
@@ -466,6 +489,6 @@ else:
     If file exists, followed with further processing.
     """
     print("Update files with existed one...")
-    author_stats_large = return_author_stats() # import 8G author_stats from module.
+    author_stats_large = return_author_stats(path = VERSION_PATH) # import 8G author_stats from module.
     pickle.dump(author_stats_large, open(COMPLETE_AUTHOR_STATS, 'wb'))
     print("update author_stats to have complete data on mapped_score, mapped_score_by_overlap, mapped_score_by_entropy...")

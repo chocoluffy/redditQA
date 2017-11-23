@@ -22,10 +22,10 @@ VERSION_PATH = './../models/no_tfidf_topic_100_8G_data'
 
 
 DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
-CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm.bz2')
+CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
-TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top25subreddit_top6kcomments.pkl')
+TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
@@ -144,7 +144,7 @@ if not os.path.exists(CORPUS_PATH):
     corpora.MmCorpus.serialize(CORPUS_PATH, corpus)
 else:
     # corpus = corpora.MmCorpus(CORPUS_PATH)
-    corpus = corpora.MmCorpus(bz2.BZ2File(CORPUS_PATH)) # use bz2 version.
+    corpus = corpora.MmCorpus(CORPUS_PATH)
     print("document to term matrix loaded...")
 
 # Use TF-IDF model
@@ -446,4 +446,4 @@ def collect_authors_info(author_dict):
 
 collect_authors_info(author_stats)
 pickle.dump(author_stats, open(AUTHOR_STATS_WITH_CONTRIBUTION_COUNT, 'wb'))
-print("saved stats for each user...")
+print("saved stats for each user...")   

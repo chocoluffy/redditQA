@@ -20,7 +20,6 @@ CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
 TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top010subreddit_top2kcomments.pkl')
-AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
 SUBREDDIT_CSV = os.path.join(VERSION_PATH, 'new_subreddit.csv')
 

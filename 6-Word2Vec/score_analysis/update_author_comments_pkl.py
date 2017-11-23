@@ -18,14 +18,14 @@ import os.path
 import re
 
 # Gloabl Configuration
-VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
+VERSION_PATH = './../models/no_tfidf_topic_100_8G_data'
 
 
 DICTIONARY_PATH = os.path.join(VERSION_PATH, 'dictionary.dict')
 CORPUS_PATH = os.path.join(VERSION_PATH, 'corpus.mm.bz2')
 CORPUS_TFIDF_PATH = os.path.join(VERSION_PATH, 'corpus-tfidf.mm')
 LDA_PATH = os.path.join(VERSION_PATH, 'model.lda')
-TOP_COMMENTS = os.path.join(VERSION_PATH, '31G_top25subreddit_top6kcomments.pkl')
+TOP_COMMENTS = os.path.join(VERSION_PATH, '8G_top25subreddit_top6kcomments.pkl')
 AUTHOR_TOPICS = os.path.join(VERSION_PATH, 'author_topics.pkl')
 AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments.pkl')
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
@@ -61,7 +61,7 @@ def load_from_mongo():
 
         sub_data = defaultdict(dict)
         counter = 0
-        cursor = db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True)
+        cursor = db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True)
         total_count = db.top_comments.find({}).count()
         print("totoal count...", total_count)
         for document in db.top_comments.find({}):
@@ -300,12 +300,12 @@ def load_author_from_mongo():
             {"$sort": {"commentsCount": -1}}
         ]
 
-        cursor = db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True)
+        cursor = db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True)
         total_count = len(list(cursor)) 
 
         data = defaultdict(dict)
         counter = 0
-        for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True):
+        for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
             counter += 1
             # Pick the top 33% most acitve user by commentsCount, ignore the first 10, probably bots!
             if counter > 15 and counter < total_count * 0.33:
@@ -429,7 +429,7 @@ def collect_authors_info(author_dict):
         {"$sort": {"commentsCount": -1}}
     ]
 
-    for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True):
+    for document in db.docs_l8.aggregate(pipeline = pipe, allowDiskUse = True):
         author_name = document['_id']
         if author_name in author_dict:
             contributions = defaultdict(int)

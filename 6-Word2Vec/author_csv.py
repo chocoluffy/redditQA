@@ -48,7 +48,7 @@ def return_author_stats(path = './models/no_tfidf_topic_100_8G_data'):
     # Add field "dom_topic_str" to the dictionary.
     topic2str = defaultdict(str)
     for i in range(100):
-        topic2str[i] = ' + '.join(map(lambda x: unicode(x[0], "utf-8", errors="ignore"), ldamodel.show_topic(i, topn=4)))
+        topic2str[i] = ' + '.join(map(lambda x: x[0].encode("utf-8"), ldamodel.show_topic(i, topn=4)))
 
     for name, obj in author_stats.iteritems():
         topic_str = [u"({0}, {1})".format(topic2str[tup[0]], tup[1]) for tup in obj['dom_topics']]

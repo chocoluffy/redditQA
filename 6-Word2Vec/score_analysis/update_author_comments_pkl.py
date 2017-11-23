@@ -51,6 +51,7 @@ if not IS_LOCAL:
     AUTHOR_STATS = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
     SUBREDDIT_CSV = os.path.join(VERSION_PATH, '31G_subreddit.csv')
     AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'each_author_topic_comments_with_count.pkl')
+    COMPLETE_AUTHOR_STATS = os.path.join(VERSION_PATH, 'complete_author_stats.pkl') # complete author stats.
 else:
     print "Loaded 8G dataset..."
     VERSION_PATH = './models/no_tfidf_topic_100_8G_data'

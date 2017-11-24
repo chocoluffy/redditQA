@@ -30,7 +30,8 @@ for name, obj in reddit.iteritems():
     if len(obj['involvements']) > 500:
         # print(obj['involvements'])
         lst = sorted(obj['involvements'], key=lambda tup: tup[2], reverse=True)
-        print(lst[0], lst[-1])
+        elite_last_id = round(len(lst) / 0.1)
+        print(lst[0], lst[elite_last_id])
 
 
 """

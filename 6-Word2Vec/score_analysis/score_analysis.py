@@ -1,6 +1,8 @@
 import pickle
 import os.path
+import csv
 from collections import defaultdict
+from operator import itemgetter
 
 VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
@@ -19,10 +21,10 @@ elite_score = 'elite_scores_' + KEYWORD
 
 """
 contains field:
-    - scores_by_lda
+    - scores_by_lda: list of int.
     - scores_by_overlap
     - scores_by_entropy
-    - elite_scores_lda
+    - elite_scores_lda: int.
     - elite_scores_overlap
     - elite_scores_entropy
 """
@@ -43,13 +45,14 @@ Construct dictionary
     - percentage of the elite's most active subreddit equals the same one.
     - involvement (most active author involves 100~500 comments in total, least elite involves )
 """
-analysis = defaultdict()
+analysis = defaultdict(dict)
 for reddit_name, reddit_obj in reddit.iteritems():
     if len(reddit_obj['involvements']) > 500: # only pick active subreddits.
-        analysis['name'] = reddit_name
-        analysis['relative_score'] = reddit_obj[elite_score] - reddit_obj[common_score] # most positive means most specialist elites dominated.
+        analysis[reddit_name]['name'] = reddit_name
+        common_score = sum(reddit_obj[common_score]) / len(reddit_obj[common_score])
+        analysis[reddit_name]['relative_score'] = reddit_obj[elite_score] - common_score # most positive means most specialist elites dominated.
         involvement_sorted = sorted(reddit_obj['involvements'], key=lambda tup: tup[2], reverse=True) # sorted by total comments counts.
-        analysis['involvement_sorted'] = involvement_sorted
+        analysis[reddit_name]['involvement_sorted'] = involvement_sorted
 
         total = len(involvement_sorted) * ELITE_PERCENTAGE
         counter = 0
@@ -62,7 +65,7 @@ for reddit_name, reddit_obj in reddit.iteritems():
             counter += 1
 
         percentage = len(truth_teller) / round(total)
-        analysis['percentage'] = percentage
+        analysis[reddit_name]['percentage'] = percentage
 
 """
 Generate csv file.
@@ -76,11 +79,11 @@ writer = csv.writer(csv_file, dialect='excel')
 headers = ['name', 'relative_score', 'involvement_sorted', 'percentage']
 writer.writerow(headers)
 
-for key, value in reddit.items():
+for name, obj in analysis.items():
     # print key, value
     line = []
-    for field in analysis:
-        line.append(value[field])
+    for field in headers:
+        line.append(obj[field])
     writer.writerow(line)
     
 csv_file.close()

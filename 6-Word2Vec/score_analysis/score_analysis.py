@@ -49,8 +49,8 @@ analysis = defaultdict(dict)
 for reddit_name, reddit_obj in reddit.iteritems():
     if len(reddit_obj['involvements']) > 500: # only pick active subreddits.
         analysis[reddit_name]['name'] = reddit_name
-        common_score = sum(reddit_obj[common_score]) / len(reddit_obj[common_score])
-        analysis[reddit_name]['relative_score'] = reddit_obj[elite_score] - common_score # most positive means most specialist elites dominated.
+        common_people_score = sum(reddit_obj[common_score]) / len(reddit_obj[common_score])
+        analysis[reddit_name]['relative_score'] = reddit_obj[elite_score] - common_people_score # most positive means most specialist elites dominated.
         involvement_sorted = sorted(reddit_obj['involvements'], key=lambda tup: tup[2], reverse=True) # sorted by total comments counts.
         analysis[reddit_name]['involvement_sorted'] = involvement_sorted
 

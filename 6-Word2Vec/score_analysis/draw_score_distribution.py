@@ -3,6 +3,7 @@ import os.path
 
 VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
+ELITE_PERCENTAGE = 0.05
 
 KEYWORD = 'lda' # 'lda'; 'overlap'; 'entropy'
 
@@ -30,7 +31,7 @@ for name, obj in reddit.iteritems():
     if len(obj['involvements']) > 500:
         # print(obj['involvements'])
         lst = sorted(obj['involvements'], key=lambda tup: tup[2], reverse=True)
-        elite_last_id = int(round(len(lst) * 0.1))
+        elite_last_id = int(round(len(lst) * ELITE_PERCENTAGE))
         print(lst[0], lst[elite_last_id])
 
 

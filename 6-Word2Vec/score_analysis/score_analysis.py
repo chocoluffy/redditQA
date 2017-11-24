@@ -1,3 +1,7 @@
+"""
+Finally generate csv file based on analysis. 
+"""
+
 import pickle
 import os.path
 import csv
@@ -14,7 +18,7 @@ SCORE_ANALYSIS = os.path.join(VERSION_PATH, 'score_analysis.csv')
 Global Configuration
 """
 KEYWORD = 'entropy' # 'lda'; 'overlap'; 'entropy'
-ELITE_PERCENTAGE = 0.1 # meaning pick the top 10% authors as elite users.
+ELITE_PERCENTAGE = 0.05 # meaning pick the top 10% authors as elite users.
 
 common_score = 'scores_by_' + KEYWORD
 elite_score = 'elite_scores_' + KEYWORD
@@ -47,6 +51,10 @@ Construct dictionary
     - percentage of the elite's most active subreddit equals the same one.
     - involvement (most active author involves 100~500 comments in total, least elite involves 20~100)
     - involvement_count
+    - avg_elite_ups
+    - avg_elite_comment_count
+    - avg_common_ups
+    - avg_common_comment_count
 """
 analysis = defaultdict(dict)
 for reddit_name, reddit_obj in reddit.iteritems():
@@ -58,6 +66,18 @@ for reddit_name, reddit_obj in reddit.iteritems():
         analysis[reddit_name]['involvement_sorted'] = involvement_sorted
         analysis[reddit_name]['involvement_count'] = len(involvement_sorted)
 
+        """
+        Add up elite and common people's stats.
+        """
+        elite_last_id = int(round(len(involvement_sorted) * ELITE_PERCENTAGE))
+        analysis[reddit_name]['avg_elite_ups'] = sum(map(lambda x: x[1], involvement_sorted[:elite_last_id])) / (elite_last_id + 1)
+        analysis[reddit_name]['avg_elite_comment_count'] = sum(map(lambda x: x[2], involvement_sorted[:elite_last_id])) / (elite_last_id + 1)
+        analysis[reddit_name]['avg_common_ups'] = sum(map(lambda x: x[1], involvement_sorted)) / len(involvement_sorted)
+        analysis[reddit_name]['avg_common_comment_count'] = sum(map(lambda x: x[2], involvement_sorted)) / len(involvement_sorted)
+
+        """
+        Look up elite's truth-specialty from author_stats.
+        """
         total = len(involvement_sorted) * ELITE_PERCENTAGE
         counter = 0
         truth_teller = []
@@ -80,7 +100,7 @@ csv_file_path = SCORE_ANALYSIS
 csv_file = open(csv_file_path, 'wb')
 writer = csv.writer(csv_file, dialect='excel')
 
-headers = ['name', 'relative_score', 'involvement_sorted', 'percentage']
+headers = ['name', 'relative_score', 'percentage', 'avg_elite_ups', 'avg_elite_comment_count', 'avg_common_ups', 'avg_common_comment_count']
 writer.writerow(headers)
 
 for name, obj in analysis.items():
@@ -91,13 +111,6 @@ for name, obj in analysis.items():
     writer.writerow(line)
     
 csv_file.close()
-
-"""
-Remove [involvement_sorted] field to keep Excel sheet small.
-"""
-from score_analysis_clean import * 
-
-score_analysis_clean()
 
 
 

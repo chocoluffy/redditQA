@@ -33,18 +33,20 @@ reddit = pickle.load(open(REDDIT_ALL, 'rb'))
 print("reddit stats loaded...")
 
 """
-contains field:
+Each author's information lookup, contains field:
     - contributions_by_count
+    - contributions (by total votes)
 """
 author_stats = pickle.load(open(AUTHOR_STATS, 'rb'))
 print("author stats loaded...")
 
 """
 Construct dictionary
-    - reddit name
+    - reddit name (pick the top 2% most involved reddit)
     - relative value: elite score - common score
     - percentage of the elite's most active subreddit equals the same one.
     - involvement (most active author involves 100~500 comments in total, least elite involves 20~100)
+    - involvement_count
 """
 analysis = defaultdict(dict)
 for reddit_name, reddit_obj in reddit.iteritems():
@@ -54,6 +56,7 @@ for reddit_name, reddit_obj in reddit.iteritems():
         analysis[reddit_name]['relative_score'] = reddit_obj[elite_score] - common_people_score # most positive means most specialist elites dominated.
         involvement_sorted = sorted(reddit_obj['involvements'], key=lambda tup: tup[2], reverse=True) # sorted by total comments counts.
         analysis[reddit_name]['involvement_sorted'] = involvement_sorted
+        analysis[reddit_name]['involvement_count'] = len(involvement_sorted)
 
         total = len(involvement_sorted) * ELITE_PERCENTAGE
         counter = 0
@@ -89,6 +92,12 @@ for name, obj in analysis.items():
     
 csv_file.close()
 
+"""
+Remove [involvement_sorted] field to keep Excel sheet small.
+"""
+from score_analysis_clean import * 
+
+score_analysis_clean()
 
 
 

@@ -4,7 +4,7 @@ import os.path
 VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
 
-KEYWORD = 'entropy' # 'lda'; 'overlap'; 'entropy'
+KEYWORD = 'lda' # 'lda'; 'overlap'; 'entropy'
 
 common_score = 'scores_by_' + KEYWORD
 elite_score = 'elite_scores_' + KEYWORD
@@ -23,14 +23,14 @@ print("reddit stats loaded...")
 
 
 """
-Examine involvement scale.
+Examine subreddit involvement scale.
 """
 involvements = []
 for name, obj in reddit.iteritems():
     if len(obj['involvements']) > 500:
         # print(obj['involvements'])
         lst = sorted(obj['involvements'], key=lambda tup: tup[2], reverse=True)
-        elite_last_id = int(round(len(lst) * 0.1))
+        elite_last_id = int(round(len(lst) * 0.05))
         print(lst[0], lst[elite_last_id])
 
 

@@ -3,6 +3,7 @@ import os.path
 import csv
 from collections import defaultdict
 from operator import itemgetter
+import math
 
 VERSION_PATH = './models/no_tfidf_topic_100_31G_data'
 REDDIT_ALL = os.path.join(VERSION_PATH, 'reddit_all.pkl')
@@ -64,7 +65,7 @@ for reddit_name, reddit_obj in reddit.iteritems():
                 truth_teller.append(1)
             counter += 1
 
-        percentage = len(truth_teller) / round(total)
+        percentage = len(truth_teller) / math.ceil(total)
         analysis[reddit_name]['percentage'] = percentage
 
 """

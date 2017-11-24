@@ -44,7 +44,7 @@ Construct dictionary
     - reddit name
     - relative value: elite score - common score
     - percentage of the elite's most active subreddit equals the same one.
-    - involvement (most active author involves 100~500 comments in total, least elite involves )
+    - involvement (most active author involves 100~500 comments in total, least elite involves 20~100)
 """
 analysis = defaultdict(dict)
 for reddit_name, reddit_obj in reddit.iteritems():

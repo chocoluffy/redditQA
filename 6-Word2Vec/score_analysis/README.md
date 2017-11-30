@@ -19,11 +19,6 @@ Global stats:
     - Current situation:
         - 28080 subreddits in total, reversed by the top 1/3 active users.
         - Pick 2%(569) most involve subreddits from the total.
-    
-    - Improvement:
-        - Calculate scores for all users, based on their contributions.
-            - LDA infer all subreddits.
-        - Aggregate on subreddit, then obtain score from its involved authors.
 
 """
 

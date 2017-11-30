@@ -38,6 +38,9 @@ print("reddit stats loaded...")
 
 """
 Each author's information lookup, contains field:
+    - mapped_score
+    - mapped_score_by_overlap
+    - mapped_score_by_entropy
     - contributions_by_count
     - contributions (by total votes)
 """

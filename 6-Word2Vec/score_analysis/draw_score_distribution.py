@@ -1,3 +1,6 @@
+"""
+Run `python score_analysis/draw_score_distribution.py` at root folder.
+"""
 import pickle
 import os.path
 

@@ -1,3 +1,5 @@
+ `numactl --interleave=all ./mongodb/mongodb-linux-x86_64-3.4.10/bin/mongod --dbpath ./data/db/`
+
 In [3]: lda_overlap
 Out[3]: LinregressResult(slope=0.23396059546618864, intercept=53.192709922136984, rvalue=0.22798805556086676, pvalue=0.0, stderr=0.0029954251149099213)
 

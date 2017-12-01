@@ -137,12 +137,14 @@ def init_list_of_objects(size):
 
 def plot(reddit_score_to_comment_count, adjust = False):
 
-    data_collections = init_list_of_objects(10)
+    data_collections = init_list_of_objects(20) # each 5 point a bucket: such as 50~55
 
     # pprint(reddit)
     for name, obj in reddit_score_to_comment_count.iteritems():
-        bucket_id = round(obj['1'] / 5)
-        data_collections = data_collections[bucket_id].append(obj['0.1'])
+        if obj['1'] and obj['0.1']:
+            bucket_id = round(obj['1'] / 5)
+            data_collections[int(bucket_id)].append(obj['0.1'])
+            # print data_collections
 
     # Create a figure instance
     fig = plt.figure(1, figsize=(9, 6))
@@ -150,10 +152,12 @@ def plot(reddit_score_to_comment_count, adjust = False):
     # Create an axes instance
     ax = fig.add_subplot(111)
 
+    ax.set_xticklabels(map(lambda x: str(x), range(0, 100, 5)))
+
     # Create the boxplot
     bp = ax.boxplot(data_collections)
 
     # Save the figure
-    fig.savefig('fig1.png', bbox_inches='tight')
+    fig.savefig('./results/most_successful_author_score_to_subreddit_score_boxplot.png', bbox_inches='tight')
 
 plot(reddit_score_to_comment_count, adjust = True)

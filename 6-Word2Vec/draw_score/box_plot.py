@@ -151,11 +151,13 @@ def plot(reddit_score_to_comment_count, adjust = False):
 
     # Create an axes instance
     ax = fig.add_subplot(111)
-
-    ax.set_xticklabels(map(lambda x: str(x), range(0, 100, 5)))
+    ax.set_title('Boxplot on successful author to subreddit')
+    ax.set_ylabel('most successful 1% author G/S score')
+    ax.set_xlabel('subreddit G/S score')
 
     # Create the boxplot
     bp = ax.boxplot(data_collections)
+    ax.set_xticklabels(map(lambda x: str(x), range(0, 100, 5)))
 
     # Save the figure
     fig.savefig('./results/most_successful_author_score_to_subreddit_score_boxplot.png', bbox_inches='tight')

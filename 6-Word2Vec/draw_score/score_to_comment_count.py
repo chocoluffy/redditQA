@@ -142,7 +142,7 @@ def plot(reddit_score_to_comment_count, adjust = False):
     for name, obj in reddit_score_to_comment_count.iteritems():
         if obj['valid_comment_count'] > 500: # only pick active subreddits.
             labels.append(name)
-            x.append(obj['valid_comment_count'])
+            x.append(math.log(obj['comments_count']))
             y.append(obj['0.1'])
             r.append(obj['comments_count'])
     
@@ -166,7 +166,7 @@ def plot(reddit_score_to_comment_count, adjust = False):
     annotate_x = []
     annotate_y = []
     for xx, yy, ll in zip(x, y, labels):
-        if xx > 1000:
+        if xx > 0:
             texts.append(ax.text(xx, yy, ll))
             annotate_x.append(xx)
             annotate_y.append(yy)

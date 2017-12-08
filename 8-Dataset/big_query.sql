@@ -1,3 +1,5 @@
+-- Full raw data download at here: http://files.pushshift.io/reddit/comments/
+
 -- Big kudos for @lmcinnes's work here https://github.com/lmcinnes/subreddit_mapping/blob/master/BigQuery_queries.sql
 -- Reddit has complete data hosted on Google's big query, including year level from 2005-2014, and month level for years from 2015-2017
 -- Here, I try to create subreddit vector representation using LSI method, therefore, creating overlapping stats for year level data only.

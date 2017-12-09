@@ -25,7 +25,7 @@ VERSION_PATH = './models/201301'
 SUBREDDIT_VEC = './models/subreddit_vector_2013.pkl'
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'author_comments_stats_with_score.pkl')
 
-map_vectors = pickle.load(open(MAP_VECTORS_FROM_OVERLAP, 'rb'))
+map_vectors = pickle.load(open(SUBREDDIT_VEC, 'rb'))
 names_lst, vectors_lst = [list(t) for t in zip(*map_vectors)]
 subreddit2vec = defaultdict()
 for name, vec in map_vectors:

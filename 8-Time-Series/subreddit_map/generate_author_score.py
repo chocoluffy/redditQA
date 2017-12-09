@@ -1,7 +1,13 @@
 """
 Given author stats on its contributions. 
 
-Aggregate, only need its contribution count, not votes. For top 80% authors.
+- pickle files from ./models/subreddit_vector_201x are trained from year's data.
+
+- procedure:
+    - Aggregate by author, only need its contribution count, not votes. For top authors(more complete, the better).
+    - calculate G/S score for each author by subreddit embeddings from LSI.
+    - Aggregate by subreddit, use involvement, then calculate the G/S score for each subreddit. 
+    - Make plot.
 """
 from __future__ import division
 import operator
@@ -42,7 +48,7 @@ pipe = [
     {"$sort": {"commentsCount": -1}}
 ]
 
-author_dict = defaultdict(dict)
+author_stats = defaultdict(dict)
 for document in db.docs_201301.aggregate(pipeline = pipe, allowDiskUse = True): # change different db name here.
     author_name = document['_id']
     contributions = defaultdict(int)

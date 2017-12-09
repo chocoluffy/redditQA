@@ -43,8 +43,11 @@ involvements sorted by total ups, meaning most succesfully author.
 reddit = defaultdict(dict)
 ELITE_PERCENTAGE = 0.05
 
+author_count = 0
 for author_name, obj in author_stats.iteritems():
-    for reddit_name, ups in obj['contributions_by_count'].iteritems(): # currently obj['contributions'] is a list.
+    author_count += 1
+    print "processing no.", author_count
+    for reddit_name, ups in obj['contributions'].iteritems(): # currently obj['contributions'] is a list.
         author_this_subreddit_count = obj['contributions_by_count'][reddit_name]
         append_item_to_list(reddit[reddit_name], 'involvements', (author_name, ups, author_this_subreddit_count, obj['mapped_score_by_overlap']))
         reddit[reddit_name]['name'] = reddit_name

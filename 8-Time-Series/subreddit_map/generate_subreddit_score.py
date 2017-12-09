@@ -61,8 +61,14 @@ for author_name, obj in author_stats.iteritems():
             elite_score_lst_overlap.append(involvements[counter][3])
             counter += 1
         all_score_lst_overlap = map(lambda x: x[3], involvements)
-        aver_elite_overlap = sum(elite_score_lst_overlap) / len(elite_score_lst_overlap)
-        aver_all_overlap = sum(all_score_lst_overlap) / len(all_score_lst_overlap)
+        if len(elite_score_lst_overlap) > 0:
+            aver_elite_overlap = sum(elite_score_lst_overlap) / len(elite_score_lst_overlap)
+        else: 
+            aver_elite_overlap = -1
+        if len(all_score_lst_overlap) > 0:
+            aver_all_overlap = sum(all_score_lst_overlap) / len(all_score_lst_overlap)
+        else:
+            aver_all_overlap = -1
         reddit[reddit_name]['elite_scores_overlap'] = aver_elite_overlap
         reddit[reddit_name]['all_scores_overlap'] = aver_all_overlap
 

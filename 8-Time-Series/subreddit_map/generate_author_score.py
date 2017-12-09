@@ -16,6 +16,10 @@ import re
 VERSION_PATH = './models/201301'
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'author_comments_stats.pkl')
 
+# Mongo config.
+con = MongoClient('localhost', 27017)
+db = con.test
+
 
 pipe = [
     {'$sort': {'ups': -1}},

@@ -28,8 +28,20 @@ import numpy as np
 """
 In order for different dataset, change these and also the db name later.
 """
-VERSION_PATH = './models/201401'
-SUBREDDIT_VEC = './models/subreddit_vector_2014.pkl'
+KEYWORD = '2013'
+
+if KEYWORD == '2013':
+    # db: db.docs_201301
+    VERSION_PATH = './models/201301'
+    SUBREDDIT_VEC = './models/subreddit_vector_2013.pkl'
+elif KEYWORD == '2014':
+    # db: db.docs_201401
+    VERSION_PATH = './models/201401'
+    SUBREDDIT_VEC = './models/subreddit_vector_2014.pkl'
+else:
+    # db: db.docs_31G
+    VERSION_PATH = './models/201501'
+    SUBREDDIT_VEC = './models/subreddit_vector_2015.pkl'
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'author_comments_stats_with_score.pkl')
 
 map_vectors = pickle.load(open(SUBREDDIT_VEC, 'rb'))

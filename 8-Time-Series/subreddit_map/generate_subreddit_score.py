@@ -24,7 +24,7 @@ import math
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-VERSION_PATH = './models/201301'
+VERSION_PATH = './models/201401'
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'author_comments_stats_with_score.pkl')
 SUBREDDIT_STATS = os.path.join(VERSION_PATH, 'reddit_stats.pkl')
 author_stats = pickle.load(open(AUTHOR_STATS_WITH_CONTRIBUTION_COUNT, 'rb'))

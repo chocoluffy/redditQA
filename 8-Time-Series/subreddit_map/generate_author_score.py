@@ -28,7 +28,7 @@ import numpy as np
 """
 In order for different dataset, change these and also the db name later.
 """
-KEYWORD = '2013'
+KEYWORD = '2015'
 
 if KEYWORD == '2013':
     # db: db.docs_201301
@@ -126,7 +126,7 @@ pipe = [
 ]
 
 author_stats = defaultdict(dict)
-for document in db.docs_201401.aggregate(pipeline = pipe, allowDiskUse = True): # change different db name here.
+for document in db.docs_31G.aggregate(pipeline = pipe, allowDiskUse = True): # change different db name here.
     author_name = document['_id']
     contributions = defaultdict(int)
     contributions_by_count = defaultdict(int)

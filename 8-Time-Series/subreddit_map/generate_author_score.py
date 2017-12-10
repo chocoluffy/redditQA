@@ -24,8 +24,12 @@ import math
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-VERSION_PATH = './models/201301'
-SUBREDDIT_VEC = './models/subreddit_vector_2013.pkl'
+
+"""
+In order for different dataset, change these and also the db name later.
+"""
+VERSION_PATH = './models/201401'
+SUBREDDIT_VEC = './models/subreddit_vector_2014.pkl'
 AUTHOR_STATS_WITH_CONTRIBUTION_COUNT = os.path.join(VERSION_PATH, 'author_comments_stats_with_score.pkl')
 
 map_vectors = pickle.load(open(SUBREDDIT_VEC, 'rb'))
@@ -110,7 +114,7 @@ pipe = [
 ]
 
 author_stats = defaultdict(dict)
-for document in db.docs_201301.aggregate(pipeline = pipe, allowDiskUse = True): # change different db name here.
+for document in db.docs_201401.aggregate(pipeline = pipe, allowDiskUse = True): # change different db name here.
     author_name = document['_id']
     contributions = defaultdict(int)
     contributions_by_count = defaultdict(int)

@@ -84,7 +84,7 @@ top_reddit_lst = flat_lst[:slice_id]
 
 
 """
-Make plot 1:
+Make plot:
 
 - G/S scores slope - average G/S score: if high specialized community will becomes more specialized?
 """
@@ -94,7 +94,7 @@ import numpy as np
 import math
 from adjustText import adjust_text
 
-def plot(top_reddit_lst, adjust = False):
+def plot_trend(top_reddit_lst, adjust = False):
     """
     x: average generalist/specialist score.
     y: G/S scores slop
@@ -157,5 +157,65 @@ def plot(top_reddit_lst, adjust = False):
                             va='bottom')
     plt.show()
 
-plot(top_reddit_lst, adjust = True)
+def plot_elite(top_reddit_lst, adjust = False):
+    """
+    x: average generalist/specialist score.
+    y: average elite generalist/specialist score.
+    radius: min involvements
+    """
+    labels = []
+    x = []
+    y = []
+    r = []
+
+
+    # pprint(reddit)
+    for name, obj in top_reddit_lst:
+        labels.append(name)
+        x.append(sum(obj['all_score_vec']) / len(obj['all_score_vec']))
+        y.append(sum(obj['elite_score_vec']) / len(obj['elite_score_vec']))
+        r.append(min(obj['involvement_vec']))
+    
+    colors = cm.rainbow(np.linspace(0, 1, len(labels)))
+                   
+    fig = plt.figure(figsize=(16, 16)) 
+    axes = plt.gca()
+    axes.set_xlim([50,80])
+    axes.set_ylim([50,80])
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(top=0.85)
+    ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+    ax.set_xlabel('average G/S score')
+    ax.set_ylabel('average elite G/S score')
+    plt.title("elite comparison")
+
+    # to dynamic adjust texts labels.
+    texts = []
+    annotate_x = []
+    annotate_y = []
+    for xx, yy, ll in zip(x, y, labels):
+        texts.append(ax.text(xx, yy, ll))
+        annotate_x.append(xx)
+        annotate_y.append(yy)
+
+    if adjust:
+        for i in range(len(x)):
+            sct = plt.scatter(x[i],y[i], color=colors[i], s=(math.log1p(float(r[i]))*10), linewidths=2, edgecolor='w')
+            sct.set_alpha(0.75)
+        adjust_text(texts, annotate_x, annotate_y, arrowprops=dict(arrowstyle="-", color='k', lw=0.5))
+    else:
+        for i in range(len(x)):
+            sct = plt.scatter(x[i],y[i], color=colors[i], s=(float(r[i]) * 0.1), linewidths=2, edgecolor='w')
+            sct.set_alpha(0.75)
+            if abs(y[i] - x[i]) > 25:
+                plt.annotate(labels[i],
+                            xy=(x[i], y[i]),
+                            xytext=(5, 2),
+                            textcoords='offset points',
+                            ha='right',
+                            va='bottom')
+    plt.show()
+
+# plot_trend(top_reddit_lst, adjust = True)
+plot_elite(top_reddit_lst, adjust = True)
   

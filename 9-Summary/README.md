@@ -18,7 +18,7 @@ The first step is to quantify and evaluate the similarity and clustering effect 
 
 ### Text Pre-processing
 
-During the pre-processing step, we aggregate the comment data in the level of sureddits and select the top 5000 voted comments for each different subreddits and concatenated them together as the raw text documents. We then apply common text cleaning methods in sequences, such as special characters, stop words and punctuations removal, word stemming. Additionally, we also skim through the document and extract the most frequent bigrams(appears in document more than 20 times) and append them back to the documents.
+During the pre-processing step, we aggregate the comment data in the level of sureddits and select the top 2500 voted comments for each different subreddits and concatenated them together as the raw text documents. We then apply common text cleaning methods in sequences, such as special characters, stop words and punctuations removal, word stemming. Additionally, we also skim through the document and extract the most frequent bigrams(appears in document more than 20 times) and append them back to the documents.
 
 In order to further alleviate the impact of insignificant words on the final topic model, we then apply TF-IDF to filter such words when they either appear in less than 20 subreddits, or more than 50% of all the reddit documents. These parameters are selected based on experiments performance. 
 
@@ -69,6 +69,14 @@ Therefore, it aids us to further investigate at the author side. We can infer re
 
 ### Elite and Common Author Distribution
 
+Elite and Common Author Generalist and Specialist Score by LDA:
+![lda](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/common-elites-score_by_comments_counts_by_lda_.png)
+
+Elite and Common Author Generalist and Specialist Score by overlapping authors:
+![overlap](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/common-elites-score_by_comments_counts_by_overlap_.png)
+
+Elite and Common Author Generalist and Specialist Score by entropy:
+![entropy](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/common-elites-score_by_comments_counts_by_entropy_.png)
 ![elite and all average](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/results/common-elites-score.png)
 
 The distribution indicates, in some subreddits, the elites exhibit different loyalty traits than common people. One interesting finding is the elite line has a slope saliently higher than 1, meaning the elite easily goes to extreme compared with the common. If the subreddit is generally dominated by specialist, then sorry the elite of this subreddit is more specialist! The converse statement also holds true. The elite tends to be an extreme form of such subreddit. 
@@ -109,12 +117,36 @@ We infer dominant topics and score. We observe that it accords with the ground t
 ![subreddit](https://ww3.sinaimg.cn/large/006tKfTcgy1fl4naonfrrj31kw0hu4pj.jpg)
 
 
-## Generalist and Specialist Score
+## Continuous Generalist and Specialist Score In Year
 
+We further validate our generalist and specialist score by applying them into more continuous year. For example, in the following experiments, we sample top 19894 subreddits from January 2013, 28061 from January 2014 and 36404 from January 2015 to form an aggregated results. We found that among all the 11334 overlapped subreddits, there are some interesting observations found from the figures below.
 
+![time-elite](https://github.com/chocoluffy/redditQA/blob/master/8-Time-Series/results/gsscore_elite_vs_gsscore_common.png)
 
+![time-gap](https://github.com/chocoluffy/redditQA/blob/master/8-Time-Series/results/gsscore_gap_vs_gsscore.png)
 
+![time-trend](https://github.com/chocoluffy/redditQA/blob/master/8-Time-Series/results/gsscore_trend_vs_gsscore.png)
 
-# Evaluation
+# Hyper Parameters
+
+```python
+"""
+Global stats:
+    - Data:
+        - 31GB, 1-month subreddit data
+    
+    - LDA trained on subreddit comments:
+        - Pick top 1/3 subreddit with largest comments. Concatenated top 2500 upvoted comments as document.
+        - Train on 100 topics.
+        - Each subreddit(document) has a distribution of topics, topics have similarity.
+    
+    - LSA trained on author co-occurrence matrix:
+        - Similarity between subreddit equals cosine similarity of their author overlap vector.
+
+    - Entropy:
+        - Produce score based on their contribution distribution.
+        - Expected to err in balanced distribution cases. 
+"""
+```
 
 # Conclusion

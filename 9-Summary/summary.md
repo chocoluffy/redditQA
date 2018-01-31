@@ -1,6 +1,6 @@
 # Methods
 
-In order to better evaluate the similarity and cohesiveness between different subreddit tributes and authors, we devised two embeddings based on the public reddit comments data: [1] A subreddit embeddings, produced by LSA(Latent Semantic Analysis) on authors level, and [2] a comment topic embeddings, by LDA(Latent Dirichlet Allocation).
+In order to better evaluate the similarity and cohesiveness between different subreddit tributes and authors, we devised two embeddings based on the public reddit comments data: [1] A subreddit embeddings, produced by LSA(Latent Semantic Analysis) on authors level, and [2] a comment topic embeddings, by LDA(Latent Dirichlet Allocation). Our final goal is to examine how community's level of specialty is related to its contributing authors' specialties, and throughout the experiments, we find an interesting phenomenon that the top successful authors inside an subreddit community are often having more extreme level of specialty than their common peers. In another word, inside a interests-focused subreddit, the successful reddit authors usually have more focused and special interests and contributions, and for a interests-general subreddit, its top authors have more general and egalitarian interests and contributions.
 
 ## Subreddit embeddings by LSA
 

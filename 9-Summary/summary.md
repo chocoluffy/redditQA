@@ -18,6 +18,6 @@ The first step is to quantify and evaluate the similarity and clustering effect 
 
 Given the progress we have made so far, we are able to further infer reddit authors's generalist and specialist level based on their contributions to different subreddits. We device a score to quantify such evalution, named GS score, that ranges from 0 to 100, and the higher the score is, the more special and focused interests of this reddit author. We devised such measurement from three different perspectives: [1] Weighted similarity of dominant topics from each author's contributions, [2] weighted similarity of different subreddits by counting overlapping authors, and [3] entropy value from their contribution distribution. Given the GS score we calculate for each reddit users, we are able to observe score distribution in a macro view, a.k.a from the perspective of a subreddit community, where we can see how each community differs with each other by owning authors of different level of interests. 
 
-To further 
+To further granularize community's internal structure, we also examine the groups of "elite" authors of each community, where their comments receive most upvotes in general and become successfully inside their contributing communities. We want to know if there is any relationships between elite group's specialty and its belonged community's specialty. 
 
 ![combined-gs-score](https://github.com/chocoluffy/redditQA/blob/master/9-Summary/images/combined-gs-score-new.jpg)

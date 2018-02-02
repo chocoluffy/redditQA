@@ -1,0 +1,4 @@
+- big_query.sql - [path](https://github.com/chocoluffy/redditQA/tree/master/8-Time-Series) prepare co-occurrence matrix for LSA.
+- run.py - [path](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/subreddit_map/run.py) run PCA on co-occurrence matrix from above dataset.
+- draw_score_distribution.py - [path](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/score_analysis/draw_score_distribution.py) matplotlib code to make visualization. 
+- subreddit2vec.py - [path](https://github.com/chocoluffy/redditQA/blob/master/6-Word2Vec/subreddit2vec.py) code for doing subreddit algebra calculations, inspired by this [link](https://fivethirtyeight.com/features/dissecting-trumps-most-rabid-online-following/) from FiveThirtyEight.
